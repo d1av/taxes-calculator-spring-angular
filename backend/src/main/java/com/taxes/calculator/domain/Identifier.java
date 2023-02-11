@@ -1,5 +1,6 @@
 package com.taxes.calculator.domain;
 
-public class Identifier {
-
+public abstract class Identifier {
+	
+	public abstract String getValue();
 }
