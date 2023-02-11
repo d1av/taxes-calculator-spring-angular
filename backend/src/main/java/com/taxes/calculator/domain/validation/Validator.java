@@ -5,7 +5,7 @@ import java.util.Objects;
 public abstract class Validator {
     private final ValidationHandler handler;
 
-    public Validator(final ValidationHandler handler) {
-        this.handler = Objects.requireNonNull(handler);
+    public Validator(final ValidationHandler aHandler) {
+        this.handler = Objects.requireNonNull(aHandler);
     }
 }
