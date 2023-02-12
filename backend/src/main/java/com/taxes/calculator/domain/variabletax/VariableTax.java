@@ -17,9 +17,9 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
     private BigDecimal travel;
     private BigDecimal creditCard;
     private BigDecimal weekend;
+    private User user;
     private Instant createdAt;
     private Instant updatedAt;
-    private User user;
 
     private VariableTax(final VariableTaxID anId, final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,

@@ -2,6 +2,7 @@ package com.taxes.calculator.domain.fixedtax;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import org.hibernate.dialect.AbstractHANADialect.HANABlobTypeDescriptor;
 
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
@@ -45,6 +46,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	this.user = aUser;
 	this.createdAt = aCreatedAt;
 	this.updatedAt = aUpdatedAt;
+	selfValidate();
     }
 
     public static FixedTax newFixedTax(final BigDecimal aRegionalCouncil,
@@ -94,8 +96,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 
     @Override
     public void validate(ValidationHandler handler) {
-	new FixedTaxValidator(this,handler).validate;
-
+	new FixedTaxValidator(this,handler).validate();
     }
    
     
