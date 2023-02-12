@@ -1,16 +1,40 @@
 package com.taxes.calculator;
 
-import static org.mockito.ArgumentMatchers.anyString;
-
 import java.math.BigDecimal;
 
+import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.variabletax.VariableTax;
 
 import net.datafaker.Faker;
 
 public class Fixture {
     private static Faker FAKER = new Faker();
+
+    public static class Tax {
+	public static FixedTax fixed() {
+	    return FixedTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), Fixture.Users.asa());
+	}
+
+	public static FixedTax fixedNullUser() {
+	    return FixedTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), null);
+	}
+
+	public static VariableTax variable() {
+	    return VariableTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), Fixture.Users.active());
+	}
+
+	public static VariableTax variableNullUser() {
+	    return VariableTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), null);
+	}
+    }
 
     public static BigDecimal bigDecimal(int houses) {
 	return BigDecimal.valueOf(FAKER.random().nextInt(0, houses * 10));
