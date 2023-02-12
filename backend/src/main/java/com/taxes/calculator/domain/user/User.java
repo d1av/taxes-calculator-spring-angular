@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class User extends AggregateRoot<UserID> {
     private String name;
+    private String password;
     private Set<Role> roles;
-
     private Boolean active;
     private Instant createdAt;
     private Instant updatedAt;
@@ -23,6 +23,7 @@ public class User extends AggregateRoot<UserID> {
 
     public User(final UserID userID,
                 final String name,
+                final String password,
                 final Boolean isActive,
                 final Set<Role> roles,
                 final Instant createdAt,
@@ -30,6 +31,7 @@ public class User extends AggregateRoot<UserID> {
                 final Instant deletedAt) {
         super(userID);
         this.name = name;
+        this.password = password;
         this.roles = roles;
         this.active = isActive;
         this.createdAt = createdAt;
@@ -41,6 +43,7 @@ public class User extends AggregateRoot<UserID> {
 
     public static User newUser(
             final String aName,
+            final String aPassword,
             final boolean aActive
     ) {
         final var anId = UserID.unique();
@@ -49,6 +52,7 @@ public class User extends AggregateRoot<UserID> {
         return new User(
                 anId,
                 aName,
+                aPassword,
                 aActive,
                 new HashSet<>(),
                 now,
@@ -60,6 +64,7 @@ public class User extends AggregateRoot<UserID> {
     public static User with(
             final UserID anId,
             final String aName,
+            final String aPassword,
             final Set<Role> roles,
             final boolean aActive,
             final Instant aCreatedAt,
@@ -69,6 +74,7 @@ public class User extends AggregateRoot<UserID> {
         return new User(
                 anId,
                 aName,
+                aPassword,
                 aActive,
                 roles,
                 aCreatedAt,
@@ -81,6 +87,7 @@ public class User extends AggregateRoot<UserID> {
         return new User(
                 user.id,
                 user.name,
+                user.password,
                 user.active,
                 user.roles,
                 user.createdAt,
@@ -119,6 +126,9 @@ public class User extends AggregateRoot<UserID> {
         new UserValidator(this, handler).validate();
     }
 
+    public String getPassword() {
+        return password;
+    }
     public String getName() {
         return name;
     }

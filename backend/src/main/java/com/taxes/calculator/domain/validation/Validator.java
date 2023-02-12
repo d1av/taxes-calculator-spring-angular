@@ -8,4 +8,10 @@ public abstract class Validator {
     public Validator(final ValidationHandler aHandler) {
         this.handler = Objects.requireNonNull(aHandler);
     }
+
+    public abstract void validate();
+
+    protected ValidationHandler validationHandler() {
+        return this.handler;
+    }
 }
