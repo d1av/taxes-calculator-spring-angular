@@ -35,12 +35,14 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
 	this.user = aUser;
+	
+	selfValidate();
     }
 
     public static VariableTax with(final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,
-	    final User aUser, final BigDecimal aCreditCard,
-	    final BigDecimal aWeekend) {
+	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
+	    final User aUser) {
 	final var anId = VariableTaxID.unique();
 	final var now = InstantUtils.now();
 	return new VariableTax(anId, anDentalShop, aProsthetist, aTravel,
@@ -98,6 +100,14 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	    throw new NotificationException(
 		    "Failed to validate Aggregate VariableTax", notification);
 	}
+    }
+
+    public User getUser() {
+	return user;
+    }
+
+    public VariableTaxID getId() {
+	return id;
     }
 
     public Instant getCreatedAt() {

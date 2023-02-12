@@ -2,7 +2,6 @@ package com.taxes.calculator.domain.fixedtax;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import org.hibernate.dialect.AbstractHANADialect.HANABlobTypeDescriptor;
 
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
