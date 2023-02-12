@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class Role extends AggregateRoot<RoleID> {
     private String authority;
-    private final Instant createdAt;
+    private Instant createdAt;
     private Instant updatedAt;
 
     private Role(final RoleID roleID,
@@ -40,7 +40,9 @@ public class Role extends AggregateRoot<RoleID> {
 
     public Role update(String authority) {
         this.authority = authority;
+        selfValidate();
         this.updatedAt = InstantUtils.now();
+        this.authority = authority.toUpperCase();
         return this;
     }
 
@@ -66,5 +68,13 @@ public class Role extends AggregateRoot<RoleID> {
 
     public String getAuthority() {
         return authority;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 }
