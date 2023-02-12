@@ -7,11 +7,10 @@ import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
 
 import java.time.Instant;
-import java.util.Optional;
 
 public class Role extends AggregateRoot<RoleID> {
     private String authority;
-    private Instant createdAt;
+    private final Instant createdAt;
     private Instant updatedAt;
 
     private Role(final RoleID roleID,

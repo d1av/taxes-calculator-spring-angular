@@ -15,18 +15,18 @@ public class User extends AggregateRoot<UserID> {
     private String password;
     private Set<Role> roles;
     private Boolean active;
-    private Instant createdAt;
+    private final Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
 
-    public User(final UserID userID,
-                final String name,
-                final String password,
-                final Boolean isActive,
-                final Set<Role> roles,
-                final Instant createdAt,
-                final Instant updatedAt,
-                final Instant deletedAt) {
+    private User(final UserID userID,
+                 final String name,
+                 final String password,
+                 final Boolean isActive,
+                 final Set<Role> roles,
+                 final Instant createdAt,
+                 final Instant updatedAt,
+                 final Instant deletedAt) {
         super(userID);
         this.name = name;
         this.password = password;
@@ -34,7 +34,7 @@ public class User extends AggregateRoot<UserID> {
         this.active = isActive;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+        this.deletedAt = isActive ? null : deletedAt;
 
         selfValidate();
     }
@@ -42,7 +42,7 @@ public class User extends AggregateRoot<UserID> {
     public static User newUser(
             final String aName,
             final String aPassword,
-            final boolean aActive
+            final Boolean aActive
     ) {
         final var anId = UserID.unique();
         final var now = InstantUtils.now();
@@ -60,24 +60,22 @@ public class User extends AggregateRoot<UserID> {
     }
 
     public static User with(
-            final UserID anId,
             final String aName,
             final String aPassword,
-            final Set<Role> roles,
             final boolean aActive,
-            final Instant aCreatedAt,
-            final Instant aUpdatedAt,
-            final Instant aDeletedAt
+            final Set<Role> roles
     ) {
+        final var now = InstantUtils.now();
+        final var anId = UserID.unique();
         return new User(
                 anId,
                 aName,
                 aPassword,
                 aActive,
                 roles,
-                aCreatedAt,
-                aUpdatedAt,
-                aDeletedAt
+                now,
+                now,
+                now
         );
     }
 
@@ -160,6 +158,10 @@ public class User extends AggregateRoot<UserID> {
     @Override
     public void validate(ValidationHandler handler) {
         new UserValidator(this, handler).validate();
+    }
+
+    public UserID getId() {
+        return id;
     }
 
     public String getPassword() {

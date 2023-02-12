@@ -1,5 +1,6 @@
 package com.taxes.calculator.domain.user;
 
+import com.taxes.calculator.domain.utils.IdUtils;
 import com.taxes.calculator.domain.validation.Error;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.Validator;
@@ -24,6 +25,18 @@ public class UserValidator extends Validator {
     public void validate() {
         checkNameConstraints();
         checkPasswordConstraints();
+        checkIdConstraints();
+    }
+
+    private void checkIdConstraints() {
+        final var id = this.user.getId().getValue();
+        if (Objects.isNull(id)) {
+            this.validationHandler().append(new Error("'id' should not be null"));
+        }
+        int idLength = IdUtils.uuid().length();
+        if(id.length()!= idLength){
+            this.validationHandler().append(new Error("'id' should be valid with %s".formatted(idLength)));
+        }
     }
 
     private void checkNameConstraints() {
