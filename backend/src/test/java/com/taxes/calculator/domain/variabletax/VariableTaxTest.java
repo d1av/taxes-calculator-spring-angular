@@ -22,20 +22,52 @@ class VariableTaxTest {
 	final User expectedUser = Fixture.Users.asa();
 
 	// when
-	final var actualException = VariableTax.with(expectedDentalShop,
+	final var actualVariableTax = VariableTax.with(expectedDentalShop,
 		expectedProsthetist, expectedTravel, expectedCreditCard,
 		expectedWeekend, expectedUser);
 	// then
-	Assertions.assertNotNull(actualException);
-	Assertions.assertNotNull(actualException.getId());
+	Assertions.assertNotNull(actualVariableTax);
+	Assertions.assertNotNull(actualVariableTax.getId());
 	Assertions.assertEquals(expectedDentalShop,
-		actualException.getDentalShop());
-	Assertions.assertEquals(expectedTravel, actualException.getTravel());
+		actualVariableTax.getDentalShop());
+	Assertions.assertEquals(expectedTravel, actualVariableTax.getTravel());
 	Assertions.assertEquals(expectedCreditCard,
-		actualException.getCreditCard());
-	Assertions.assertEquals(expectedWeekend, actualException.getWeekend());
+		actualVariableTax.getCreditCard());
+	Assertions.assertEquals(expectedWeekend,
+		actualVariableTax.getWeekend());
 	Assertions.assertEquals(expectedUser.getName(),
-		actualException.getUser().getName());
+		actualVariableTax.getUser().getName());
+	Assertions.assertNotNull(actualVariableTax.getCreatedAt());
+	Assertions.assertNotNull(actualVariableTax.getUpdatedAt());
+    }
+
+    @Test
+    public void givenValidParametersWithNullUser_whenCreateVariableTax_shouldReturnVariableTax() {
+	// given
+	final var expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = null;
+
+	// when
+	final var actualVariableTax = VariableTax.with(expectedDentalShop,
+		expectedProsthetist, expectedTravel, expectedCreditCard,
+		expectedWeekend, expectedUser);
+	// then
+	Assertions.assertNotNull(actualVariableTax);
+	Assertions.assertNotNull(actualVariableTax.getId());
+	Assertions.assertEquals(expectedDentalShop,
+		actualVariableTax.getDentalShop());
+	Assertions.assertEquals(expectedTravel, actualVariableTax.getTravel());
+	Assertions.assertEquals(expectedCreditCard,
+		actualVariableTax.getCreditCard());
+	Assertions.assertEquals(expectedWeekend,
+		actualVariableTax.getWeekend());
+	Assertions.assertEquals(expectedUser, actualVariableTax.getUser());
+	Assertions.assertNotNull(actualVariableTax.getCreatedAt());
+	Assertions.assertNotNull(actualVariableTax.getUpdatedAt());
     }
 
     @Test
