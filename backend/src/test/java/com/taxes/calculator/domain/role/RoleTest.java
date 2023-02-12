@@ -1,15 +1,15 @@
 package com.taxes.calculator.domain.role;
 
-import com.taxes.calculator.Fixture;
-import com.taxes.calculator.domain.exceptions.NotificationException;
-import com.taxes.calculator.domain.validation.handler.Notification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class RoleTest {
+import com.taxes.calculator.Fixture;
+import com.taxes.calculator.domain.exceptions.NotificationException;
+
+class RoleTest {
 
     @Test
-    public void givenValidParams_whenCallNewRole_shouldInstantiateARole() {
+    void givenValidParams_whenCallNewRole_shouldInstantiateARole() {
         // given
         final var expectedAuthority = Fixture.Roles.guest().getAuthority();
 
@@ -23,7 +23,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenAValidRoleWithAuthorityInLowerCase_whenCallCreateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
+    void givenAValidRoleWithAuthorityInLowerCase_whenCallCreateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
         // given
         final String expectedAuthority = "MODERATOR";
         final var lowercaseAuthority = "moderator";
@@ -38,7 +38,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenInvalidNullAuthority_whenCallNewRoleAndValidate_shouldReceiveAError() {
+    void givenInvalidNullAuthority_whenCallNewRoleAndValidate_shouldReceiveAError() {
         // given
         final String expectedAuthority = null;
         final var expectedErrorCount = 1;
@@ -56,7 +56,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenInvalidEmptyAuthority_whenCallNewRoleAndValidate_shouldReceiveAError() {
+    void givenInvalidEmptyAuthority_whenCallNewRoleAndValidate_shouldReceiveAError() {
         // given
         final String expectedAuthority = "";
         final var expectedErrorCount = 1;
@@ -74,7 +74,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenInvalidAuthorityWithLenghtGreaterThan20_whenCallNewRoleAndValidate_shouldReceiveAError() {
+    void givenInvalidAuthorityWithLenghtGreaterThan20_whenCallNewRoleAndValidate_shouldReceiveAError() {
         // given
         final String expectedAuthority = Fixture.text(50);
         final var expectedErrorCount = 1;
@@ -92,7 +92,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenInvalidAuthorityWithLenghtLessThan4_whenCallNewRoleAndValidate_shouldReceiveAError() {
+    void givenInvalidAuthorityWithLenghtLessThan4_whenCallNewRoleAndValidate_shouldReceiveAError() {
         // given
         final String expectedAuthority = Fixture.text(3);
         final var expectedErrorCount = 1;
@@ -110,7 +110,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenAValidRole_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
+    void givenAValidRole_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
         // given
         final var expectedAuthority = "moderador";
 
@@ -128,7 +128,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenAInvalidNullRole_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
+    void givenAInvalidNullRole_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
         // given
         final String expectedAuthority = null;
         final var expectedErrorCount = 1;
@@ -148,7 +148,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenAInvalidEmptyRole_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
+    void givenAInvalidEmptyRole_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
         // given
         final String expectedAuthority = "";
         final var expectedErrorCount = 1;
@@ -168,7 +168,7 @@ public class RoleTest {
     }
 
     @Test
-    public void givenAInvalidRoleWithLengthGreaterThan20_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
+    void givenAInvalidRoleWithLengthGreaterThan20_whenCallUpdateRoleAndValidate_shouldReceiveRoleUpdated() throws InterruptedException {
         // given
         final String expectedAuthority = Fixture.text(21);
         final var expectedErrorCount = 1;

@@ -12,7 +12,7 @@ import com.taxes.calculator.domain.user.User;
 class FixedTaxTest {
 
     @Test
-    public void givenAValidFixedTax_whenCreateNewFixedTax_shouldReturnFixedTax() {
+    void givenAValidFixedTax_whenCreateNewFixedTax_shouldReturnFixedTax() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -54,7 +54,7 @@ class FixedTaxTest {
     }
 
     @Test
-    public void givenAValidFixedTaxWithNullUser_whenCreateNewFixedTax_shouldReturnFixedTax() {
+    void givenAValidFixedTaxWithNullUser_whenCreateNewFixedTax_shouldReturnFixedTax() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -95,7 +95,7 @@ class FixedTaxTest {
     }
 
     @Test
-    public void givenAInvalidNullRegionalCouncil_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullRegionalCouncil_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = null;
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -128,7 +128,7 @@ class FixedTaxTest {
     }
 
     @Test
-    public void givenAInvalidNullTaxOverWork_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullTaxOverWork_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = null;
@@ -161,7 +161,7 @@ class FixedTaxTest {
     }
 
     @Test
-    public void givenAInvalidNullIncomeTax_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullIncomeTax_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -194,7 +194,7 @@ class FixedTaxTest {
     }
 
     @Test
-    public void givenAInvalidNullAccountant_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullAccountant_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -227,7 +227,7 @@ class FixedTaxTest {
     }
     
     @Test
-    public void givenAInvalidNullDentalShop_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullDentalShop_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -260,7 +260,7 @@ class FixedTaxTest {
     }
     
     @Test
-    public void givenAInvalidNullTransport_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullTransport_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -293,7 +293,7 @@ class FixedTaxTest {
     }
     
     @Test
-    public void givenAInvalidNullFood_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullFood_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -326,7 +326,7 @@ class FixedTaxTest {
     }
     
     @Test
-    public void givenAInvalidNullEducation_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullEducation_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
@@ -359,7 +359,7 @@ class FixedTaxTest {
     }
     
     @Test
-    public void givenAInvalidNullOtherFixedCosts_whenCreateNewFixedTax_shouldReturnNotification() {
+    void givenAInvalidNullOtherFixedCosts_whenCreateNewFixedTax_shouldReturnNotification() {
 	// given
 	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
 	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);

@@ -1,13 +1,17 @@
 package com.taxes.calculator.domain.exceptions;
 
+import java.util.List;
+
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.Identifier;
 import com.taxes.calculator.domain.validation.Error;
-import org.aspectj.weaver.ast.Not;
-
-import java.util.List;
 
 public class NotFoundException extends DomainException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private NotFoundException(final String message, final List<Error> anErrors) {
         super(message, anErrors);
     }

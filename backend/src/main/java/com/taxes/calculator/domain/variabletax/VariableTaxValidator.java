@@ -1,6 +1,5 @@
 package com.taxes.calculator.domain.variabletax;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.taxes.calculator.domain.validation.Error;

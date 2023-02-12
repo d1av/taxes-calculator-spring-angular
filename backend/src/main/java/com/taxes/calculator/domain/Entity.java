@@ -27,7 +27,7 @@ public abstract class Entity<ID extends Identifier>  {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Entity other = (Entity) obj;
+		Entity<?> other = (Entity<?>) obj;
 		return Objects.equals(id, other.id);
 	}
 	

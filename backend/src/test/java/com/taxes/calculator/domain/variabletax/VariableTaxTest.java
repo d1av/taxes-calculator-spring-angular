@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
-import com.taxes.calculator.domain.utils.InstantUtils;
 
 class VariableTaxTest {
 
@@ -250,7 +249,6 @@ class VariableTaxTest {
 	// given
 	final var aTax = Fixture.Tax.variableNullUser();
 
-	final var expectedUpdatedAt = aTax.getUpdatedAt();
 	final BigDecimal expectedDentalShop = null;
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
@@ -280,7 +278,6 @@ class VariableTaxTest {
 	// given
 	final var aTax = Fixture.Tax.variableNullUser();
 
-	final var expectedUpdatedAt = aTax.getUpdatedAt();
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = null;
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
@@ -310,7 +307,6 @@ class VariableTaxTest {
 	// given
 	final var aTax = Fixture.Tax.variableNullUser();
 
-	final var expectedUpdatedAt = aTax.getUpdatedAt();
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = null;
