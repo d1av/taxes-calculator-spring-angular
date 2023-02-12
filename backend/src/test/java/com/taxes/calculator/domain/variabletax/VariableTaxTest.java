@@ -258,7 +258,6 @@ class VariableTaxTest {
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
 
-	// when
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'dentalShop' should not be null";
 
@@ -289,7 +288,6 @@ class VariableTaxTest {
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
 
-	// when
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'prosthetist' should not be null";
 
@@ -320,7 +318,6 @@ class VariableTaxTest {
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
 
-	// when
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'travel' should not be null";
 
@@ -350,7 +347,6 @@ class VariableTaxTest {
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
 
-	// when
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'creditCard' should not be null";
 
