@@ -3,14 +3,13 @@ package com.taxes.calculator.domain.user;
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
+import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class User extends AggregateRoot<UserID> {
     private String name;
@@ -110,6 +109,44 @@ public class User extends AggregateRoot<UserID> {
         this.updatedAt = InstantUtils.now();
     }
 
+    public User update(String aName, String aPassword, boolean isActive, Set<Role> roles) {
+        if (isActive) activate();
+        else deactivate();
+
+        this.name = aName;
+        this.password = aPassword;
+        this.roles = new HashSet<>(!Objects.isNull(roles) ? roles : Collections.emptySet());
+        this.updatedAt = InstantUtils.now();
+        selfValidate();
+        return this;
+    }
+
+    public User addRole(final Role aRole) {
+        if (aRole == null) return this;
+
+        this.roles.add(aRole);
+        this.updatedAt = InstantUtils.now();
+        return this;
+    }
+
+    public User removeRole(final Role aRole) {
+        if (aRole == null) return this;
+
+        this.roles.remove(aRole);
+        this.updatedAt = InstantUtils.now();
+        return this;
+    }
+
+    public User addRoles(Set<Role> aRoles) {
+        if (aRoles == null) return this;
+        if (aRoles.size() == 0) return this;
+
+        this.roles.addAll(aRoles);
+        this.updatedAt = InstantUtils.now();
+
+        return this;
+    }
+
 
     private void selfValidate() {
         final var notification = Notification.create();
@@ -129,6 +166,7 @@ public class User extends AggregateRoot<UserID> {
     public String getPassword() {
         return password;
     }
+
     public String getName() {
         return name;
     }
