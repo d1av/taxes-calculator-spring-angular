@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.taxes.calculator.domain.AggregateRoot;
+import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
+import com.taxes.calculator.domain.validation.handler.Notification;
 
 public class FixedTax extends AggregateRoot<FixedTaxID> {
 
@@ -49,14 +51,13 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	    final BigDecimal aTaxOverWork, final BigDecimal aIncomeTax,
 	    final BigDecimal aAccountant, final BigDecimal aDentalShop,
 	    final BigDecimal aTransport, final BigDecimal aFood,
-	    final BigDecimal aEducation, final BigDecimal aOtherFixedCosts,
-	    final Instant aCreatedAt, final Instant aUpdatedAt) {
-
+	    final BigDecimal aEducation, final BigDecimal aOtherFixedCosts) {
+	final var now = InstantUtils.now();
 	final var anId = FixedTaxID.unique();
 
 	return new FixedTax(anId, aRegionalCouncil, aTaxOverWork, aIncomeTax,
 		aAccountant, aDentalShop, aTransport, aFood, aEducation,
-		aOtherFixedCosts, null, aCreatedAt, aUpdatedAt);
+		aOtherFixedCosts, null, now, now);
     }
 
     public static FixedTax with(final BigDecimal aRegionalCouncil,
@@ -64,14 +65,13 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	    final BigDecimal aAccountant, final BigDecimal aDentalShop,
 	    final BigDecimal aTransport, final BigDecimal aFood,
 	    final BigDecimal aEducation, final BigDecimal aOtherFixedCosts,
-	    final User aUser, final Instant aCreatedAt,
-	    final Instant aUpdatedAt) {
-
+	    final User aUser) {
+	final var now = InstantUtils.now();
 	final var anId = FixedTaxID.unique();
 
 	return new FixedTax(anId, aRegionalCouncil, aTaxOverWork, aIncomeTax,
 		aAccountant, aDentalShop, aTransport, aFood, aEducation,
-		aOtherFixedCosts, aUser, aCreatedAt, aUpdatedAt);
+		aOtherFixedCosts, aUser, now, now);
     }
 
     public FixedTax update(final BigDecimal aRegionalCouncil,
@@ -88,12 +88,30 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	this.transport = aTransport;
 	this.food = aFood;
 	this.education = aEducation;
+	this.otherFixedCosts = aOtherFixedCosts;
+	return this;
     }
 
     @Override
     public void validate(ValidationHandler handler) {
-	// TODO Auto-generated method stub
+	new FixedTaxValidator(this,handler).validate;
 
+    }
+   
+    
+    private void selfValidate() {
+        final var notification = Notification.create();
+        validate(notification);
+
+        if (notification.hasError()) {
+            throw new NotificationException(
+                    "Failed to validate Aggregate FixedTax", notification);
+        }
+    }
+    
+
+    public User getUser() {
+        return user;
     }
 
     public BigDecimal getRegionalCouncil() {

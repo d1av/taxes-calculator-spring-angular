@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.taxes.calculator.domain.AggregateRoot;
+import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
+import com.taxes.calculator.domain.validation.handler.Notification;
 
 public class VariableTax extends AggregateRoot<VariableTaxID> {
 
@@ -85,8 +87,17 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 
     @Override
     public void validate(ValidationHandler handler) {
-	// TODO Auto-generated method stub
+	new VariableTaxValidator(this, handler).validate();
+    }
 
+    private void selfValidate() {
+	final var notification = Notification.create();
+	validate(notification);
+
+	if (notification.hasError()) {
+	    throw new NotificationException(
+		    "Failed to validate Aggregate VariableTax", notification);
+	}
     }
 
     public Instant getCreatedAt() {
