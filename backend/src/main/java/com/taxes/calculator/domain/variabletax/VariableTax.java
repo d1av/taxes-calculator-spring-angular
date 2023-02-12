@@ -35,7 +35,7 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
 	this.user = aUser;
-	
+
 	selfValidate();
     }
 
@@ -74,6 +74,7 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	this.travel = aTravel;
 	this.weekend = aWeekend;
 	this.updatedAt = InstantUtils.now();
+	selfValidate();
 
 	return this;
     }
