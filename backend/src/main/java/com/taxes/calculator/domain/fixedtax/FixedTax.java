@@ -95,23 +95,25 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 
     @Override
     public void validate(ValidationHandler handler) {
-	new FixedTaxValidator(this,handler).validate();
+	new FixedTaxValidator(this, handler).validate();
     }
-   
-    
-    private void selfValidate() {
-        final var notification = Notification.create();
-        validate(notification);
 
-        if (notification.hasError()) {
-            throw new NotificationException(
-                    "Failed to validate Aggregate FixedTax", notification);
-        }
+    private void selfValidate() {
+	final var notification = Notification.create();
+	validate(notification);
+
+	if (notification.hasError()) {
+	    throw new NotificationException(
+		    "Failed to validate Aggregate FixedTax", notification);
+	}
     }
-    
+
+    public FixedTaxID getId() {
+	return id;
+    }
 
     public User getUser() {
-        return user;
+	return user;
     }
 
     public BigDecimal getRegionalCouncil() {
