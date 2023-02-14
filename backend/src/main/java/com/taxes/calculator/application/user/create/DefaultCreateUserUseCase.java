@@ -1,11 +1,8 @@
 package com.taxes.calculator.application.user.create;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.taxes.calculator.application.utils.MapperUtils;
@@ -45,6 +42,7 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 	final var notification = Notification.create();
 	notification.append(validateRoles(ids));
 	final var aUser = User.newUser(aName, aPassword, aActive);
+	aUser.addRoles(roles);
 	notification.validate(() -> aUser);
 
 	if (notification.hasError()) {
@@ -52,7 +50,7 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 		    "Could not create Aggregate User", notification);
 	}
 
-	aUser.addRoles(roles);
+	
 
 	return CreateUserOutput.from(this.userGateway.create(aUser));
     }

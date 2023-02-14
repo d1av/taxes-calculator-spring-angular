@@ -3,6 +3,6 @@ package com.taxes.calculator.application.user.create;
 import com.taxes.calculator.application.UseCase;
 
 public abstract class CreateUserUseCase
-	implements UseCase<CreateUserCommand, CreateUserOutput> {
+	extends UseCase<CreateUserCommand, CreateUserOutput> {
 
 }
