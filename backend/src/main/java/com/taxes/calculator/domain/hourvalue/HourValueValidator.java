@@ -23,17 +23,20 @@ public class HourValueValidator extends Validator {
     @Override
     public void validate() {
 	checkDaysOfWorkConstraints();
+	checkExpectedSalaryConstraints();
+	checkHourValueConstraints();
     }
 
     private void checkDaysOfWorkConstraints() {
 	final var fieldToValidate = this.hourValue.getDaysOfWork();
 	final var minDays = BigDecimal.valueOf(MIN_DAYS_WORK).doubleValue();
 	final var maxDays = BigDecimal.valueOf(MAX_DAYS_WORK).doubleValue();
-	final Double workDaysConverted = fieldToValidate.doubleValue();
+
 	if (Objects.isNull(fieldToValidate)) {
 	    this.validationHandler()
 		    .append(new Error("'daysOfWork' should not be null"));
 	} else {
+	    final Double workDaysConverted = fieldToValidate.doubleValue();
 	    if (workDaysConverted < minDays || workDaysConverted > maxDays) {
 		this.validationHandler().append(new Error(
 			"'daysOfWork' should be a number between %s and %s"
@@ -42,4 +45,19 @@ public class HourValueValidator extends Validator {
 	}
     }
 
+    private void checkExpectedSalaryConstraints() {
+	final var fieldToValidate = this.hourValue.getExpectedSalary();
+	if (Objects.isNull(fieldToValidate)) {
+	    this.validationHandler()
+		    .append(new Error("'expectedSalary' should not be null"));
+	}
+    }
+
+    private void checkHourValueConstraints() {
+	final var fieldToValidate = this.hourValue.getHourValue();
+	if (Objects.isNull(fieldToValidate)) {
+	    this.validationHandler()
+		    .append(new Error("'hourValue' should not be null"));
+	}
+    }
 }

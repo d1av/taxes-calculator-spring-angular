@@ -3,6 +3,7 @@ package com.taxes.calculator;
 import java.math.BigDecimal;
 
 import com.taxes.calculator.domain.fixedtax.FixedTax;
+import com.taxes.calculator.domain.hourvalue.HourValue;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.variabletax.VariableTax;
@@ -40,6 +41,10 @@ public class Fixture {
 	return BigDecimal.valueOf(FAKER.random().nextInt(0, houses * 10));
     }
 
+    public static Integer daysOfWork() {
+	return FAKER.random().nextInt(1, 31);
+    }
+
     public static String name() {
 	return FAKER.massEffect().character();
     }
@@ -62,6 +67,13 @@ public class Fixture {
 		    .concat(FAKER.lordOfTheRings().character());
 	}
 	return text.substring(0, newNumber);
+    }
+
+    public static class HourValues {
+	public static HourValue valid() {
+	    return HourValue.newHourValue(Fixture.bigDecimal(4),
+		    Fixture.bigDecimal(4), Fixture.daysOfWork());
+	}
     }
 
     public static class Roles {

@@ -5,19 +5,21 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.taxes.calculator.domain.AggregateRoot;
+import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
+import com.taxes.calculator.domain.validation.handler.Notification;
 
 public class HourValue extends AggregateRoot<HourValueID> {
 
     private BigDecimal expectedSalary;
     private BigDecimal hourValue;
-    private BigDecimal daysOfWork;
+    private Integer daysOfWork;
     private final Instant createdAt;
     private Instant updatedAt;
 
     private HourValue(final HourValueID id, final BigDecimal expectedSalary,
-	    final BigDecimal hourValue, final BigDecimal daysOfWork,
+	    final BigDecimal hourValue, final Integer daysOfWork,
 	    final Instant createdAt, final Instant updatedAt) {
 	super(id);
 	this.expectedSalary = expectedSalary;
@@ -25,15 +27,17 @@ public class HourValue extends AggregateRoot<HourValueID> {
 	this.daysOfWork = daysOfWork;
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
+
+	selfValidate();
     }
 
     @Override
     public void validate(ValidationHandler aHandler) {
-	new HourValueValidator(this, aHandler);
+	new HourValueValidator(this, aHandler).validate();
     }
 
-    public static HourValue with(final BigDecimal aExpectedSalary,
-	    final BigDecimal aHourValue, final BigDecimal aDaysOfWork) {
+    public static HourValue newHourValue(final BigDecimal aExpectedSalary,
+	    final BigDecimal aHourValue, final Integer aDaysOfWork) {
 	final var anId = HourValueID.unique();
 	final var now = InstantUtils.now();
 	return new HourValue(anId, aExpectedSalary, aHourValue, aDaysOfWork,
@@ -44,6 +48,28 @@ public class HourValue extends AggregateRoot<HourValueID> {
 	return new HourValue(aHourValue.id, aHourValue.expectedSalary,
 		aHourValue.hourValue, aHourValue.daysOfWork,
 		aHourValue.createdAt, aHourValue.getUpdatedAt());
+    }
+
+    public HourValue update(final BigDecimal aExpectedSalary,
+	    final BigDecimal aHourValue, final Integer aDaysOfWork) {
+	this.expectedSalary = aExpectedSalary;
+	this.hourValue = aHourValue;
+	this.daysOfWork = aDaysOfWork;
+	this.updatedAt = InstantUtils.now();
+
+	selfValidate();
+
+	return this;
+    }
+
+    private void selfValidate() {
+	final var notification = Notification.create();
+	validate(notification);
+
+	if (notification.hasError()) {
+	    throw new NotificationException(
+		    "Failed to validate Aggregate Value Hour", notification);
+	}
     }
 
     public HourValueID getId() {
@@ -58,7 +84,7 @@ public class HourValue extends AggregateRoot<HourValueID> {
 	return hourValue;
     }
 
-    public BigDecimal getDaysOfWork() {
+    public Integer getDaysOfWork() {
 	return daysOfWork;
     }
 
