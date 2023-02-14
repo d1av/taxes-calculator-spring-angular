@@ -9,8 +9,8 @@ import com.taxes.calculator.domain.validation.Validator;
 
 public class HourValueValidator extends Validator {
 
-    private static Double MIN_DAYS_WORK = 1d;
-    private static Double MAX_DAYS_WORK = 31d;
+    private static Integer MIN_DAYS_WORK = 1;
+    private static Integer MAX_DAYS_WORK = 31;
 
     private HourValue hourValue;
 
@@ -36,8 +36,7 @@ public class HourValueValidator extends Validator {
 	    this.validationHandler()
 		    .append(new Error("'daysOfWork' should not be null"));
 	} else {
-	    final Double workDaysConverted = fieldToValidate.doubleValue();
-	    if (workDaysConverted < minDays || workDaysConverted > maxDays) {
+	    if (fieldToValidate < minDays || fieldToValidate > maxDays) {
 		this.validationHandler().append(new Error(
 			"'daysOfWork' should be a number between %s and %s"
 				.formatted(MIN_DAYS_WORK, MAX_DAYS_WORK)));

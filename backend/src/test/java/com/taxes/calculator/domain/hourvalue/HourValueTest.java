@@ -101,7 +101,8 @@ class HourValueTest {
     }
 
     @Test
-    void givenAValidHourValue_whenCallsUpdateHourValue_shouldReturnHourValue() throws InterruptedException {
+    void givenAValidHourValue_whenCallsUpdateHourValue_shouldReturnHourValue()
+	    throws InterruptedException {
 	// given
 	final var aHourValue = Fixture.HourValues.valid();
 
@@ -127,5 +128,80 @@ class HourValueTest {
 	Assertions.assertEquals(expectedCreatedAt, updatedHour.getCreatedAt());
 	Assertions.assertTrue(
 		expectedUpdatedAt.isBefore(updatedHour.getUpdatedAt()));
+    }
+
+    @Test
+    void givenAInvalidSalary_whenCallsUpdateHourValue_shouldReturnNotification() {
+	// given
+	final var aHourValue = Fixture.HourValues.valid();
+
+	final BigDecimal expectedSalary = null;
+	final var expectedHourValue = Fixture.bigDecimal(4);
+	final var expectedDaysOfWork = Fixture.daysOfWork(); // 1- 31
+
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'expectedSalary' should not be null";
+
+	// when
+	final var actualException = Assertions.assertThrows(
+		NotificationException.class,
+		() -> aHourValue.update(expectedSalary, expectedHourValue,
+			expectedDaysOfWork));
+
+	// then
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+
+    @Test
+    void givenAInvalidHourValue_whenCallsUpdateHourValue_shouldReturnNotification() {
+	// given
+	final var aHourValue = Fixture.HourValues.valid();
+
+	final var expectedSalary = Fixture.bigDecimal(4);
+	final BigDecimal expectedHourValue = null;
+	final var expectedDaysOfWork = Fixture.daysOfWork(); // 1- 31
+
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'hourValue' should not be null";
+
+	// when
+	final var actualException = Assertions.assertThrows(
+		NotificationException.class,
+		() -> aHourValue.update(expectedSalary, expectedHourValue,
+			expectedDaysOfWork));
+
+	// then
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+
+    @Test
+    void givenAInvalidDaysOfWork_whenCallsUpdateHourValue_shouldReturnNotification() {
+	// given
+	final var aHourValue = Fixture.HourValues.valid();
+
+	final var expectedSalary = Fixture.bigDecimal(4);
+	final var expectedHourValue = Fixture.bigDecimal(4);
+	final var expectedDaysOfWork = 32; // 1- 31
+
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'daysOfWork' should be a number between 1 and 31";
+
+	// when
+	final var actualException = Assertions.assertThrows(
+		NotificationException.class,
+		() -> aHourValue.update(expectedSalary, expectedHourValue,
+			expectedDaysOfWork));
+
+	// then
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
     }
 }
