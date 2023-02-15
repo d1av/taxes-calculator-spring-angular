@@ -3,6 +3,7 @@ package com.taxes.calculator.application.user.create;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.taxes.calculator.application.utils.MapperUtils;
@@ -36,7 +37,7 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 	final var aActive = anIn.isActive();
 	final var roles = anIn.roles();
 
-	final List<RoleID> ids = MapperUtils.toID(anIn.roles(),
+	final Set<RoleID> ids = MapperUtils.toID(anIn.roles(),
 		Role::getId);
 
 	final var notification = Notification.create();
@@ -55,7 +56,7 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 	return CreateUserOutput.from(this.userGateway.create(aUser));
     }
 
-    private ValidationHandler validateRoles(List<RoleID> roles) {
+    private ValidationHandler validateRoles(Set<RoleID> roles) {
 	final var notification = Notification.create();
 	if (roles == null || roles.isEmpty())
 	    return notification;

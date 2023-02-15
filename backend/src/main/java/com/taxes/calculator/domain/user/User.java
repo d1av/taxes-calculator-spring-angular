@@ -58,6 +58,26 @@ public class User extends AggregateRoot<UserID> {
                 deletedAt
         );
     }
+    
+    public static User newUser(
+	    final UserID anId,
+	    final String aName,
+	    final String aPassword,
+	    final Boolean aActive
+	    ) {
+	final var now = InstantUtils.now();
+	final var deletedAt = aActive ? null : now;
+	return new User(
+		anId,
+		aName,
+		aPassword,
+		aActive,
+		new HashSet<>(),
+		now,
+		now,
+		deletedAt
+		);
+    }
 
     public static User with(
             final String aName,

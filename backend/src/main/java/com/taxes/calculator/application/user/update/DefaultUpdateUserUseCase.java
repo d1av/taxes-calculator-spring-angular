@@ -3,6 +3,7 @@ package com.taxes.calculator.application.user.update;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -42,12 +43,13 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 	final var actualUser = userGateway.findById(anId)
 		.orElseThrow(notFoundException(anId));
 
-	final List<RoleID> ids = MapperUtils.toID(anIn.roles(),
+	final Set<RoleID> ids = MapperUtils.toID(anIn.roles(),
 		Role::getId);
 
 	final var notification = Notification.create();
 	notification.append(validateRoles(ids));
-	final var aUser = User.newUser(aName, aPassword, aActive);
+	final var aUser = User.newUser(anId, aName, aPassword,
+		aActive);
 	aUser.addRoles(roles);
 	notification.validate(() -> aUser);
 
@@ -57,15 +59,15 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 	    throw new NotificationException(
 		    "Could not update Aggregate User", notification);
 	}
-
-	return UpdateUserOutput.from(this.userGateway.create(aUser));
+	
+	return UpdateUserOutput.from(this.userGateway.update(aUser));
     }
 
     private Supplier<DomainException> notFoundException(UserID anId) {
 	return () -> NotFoundException.with(User.class, anId);
     }
 
-    private ValidationHandler validateRoles(List<RoleID> roles) {
+    private ValidationHandler validateRoles(Set<RoleID> roles) {
 	final var notification = Notification.create();
 	if (roles == null || roles.isEmpty())
 	    return notification;
