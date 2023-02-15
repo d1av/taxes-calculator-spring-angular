@@ -51,6 +51,8 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 	aUser.addRoles(roles);
 	notification.validate(() -> aUser);
 
+	actualUser.validate(notification);
+
 	if (notification.hasError()) {
 	    throw new NotificationException(
 		    "Could not update Aggregate User", notification);
