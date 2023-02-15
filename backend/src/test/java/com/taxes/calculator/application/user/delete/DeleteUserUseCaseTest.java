@@ -50,7 +50,6 @@ class DeleteUserUseCaseTest extends UseCaseTest {
     @Test
     void givenAInvalidUserID_whenCallsDeleteUser_shouldBeOk() {
 	// given
-	final var aUser = Fixture.Users.asa();
 	final var expectedId = UserID.from("INVALID_ID");
 
 	doNothing().when(userGateway).deleteById(any());
