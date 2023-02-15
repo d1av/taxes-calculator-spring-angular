@@ -13,8 +13,8 @@ import java.util.*;
 public class User extends AggregateRoot<UserID> {
     private String name;
     private String password;
-    private Set<Role> roles;
     private Boolean active;
+    private Set<Role> roles;
     private final Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;

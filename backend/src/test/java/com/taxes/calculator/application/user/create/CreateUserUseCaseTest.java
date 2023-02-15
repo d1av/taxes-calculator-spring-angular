@@ -39,7 +39,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 
     @Override
     protected List<Object> getMocks() {
-	return List.of(userGateway);
+	return List.of(userGateway,roleGateway);
     }
 
     @Test
@@ -314,23 +314,22 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var mappedRoles = MapperUtils.toID(expectedRoles,
 		Role::getId);
 
-	
 	when(userGateway.create(any())).thenAnswer(returnsFirstArg());
-	
+
 	// when
-		final var actualOutput = useCase.execute(aCommand);
+	final var actualOutput = useCase.execute(aCommand);
 
-		// then
-		Assertions.assertNotNull(actualOutput);
+	// then
+	Assertions.assertNotNull(actualOutput);
 
-		verify(userGateway).create(argThat(aUser -> Objects
-			.nonNull(aUser.getId())
-			&& Objects.equals(expectedName, aUser.getName())
-			&& Objects.equals(expectedPassword,
-				aUser.getPassword())
-			&& Objects.equals(true, aUser.getActive())
-			&& Objects.nonNull(aUser.getCreatedAt())
-			&& Objects.nonNull(aUser.getUpdatedAt())));
+	verify(userGateway).create(argThat(aUser -> Objects
+		.nonNull(aUser.getId())
+		&& Objects.equals(expectedName, aUser.getName())
+		&& Objects.equals(expectedPassword,
+			aUser.getPassword())
+		&& Objects.equals(true, aUser.getActive())
+		&& Objects.nonNull(aUser.getCreatedAt())
+		&& Objects.nonNull(aUser.getUpdatedAt())));
     }
 
 }

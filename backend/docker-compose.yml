@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_USER = root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=taxes_calculator
+    ports:
+      - "3306:3306"
+    networks:
+      - calculator
+
+networks:
+  calculator:
