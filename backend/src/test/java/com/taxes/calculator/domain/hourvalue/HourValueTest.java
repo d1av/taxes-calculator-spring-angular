@@ -25,7 +25,7 @@ class HourValueTest {
 	Assertions.assertNotNull(actualHour);
 	Assertions.assertNotNull(actualHour.getId());
 	Assertions.assertNotNull(actualHour.getExpectedSalary());
-	Assertions.assertNotNull(actualHour.getHourValue());
+	Assertions.assertNotNull(actualHour.getPersonalHourValue());
 	Assertions.assertNotNull(actualHour.getDaysOfWork());
 	Assertions.assertNotNull(actualHour.getCreatedAt());
 	Assertions.assertNotNull(actualHour.getUpdatedAt());
@@ -122,7 +122,7 @@ class HourValueTest {
 	Assertions.assertEquals(expectedId, updatedHour.getId());
 	Assertions.assertEquals(expectedSalary,
 		updatedHour.getExpectedSalary());
-	Assertions.assertEquals(expectedHourValue, updatedHour.getHourValue());
+	Assertions.assertEquals(expectedHourValue, updatedHour.getPersonalHourValue());
 	Assertions.assertEquals(expectedDaysOfWork,
 		updatedHour.getDaysOfWork());
 	Assertions.assertEquals(expectedCreatedAt, updatedHour.getCreatedAt());

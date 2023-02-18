@@ -53,7 +53,7 @@ public class HourValueValidator extends Validator {
     }
 
     private void checkHourValueConstraints() {
-	final var fieldToValidate = this.hourValue.getHourValue();
+	final var fieldToValidate = this.hourValue.getPersonalHourValue();
 	if (Objects.isNull(fieldToValidate)) {
 	    this.validationHandler()
 		    .append(new Error("'hourValue' should not be null"));
