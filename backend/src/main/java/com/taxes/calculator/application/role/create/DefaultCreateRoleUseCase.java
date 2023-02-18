@@ -1,0 +1,34 @@
+package com.taxes.calculator.application.role.create;
+
+import java.util.Objects;
+
+import com.taxes.calculator.domain.exceptions.NotificationException;
+import com.taxes.calculator.domain.role.Role;
+import com.taxes.calculator.domain.role.RoleGateway;
+import com.taxes.calculator.domain.validation.handler.Notification;
+
+public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
+
+    private final RoleGateway roleGateway;
+
+    public DefaultCreateRoleUseCase(final RoleGateway roleGateway) {
+	this.roleGateway = Objects.requireNonNull(roleGateway);
+    }
+
+    @Override
+    public CreateRoleOutput execute(CreateRoleCommand anIn) {
+	final var anAuthority = anIn.authority();
+
+	final var notification = Notification.create();
+	final var aRole = Role.newRole(anAuthority);
+	notification.validate(() -> aRole);
+
+	if (notification.hasError()) {
+	    throw new NotificationException(
+		    "Could not create Aggregate Role", notification);
+	}
+	
+	return CreateRoleOutput.from(this.roleGateway.create(aRole));
+    }
+
+}

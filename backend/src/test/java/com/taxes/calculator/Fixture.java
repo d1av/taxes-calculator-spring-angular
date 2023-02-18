@@ -90,6 +90,9 @@ public class Fixture {
 	public static User asa() {
 	    return User.newUser("Asa Akira", "asaakira", true);
 	}
+	public static User abella() {
+	    return User.newUser("Abella Danger", "abelladanger", true);
+	}
 
 	public static User active() {
 	    return User.newUser(FAKER.onePiece().character(),
