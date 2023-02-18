@@ -2,6 +2,7 @@ package com.taxes.calculator.application.fixedtax.create;
 
 import java.util.Objects;
 
+import com.taxes.calculator.application.user.create.CreateUserOutput;
 import com.taxes.calculator.domain.exceptions.NotFoundException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTax;
@@ -59,7 +60,8 @@ public class DefaultCreateFixedTaxUseCase
 		    notification);
 	}
 
-	return null;
+	return CreateFixedTaxOutput
+		.from(this.fixedTaxGateway.create(aFixedTax));
     }
 
     private ValidationHandler validateUser(User user) {

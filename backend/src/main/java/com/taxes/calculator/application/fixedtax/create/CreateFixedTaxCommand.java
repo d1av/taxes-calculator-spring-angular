@@ -20,4 +20,16 @@ public record CreateFixedTaxCommand(BigDecimal regionalCouncil,
 		aTax.getUser());
     }
 
+    public static CreateFixedTaxCommand with(
+	    final BigDecimal regionalCouncil,
+	    final BigDecimal taxOverWork, final BigDecimal incomeTax,
+	    final BigDecimal accountant, final BigDecimal dentalShop,
+	    final BigDecimal transport, final BigDecimal food,
+	    final BigDecimal education,
+	    final BigDecimal otherFixedCosts, final User user) {
+	return new CreateFixedTaxCommand(regionalCouncil, taxOverWork,
+		incomeTax, accountant, dentalShop, transport, food,
+		education, otherFixedCosts, user);
+    }
+
 }
