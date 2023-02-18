@@ -129,7 +129,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
     public User getUser() {
 	return user;
     }
-
+    
     public BigDecimal getRegionalCouncil() {
 	return regionalCouncil;
     }
