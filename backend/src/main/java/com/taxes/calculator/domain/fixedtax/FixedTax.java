@@ -94,6 +94,9 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	this.food = aFood;
 	this.education = aEducation;
 	this.otherFixedCosts = aOtherFixedCosts;
+	
+	selfValidate();
+	
 	return this;
     }
 

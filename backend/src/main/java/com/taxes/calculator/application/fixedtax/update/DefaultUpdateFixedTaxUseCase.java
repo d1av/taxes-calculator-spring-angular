@@ -1,8 +1,10 @@
 package com.taxes.calculator.application.fixedtax.update;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.taxes.calculator.application.utils.EntityStatus;
+import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
 import com.taxes.calculator.domain.fixedtax.FixedTaxID;
@@ -51,6 +53,10 @@ public class DefaultUpdateFixedTaxUseCase
 	if (user != null) {
 	    notification.append(validateUser(user));
 	    aFixedTax.addUser(user);
+	} else {
+	    notification.append(new Error("User should not be null on update."));
+	    throw new NotificationException("User should not be null on update.",notification);
+		    
 	}
 
 	notification.validate(() -> aFixedTax.update(regionalCouncil,
