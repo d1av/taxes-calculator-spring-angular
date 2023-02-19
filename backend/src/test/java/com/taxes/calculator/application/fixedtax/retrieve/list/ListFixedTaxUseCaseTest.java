@@ -40,7 +40,7 @@ class ListFixedTaxUseCaseTest extends UseCaseTest {
     }
 
     @Test
-    void givenAValidId_whenCallsGetFixedTax_shouldReturnFixedTaxPaginated() {
+    void givenAValidQuery_whenCallsGetFixedTax_shouldReturnFixedTaxPaginated() {
 	// given
 	final var fixedTaxes = List.of(Fixture.Tax.fixed(),
 		Fixture.Tax.fixedNullUser());
@@ -77,7 +77,7 @@ class ListFixedTaxUseCaseTest extends UseCaseTest {
     }
 
     @Test
-    void givenAValidId_whenCallsGetFixedTaxIsEmpty_shouldReturnFixedTaxPaginated() {
+    void givenAValidQuery_whenCallsGetFixedTaxIsEmpty_shouldReturnFixedTaxPaginated() {
 	// given
 	final var fixedTaxes = List.<FixedTax>of();
 
