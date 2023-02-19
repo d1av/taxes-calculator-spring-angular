@@ -48,10 +48,8 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 
 	final var notification = Notification.create();
 	notification.append(validateRoles(ids));
-	final var aUser = User.newUser(anId, aName, aPassword,
-		aActive);
-	aUser.addRoles(roles);
-	notification.validate(() -> aUser);
+	actualUser.update(aName, aPassword, aActive, roles);
+	notification.validate(() -> User.with(actualUser));
 
 	actualUser.validate(notification);
 
@@ -59,8 +57,9 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 	    throw new NotificationException(
 		    "Could not update Aggregate User", notification);
 	}
-	
-	return UpdateUserOutput.from(this.userGateway.update(aUser));
+
+	this.userGateway.update(actualUser);
+	return UpdateUserOutput.from(actualUser);
     }
 
     private Supplier<DomainException> notFoundException(UserID anId) {

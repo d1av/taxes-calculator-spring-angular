@@ -53,7 +53,7 @@ public class Fixture {
 	passwordLength = Math.abs(passwordLength);
 	if (passwordLength > 100)
 	    passwordLength = 100;
-	return FAKER.aws().subnetId().substring(passwordLength);
+	return FAKER.aws().subnetId().substring(0,passwordLength);
     }
 
     public static String text(int number) {
