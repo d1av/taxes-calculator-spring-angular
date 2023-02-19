@@ -1,5 +1,6 @@
 package com.taxes.calculator.application.hourvalue.create;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import com.taxes.calculator.domain.exceptions.NotificationException;
@@ -15,8 +16,16 @@ import com.taxes.calculator.domain.validation.handler.Notification;
 public class DefaultCreateHourValueUseCase
 	extends CreateHourValueUseCase {
 
-    private HourValueGateway hourValueGateway;
-    private UserGateway userGateway;
+    private final HourValueGateway hourValueGateway;
+    private final UserGateway userGateway;
+
+    public DefaultCreateHourValueUseCase(
+	    final HourValueGateway hourValueGateway,
+	    final UserGateway userGateway) {
+	this.hourValueGateway = Objects
+		.requireNonNull(hourValueGateway);
+	this.userGateway = Objects.requireNonNull(userGateway);
+    }
 
     @Override
     public CreateHourValueOutput execute(
@@ -36,9 +45,9 @@ public class DefaultCreateHourValueUseCase
 	if (userId != null) {
 	    final var anId = UserID.from(userId);
 	    final var aUser = userGateway.findById(anId);
-	    notification.append(validateUser(aUser));
 
-	    aHourValue.addUser(aUser.get());
+	    notification.append(validateUser(aUser, anId));
+	    aHourValue.addUser(foundedUser(aUser));
 	}
 
 	if (notification.hasError()) {
@@ -51,16 +60,24 @@ public class DefaultCreateHourValueUseCase
 		.from(this.hourValueGateway.create(aHourValue));
     }
 
-    private ValidationHandler validateUser(Optional<User> aUser) {
+    private ValidationHandler validateUser(Optional<User> aUser,
+	    UserID aUserId) {
 	final var notification = Notification.create();
 
 	if (aUser.isEmpty()) {
 	    notification.append(
 		    new Error("Could find the user with id: %s"
-			    .formatted(aUser)));
+			    .formatted(aUserId.getValue())));
 	}
 
 	return notification;
+    }
+
+    private User foundedUser(Optional<User> aUser) {
+	if (aUser.isPresent()) {
+	    return aUser.get();
+	}
+	return null;
     }
 
 }
