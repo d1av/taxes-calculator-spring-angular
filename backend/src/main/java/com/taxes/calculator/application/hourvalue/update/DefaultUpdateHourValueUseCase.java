@@ -41,8 +41,11 @@ public class DefaultUpdateHourValueUseCase
 	if (userId != null) {
 	    final var anId = UserID.from(userId);
 	    final var aUser = userGateway.findById(anId);
-	    notification.append(validateUser(aUser));
-	    aHourValue.addUser(aUser.get());
+	    notification.append(validateUser(aUser, anId));
+	    aHourValue.addUser(getValidUser(aUser));
+	} else {
+	    notification.append(
+		    new Error("User cannot be null on update"));
 	}
 
 	if (notification.hasError()) {
@@ -51,17 +54,25 @@ public class DefaultUpdateHourValueUseCase
 		    notification);
 	}
 
-	return UpdateHourValueOutput
-		.from(this.hourValueGateway.create(aHourValue));
+	this.hourValueGateway.update(aHourValue);
+	return UpdateHourValueOutput.from(aHourValue);
     }
 
-    private ValidationHandler validateUser(Optional<User> aUser) {
+    private User getValidUser(Optional<User> aUser) {
+	if (aUser.isPresent()) {
+	    return aUser.get();
+	}
+	return null;
+    }
+
+    private ValidationHandler validateUser(Optional<User> aUser,
+	    UserID userId) {
 	final var notification = Notification.create();
 
 	if (aUser.isEmpty()) {
 	    notification.append(
 		    new Error("Could find the user with id: %s"
-			    .formatted(aUser)));
+			    .formatted(userId.getValue())));
 	}
 
 	return notification;

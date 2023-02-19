@@ -5,7 +5,9 @@ import com.taxes.calculator.domain.hourvalue.HourValue;
 public record UpdateHourValueOutput(String id) {
     public static UpdateHourValueOutput from(
 	    final HourValue aHourValue) {
-	return new UpdateHourValueOutput(
-		aHourValue.getId().getValue());
+	final var hourValue = aHourValue != null
+		? aHourValue.getId().getValue()
+		: null;
+	return new UpdateHourValueOutput(hourValue);
     }
 }

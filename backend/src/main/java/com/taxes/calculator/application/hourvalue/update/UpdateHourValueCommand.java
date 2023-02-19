@@ -16,4 +16,12 @@ public record UpdateHourValueCommand(String id,
 		aHourValue.getDaysOfWork(),
 		aHourValue.getUser().getId().getValue());
     }
+
+    public static UpdateHourValueCommand with(final String id,
+	    final BigDecimal expectedSalary,
+	    final BigDecimal personalHourValue,
+	    final Integer daysOfWork, final String userId) {
+	return new UpdateHourValueCommand(id, expectedSalary,
+		personalHourValue, daysOfWork, userId);
+    }
 }
