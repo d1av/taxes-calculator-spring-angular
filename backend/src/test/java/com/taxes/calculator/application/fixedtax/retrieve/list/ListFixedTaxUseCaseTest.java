@@ -45,17 +45,6 @@ class ListFixedTaxUseCaseTest extends UseCaseTest {
 	final var fixedTaxes = List.of(Fixture.Tax.fixed(),
 		Fixture.Tax.fixedNullUser());
 
-	final var expectedRegionalCouncil = BigDecimal.valueOf(40);
-	final var expectedTaxOverWork = BigDecimal.valueOf(2);
-	final var expectedIncomeTax = BigDecimal.valueOf(3);
-	final var expectedAccountant = BigDecimal.valueOf(4);
-	final var expectedDentalShop = BigDecimal.valueOf(5);
-	final var expectedTransport = BigDecimal.valueOf(6);
-	final var expectedFood = BigDecimal.valueOf(7);
-	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
-	final var expectedUser = Fixture.Users.asa();
-
 	final var expectedPage = 0;
 	final var expectedPerPage = 10;
 	final var expectedTerms = "A";
@@ -91,17 +80,6 @@ class ListFixedTaxUseCaseTest extends UseCaseTest {
     void givenAValidId_whenCallsGetFixedTaxIsEmpty_shouldReturnFixedTaxPaginated() {
 	// given
 	final var fixedTaxes = List.<FixedTax>of();
-
-	final var expectedRegionalCouncil = BigDecimal.valueOf(40);
-	final var expectedTaxOverWork = BigDecimal.valueOf(2);
-	final var expectedIncomeTax = BigDecimal.valueOf(3);
-	final var expectedAccountant = BigDecimal.valueOf(4);
-	final var expectedDentalShop = BigDecimal.valueOf(5);
-	final var expectedTransport = BigDecimal.valueOf(6);
-	final var expectedFood = BigDecimal.valueOf(7);
-	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
-	final var expectedUser = Fixture.Users.asa();
 
 	final var expectedPage = 0;
 	final var expectedPerPage = 10;
@@ -141,32 +119,13 @@ class ListFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final var fixedTaxes = List.<FixedTax>of();
 
-	final var expectedRegionalCouncil = BigDecimal.valueOf(40);
-	final var expectedTaxOverWork = BigDecimal.valueOf(2);
-	final var expectedIncomeTax = BigDecimal.valueOf(3);
-	final var expectedAccountant = BigDecimal.valueOf(4);
-	final var expectedDentalShop = BigDecimal.valueOf(5);
-	final var expectedTransport = BigDecimal.valueOf(6);
-	final var expectedFood = BigDecimal.valueOf(7);
-	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
-	final var expectedUser = Fixture.Users.asa();
-
 	final var expectedPage = 0;
 	final var expectedPerPage = 10;
 	final var expectedTerms = "A";
 	final var expectedSort = "createdAt";
 	final var expectedDirection = "asc";
-	final var expectedTotal = 0;
 
 	final var expectedErrorMessage = "Gateway error";
-	final var expectedErrorCount = 1;
-
-	final var expectedItems = fixedTaxes.stream()
-		.map(ListFixedTaxOutput::from).toList();
-
-	final var expectedPagination = new Pagination<>(expectedPage,
-		expectedPerPage, expectedTotal, fixedTaxes);
 
 	when(fixedTaxGateway.findAll(any())).thenThrow(
 		new IllegalStateException("Gateway error"));
