@@ -124,6 +124,12 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 		    notification);
 	}
     }
+    
+    
+
+    public BigDecimal getRegionalCouncil() {
+        return regionalCouncil;
+    }
 
     public FixedTaxID getId() {
 	return id;
@@ -133,7 +139,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	return user;
     }
     
-    public BigDecimal getRegionalCouncil() {
+    public BigDecimal userIdString() {
 	return regionalCouncil;
     }
 
