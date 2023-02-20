@@ -10,6 +10,7 @@ import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleGateway;
 import com.taxes.calculator.domain.role.RoleID;
+import com.taxes.calculator.domain.validation.Error;
 import com.taxes.calculator.domain.validation.handler.Notification;
 
 public class DefaultUpdateRoleUseCase extends UpdateRoleUseCase {
@@ -29,6 +30,7 @@ public class DefaultUpdateRoleUseCase extends UpdateRoleUseCase {
 		.orElseThrow(notFound(anId));
 
 	final var notification = Notification.create();
+	
 	notification.validate(() -> aRole.update(anAuthority));
 
 	if (notification.hasError()) {

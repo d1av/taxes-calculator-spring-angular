@@ -15,30 +15,35 @@ public class Fixture {
 
     public static class Tax {
 	public static FixedTax fixed() {
-	    return FixedTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), Fixture.Users.asa());
+	    return FixedTax.with(bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), Fixture.Users.asa());
 	}
 
 	public static FixedTax fixedNullUser() {
-	    return FixedTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), null);
+	    return FixedTax.with(bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), null);
 	}
 
 	public static VariableTax variable() {
-	    return VariableTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), Fixture.Users.active());
+	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    Fixture.Users.active());
 	}
 
 	public static VariableTax variableNullUser() {
-	    return VariableTax.with(bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), null);
+	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    null);
 	}
     }
 
     public static BigDecimal bigDecimal(int houses) {
-	return BigDecimal.valueOf(FAKER.random().nextInt(0, houses * 10));
+	return BigDecimal
+		.valueOf(FAKER.random().nextInt(0, houses * 10));
     }
 
     public static Integer daysOfWork() {
@@ -53,7 +58,7 @@ public class Fixture {
 	passwordLength = Math.abs(passwordLength);
 	if (passwordLength > 100)
 	    passwordLength = 100;
-	return FAKER.aws().subnetId().substring(0,passwordLength);
+	return FAKER.aws().subnetId().substring(0, passwordLength);
     }
 
     public static String text(int number) {
@@ -74,10 +79,12 @@ public class Fixture {
 	    return HourValue.newHourValue(Fixture.bigDecimal(4),
 		    Fixture.bigDecimal(4), Fixture.daysOfWork());
 	}
+
 	public static HourValue one() {
 	    return HourValue.newHourValue(Fixture.bigDecimal(2),
 		    Fixture.bigDecimal(5), Fixture.daysOfWork());
 	}
+
 	public static HourValue two() {
 	    return HourValue.newHourValue(Fixture.bigDecimal(2),
 		    Fixture.bigDecimal(10), Fixture.daysOfWork());
@@ -92,14 +99,20 @@ public class Fixture {
 	public static Role member() {
 	    return Role.newRole("member");
 	}
+
+	public static String roleName() {
+	    return FAKER.onePiece().akumasNoMi().replace(" ", "");
+	}
     }
 
     public static class Users {
 	public static User asa() {
 	    return User.newUser("Asa Akira", "asaakira", true);
 	}
+
 	public static User abella() {
-	    return User.newUser("Abella Danger", "abelladanger", true);
+	    return User.newUser("Abella Danger", "abelladanger",
+		    true);
 	}
 
 	public static User active() {
