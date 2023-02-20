@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import com.taxes.calculator.application.UseCaseTest;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleGateway;
+import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.UserGateway;
 
 class UpdateUserUseCaseTest extends UseCaseTest {
@@ -99,6 +101,9 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedRoles = Set.<Role>of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
 
+	final var expectedItems = expectedRoles.stream()
+		.map(x -> x.getId()).collect(Collectors.toSet());
+
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
 		expectedIsActive, expectedRoles);
@@ -110,7 +115,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		.thenAnswer(AdditionalAnswers.returnsFirstArg());
 
 	when(roleGateway.existsByIds(any()))
-		.thenAnswer(returnsFirstArg());
+		.thenReturn(expectedItems);
 
 	// when
 	final var actualOutput = useCase.execute(aCommand);

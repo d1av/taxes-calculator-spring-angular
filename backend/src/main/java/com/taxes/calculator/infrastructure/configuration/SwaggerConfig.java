@@ -12,8 +12,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
     @Bean
     Docket api() {
-	return new Docket(DocumentationType.SWAGGER_2).select()
-		.apis(RequestHandlerSelectors.any())
-		.paths(PathSelectors.any()).build().pathMapping("/");
+	return new Docket(DocumentationType.SWAGGER_2)
+		.select()
+		.apis(RequestHandlerSelectors.basePackage("com.taxes.calculator.infrastructure.api.controllers"))
+		.paths(PathSelectors.any())
+		.build()
+		.pathMapping("/");
     }
 }

@@ -1,11 +1,16 @@
 package com.taxes.calculator.infrastructure.role;
 
+import static com.taxes.calculator.infrastructure.utils.SpecificationUtils.like;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.taxes.calculator.domain.pagination.Pagination;
@@ -38,8 +43,25 @@ public class RoleMySQLGateway implements RoleGateway {
 
     @Override
     public Pagination<Role> findAll(SearchQuery aQuery) {
-	// TODO Auto-generated method stub
-	return null;
+	final var page = PageRequest.of(aQuery.page(),
+		aQuery.perPage(),
+		Sort.by(Sort.Direction.fromString(aQuery.direction()),
+			aQuery.sort()));
+
+	// Dynamic Search
+	final var specifications = Optional.ofNullable(aQuery.terms())
+		.filter(str -> !str.isBlank())
+		.map(this::assembleSpecification).orElse(null);
+
+	final var pageResult = this.repository
+		.findAll(Specification.where(specifications), page);
+    
+	  return new Pagination<>(
+	                pageResult.getNumber(),
+	                pageResult.getSize(),
+	                pageResult.getTotalElements(),
+	                pageResult.map(RoleJpaEntity::toAggregate).toList()
+	        );
     }
 
     @Override
@@ -78,6 +100,15 @@ public class RoleMySQLGateway implements RoleGateway {
     @Override
     public Boolean existById(String id) {
 	return this.repository.existsById(id);
+    }
+
+    private Specification<RoleJpaEntity> assembleSpecification(
+	    final String str) {
+	final Specification<RoleJpaEntity> nameLike = like("name",
+		str);
+	final Specification<RoleJpaEntity> descriptionLike = like(
+		"description", str);
+	return nameLike.or(like("description", str));
     }
 
 }

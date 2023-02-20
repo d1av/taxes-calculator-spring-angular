@@ -14,8 +14,10 @@ import com.taxes.calculator.application.role.create.CreateRoleUseCase;
 import com.taxes.calculator.application.role.delete.DeleteRoleUseCase;
 import com.taxes.calculator.application.role.retrieve.get.GetRoleByIdUseCase;
 import com.taxes.calculator.application.role.retrieve.list.ListRoleUseCase;
+import com.taxes.calculator.application.role.update.UpdateRoleCommand;
 import com.taxes.calculator.application.role.update.UpdateRoleUseCase;
 import com.taxes.calculator.domain.pagination.Pagination;
+import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.infrastructure.api.RoleAPI;
 import com.taxes.calculator.infrastructure.role.models.CreateRoleRequest;
 import com.taxes.calculator.infrastructure.role.models.RoleListResponse;
@@ -66,8 +68,10 @@ public class RoleController implements RoleAPI {
     @Override
     public Pagination<RoleListResponse> listRoles(String search,
 	    int page, int perPage, String sort, String direction) {
-	// TODO Auto-generated method stub
-	return null;
+
+	return this.listRoleUseCase.execute(new SearchQuery(page,
+		perPage, search, sort, direction))
+		.map(RoleListResponse::present);
     }
 
     @Override
@@ -79,14 +83,19 @@ public class RoleController implements RoleAPI {
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateRoleRequest input) {
-	// TODO Auto-generated method stub
-	return null;
+	final var aCommand = UpdateRoleCommand.with(id,
+		input.authority());
+
+	final var output = this.updateRoleUseCase.execute(aCommand);
+
+	return ResponseEntity.ok().body(output);
     }
 
     @Override
-    public void deleteById(String id) {
-	// TODO Auto-generated method stub
+    public ResponseEntity<?> deleteById(String id) {
+	this.deleteRoleUseCase.execute(id);
 
+	return ResponseEntity.noContent().build();
     }
 
 }
