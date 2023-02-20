@@ -8,9 +8,12 @@ public record VariableTaxByIdOutput(String id, BigDecimal dentalShop,
 	BigDecimal prosthetist, BigDecimal travel,
 	BigDecimal creditCard, BigDecimal weekend, String userId) {
     public static VariableTaxByIdOutput from(final VariableTax aTax) {
+	final var aUser = aTax.getUser() != null
+		? aTax.getUser().getId().getValue()
+		: null;
 	return new VariableTaxByIdOutput(aTax.getId().getValue(),
 		aTax.getDentalShop(), aTax.getProsthetist(),
 		aTax.getTravel(), aTax.getCreditCard(),
-		aTax.getWeekend(), aTax.getUser().getId().getValue());
+		aTax.getWeekend(), aUser);
     }
 }

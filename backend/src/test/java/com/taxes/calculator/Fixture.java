@@ -31,7 +31,7 @@ public class Fixture {
 	public static VariableTax variable() {
 	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
 		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    Fixture.Users.active());
+		    Fixture.Users.asa());
 	}
 
 	public static VariableTax variableNullUser() {

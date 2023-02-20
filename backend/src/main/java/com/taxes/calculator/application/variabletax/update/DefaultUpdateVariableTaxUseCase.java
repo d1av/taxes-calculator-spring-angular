@@ -45,18 +45,19 @@ public class DefaultUpdateVariableTaxUseCase
 		.orElseThrow(
 			EntityStatus.notFound(id, VariableTax.class));
 
-	final var aUser = this.userGateway
-		.findById(UserID.from(userId));
-
-	if (aUser.isEmpty()) {
-	    notification.append(new Error(
-		    "User could not be found: %s".formatted(userId)));
-	}
-
-	aTax.addUser(aUser.get());
 
 	notification.validate(() -> aTax.update(dentalShop,
 		prosthetist, travel, creditCard, weekend));
+	
+	final var aUser = this.userGateway
+		.findById(UserID.from(userId));
+	
+	if (aUser.isEmpty()) {
+	    notification.append(new Error(
+		    "User could not be found: %s".formatted(userId)));
+	} else {
+	    aTax.addUser(aUser.get());
+	}
 
 	if (notification.hasError()) {
 	    throw new NotificationException(
