@@ -23,7 +23,9 @@ public interface RoleGateway {
     void deleteById(RoleID anId);
 
     // utils
-    Set<RoleID> existsByIds(Set<RoleID> ids);
+    Set<RoleID> existsByIds(Iterable<RoleID> roledIds);
+    
+    Boolean existById(String id);
 
     Optional<Role> findByAuthority(String anAuthority);
 }

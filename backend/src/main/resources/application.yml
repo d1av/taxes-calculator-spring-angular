@@ -31,4 +31,6 @@ spring:
       #"[hibernate.dialect]": org.hibernate.dialect.MySQL5InnoDBDialect
       "[hibernate.generate.statistics]": false
       "[hibernate.connection.provider_disables_autocommit]": true
-
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
