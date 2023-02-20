@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleGateway;
+import com.taxes.calculator.domain.validation.Error;
 import com.taxes.calculator.domain.validation.handler.Notification;
 
 public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
@@ -18,8 +19,14 @@ public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
     @Override
     public CreateRoleOutput execute(CreateRoleCommand anIn) {
 	final var anAuthority = anIn.authority();
-
 	final var notification = Notification.create();
+
+	if (roleGateway.findByAuthority(anAuthority).isPresent()) {
+	    notification.append(
+		    new Error("Role already exists with name: %s"
+			    .formatted(anAuthority)));
+	}
+
 	final var aRole = Role.newRole(anAuthority);
 	notification.validate(() -> aRole);
 
@@ -27,7 +34,7 @@ public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
 	    throw new NotificationException(
 		    "Could not create Aggregate Role", notification);
 	}
-	
+
 	return CreateRoleOutput.from(this.roleGateway.create(aRole));
     }
 

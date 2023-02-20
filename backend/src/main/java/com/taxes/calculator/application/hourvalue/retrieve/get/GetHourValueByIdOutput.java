@@ -9,11 +9,13 @@ public record GetHourValueByIdOutput(String id,
 	Integer daysOfWork, String userId) {
     public static GetHourValueByIdOutput from(
 	    final HourValue aHourValue) {
+	final var anUser = aHourValue.getUser() != null
+		? aHourValue.getUser().getId().getValue()
+		: null;
 	return new GetHourValueByIdOutput(
 		aHourValue.getId().getValue(),
 		aHourValue.getExpectedSalary(),
 		aHourValue.getPersonalHourValue(),
-		aHourValue.getDaysOfWork(),
-		aHourValue.getUser().getId().getValue());
+		aHourValue.getDaysOfWork(), anUser);
     }
 }

@@ -1,6 +1,6 @@
 CREATE TABLE roles(
 	id CHAR(32) NOT NULL PRIMARY KEY,
-	authority VARCHAR(60) NOT NULL,
+	authority VARCHAR(60) NOT NULL UNIQUE,
     user_id CHAR(32) NULL,
 	created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,

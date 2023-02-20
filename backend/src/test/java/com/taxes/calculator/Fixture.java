@@ -74,6 +74,14 @@ public class Fixture {
 	    return HourValue.newHourValue(Fixture.bigDecimal(4),
 		    Fixture.bigDecimal(4), Fixture.daysOfWork());
 	}
+	public static HourValue one() {
+	    return HourValue.newHourValue(Fixture.bigDecimal(2),
+		    Fixture.bigDecimal(5), Fixture.daysOfWork());
+	}
+	public static HourValue two() {
+	    return HourValue.newHourValue(Fixture.bigDecimal(2),
+		    Fixture.bigDecimal(10), Fixture.daysOfWork());
+	}
     }
 
     public static class Roles {

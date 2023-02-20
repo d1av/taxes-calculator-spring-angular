@@ -24,4 +24,6 @@ public interface RoleGateway {
 
     // utils
     Set<RoleID> existsByIds(Set<RoleID> ids);
+
+    Optional<Role> findByAuthority(String anAuthority);
 }
