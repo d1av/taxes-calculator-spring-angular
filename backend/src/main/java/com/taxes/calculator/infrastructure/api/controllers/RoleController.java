@@ -25,6 +25,8 @@ import com.taxes.calculator.infrastructure.role.models.RoleResponse;
 import com.taxes.calculator.infrastructure.role.models.UpdateRoleRequest;
 import com.taxes.calculator.infrastructure.role.presenters.RoleApiPresenter;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 public class RoleController implements RoleAPI {
 

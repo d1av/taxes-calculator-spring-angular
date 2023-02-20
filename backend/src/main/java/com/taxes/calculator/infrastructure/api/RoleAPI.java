@@ -23,13 +23,14 @@ import com.taxes.calculator.infrastructure.role.models.RoleListResponse;
 import com.taxes.calculator.infrastructure.role.models.RoleResponse;
 import com.taxes.calculator.infrastructure.role.models.UpdateRoleRequest;
 
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 @RequestMapping(value = "api/roles")
-@Tag(name = "Roles")
+@Api(tags ={"Role Controller"})
 public interface RoleAPI {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +40,8 @@ public interface RoleAPI {
 	    @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
     ResponseEntity<?> createRole(
-	    @Valid @RequestBody CreateRoleRequest input) throws URISyntaxException;
+	    @Valid @RequestBody CreateRoleRequest input)
+	    throws URISyntaxException;
 
     @GetMapping
     @Operation(summary = "List all roles paginated")
@@ -78,5 +80,6 @@ public interface RoleAPI {
 	    @ApiResponse(responseCode = "204", description = "role deleted successfully"),
 	    @ApiResponse(responseCode = "404", description = "role was not found"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
-    ResponseEntity<?> deleteById(@PathVariable(name = "id") String id);
+    ResponseEntity<?> deleteById(
+	    @PathVariable(name = "id") String id);
 }
