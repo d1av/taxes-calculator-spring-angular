@@ -12,6 +12,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.pagination.Pagination;
@@ -23,46 +24,23 @@ import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.validation.Error;
+import com.taxes.calculator.infrastructure.role.persistence.RoleJpaEntity;
+import com.taxes.calculator.infrastructure.role.persistence.RoleRepository;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 
+@Service
 public class UserMySQLGateway implements UserGateway {
 
     private final UserRepository userRepository;
-    private final RoleGateway roleGateway;
 
-    public UserMySQLGateway(final UserRepository userRepository,
-	    final RoleGateway roleGateway) {
+    public UserMySQLGateway(final UserRepository userRepository) {
 	this.userRepository = Objects.requireNonNull(userRepository);
-	this.roleGateway = Objects.requireNonNull(roleGateway);
     }
 
     @Override
     public User create(User aUser) {
-	validateRoles(aUser);
 	return save(aUser);
-    }
-
-    private User save(User aUser) {
-	return this.userRepository.save(UserJpaEntity.from(aUser))
-		.toAggregate();
-    }
-
-    private void validateRoles(User user) {
-	List<String> authoritiesList = user.getRoles().stream()
-		.map(Role::getAuthority).collect(Collectors.toList());
-
-	List<RoleID> ids = user.getRoles().stream().map(Role::getId)
-		.collect(Collectors.toList());
-
-	Set<RoleID> validRoles = roleGateway
-		.existsByAuthority(authoritiesList);
-
-	if (!validRoles.containsAll(ids)) {
-	    throw new DomainException("Failed to validate roles",
-		    List.of(new Error(
-			    "One or more roles are not valid")));
-	}
     }
 
     @Override
@@ -123,5 +101,10 @@ public class UserMySQLGateway implements UserGateway {
 	final Specification<UserJpaEntity> descriptionLike = like(
 		"description", str);
 	return nameLike.or(like("description", str));
+    }
+
+    private User save(User aUser) {
+	return this.userRepository.save(UserJpaEntity.from(aUser))
+		.toAggregate();
     }
 }

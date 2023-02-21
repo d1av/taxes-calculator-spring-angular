@@ -1,11 +1,16 @@
 package com.taxes.calculator.application.role.create;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleGateway;
+import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.validation.Error;
+import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
 
 public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
@@ -25,7 +30,7 @@ public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
 	    notification.append(
 		    new Error("Role already exists with name: %s"
 			    .formatted(anAuthority)));
-	}
+	}	
 
 	final var aRole = Role.newRole(anAuthority);
 	notification.validate(() -> aRole);
@@ -37,5 +42,4 @@ public class DefaultCreateRoleUseCase extends CreateRoleUseCase {
 
 	return CreateRoleOutput.from(this.roleGateway.create(aRole));
     }
-
 }

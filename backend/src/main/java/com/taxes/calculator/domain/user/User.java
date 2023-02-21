@@ -3,6 +3,7 @@ package com.taxes.calculator.domain.user;
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
+import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
@@ -14,14 +15,14 @@ public class User extends AggregateRoot<UserID> {
     private String name;
     private String password;
     private Boolean active;
-    private Set<Role> roles;
+    private Set<RoleID> roles;
     private final Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
 
     private User(final UserID userID, final String name,
 	    final String password, final Boolean isActive,
-	    final Set<Role> roles, final Instant createdAt,
+	    final Set<RoleID> roles, final Instant createdAt,
 	    final Instant updatedAt, final Instant deletedAt) {
 	super(userID);
 	this.name = name;
@@ -54,7 +55,7 @@ public class User extends AggregateRoot<UserID> {
 
     public static User with(final String aName,
 	    final String aPassword, final boolean aActive,
-	    final Set<Role> roles) {
+	    final Set<RoleID> roles) {
 	final var now = InstantUtils.now();
 	final var anId = UserID.unique();
 	return new User(anId, aName, aPassword, aActive, roles, now,
@@ -69,7 +70,7 @@ public class User extends AggregateRoot<UserID> {
 
     public static User with(final UserID userID, final String name,
 	    final String password, final Boolean isActive,
-	    final Set<Role> roles, final Instant createdAt,
+	    final Set<RoleID> roles, final Instant createdAt,
 	    final Instant updatedAt, final Instant deletedAt) {
 	return new User(userID, name, password, isActive, roles,
 		createdAt, updatedAt, deletedAt);
@@ -90,7 +91,7 @@ public class User extends AggregateRoot<UserID> {
     }
 
     public User update(String aName, String aPassword,
-	    boolean isActive, Set<Role> roles) {
+	    boolean isActive, Set<RoleID> roles) {
 	if (isActive)
 	    activate();
 	else
@@ -105,7 +106,7 @@ public class User extends AggregateRoot<UserID> {
 	return this;
     }
 
-    public User addRole(final Role aRole) {
+    public User addRoleID(final RoleID aRole) {
 	if (aRole == null)
 	    return this;
 
@@ -123,7 +124,7 @@ public class User extends AggregateRoot<UserID> {
 	return this;
     }
 
-    public User addRoles(Set<Role> aRoles) {
+    public User addRoles(Set<RoleID> aRoles) {
 	if (aRoles == null)
 	    return this;
 	if (aRoles.size() == 0)
@@ -163,7 +164,7 @@ public class User extends AggregateRoot<UserID> {
 	return name;
     }
 
-    public Set<Role> getRoles() {
+    public Set<RoleID> getRoles() {
 	return roles;
     }
 

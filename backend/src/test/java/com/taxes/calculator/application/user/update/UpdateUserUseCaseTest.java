@@ -54,7 +54,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = "Mia";
 	final var expectedPassword = "miamiamia";
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -98,11 +98,8 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = "Mia";
 	final var expectedPassword = "miamiamia";
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of(Fixture.Roles.guest(),
-		Fixture.Roles.member());
-
-	final var expectedItems = expectedRoles.stream()
-		.map(x -> x.getId()).collect(Collectors.toSet());
+	final var expectedRoles = Set.<RoleID>of(Fixture.Roles.guest().getId(),
+		Fixture.Roles.member().getId());
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -115,7 +112,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		.thenAnswer(AdditionalAnswers.returnsFirstArg());
 
 	when(roleGateway.existsByIds(any()))
-		.thenReturn(expectedItems);
+		.thenReturn(expectedRoles);
 
 	// when
 	final var actualOutput = useCase.execute(aCommand);
@@ -149,7 +146,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final String expectedName = null;
 	final var expectedPassword = "miamiamia";
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'name' should not be null";
@@ -187,7 +184,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final String expectedName = "Mia";
 	final String expectedPassword = null;
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' should not be null";
@@ -225,7 +222,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final String expectedName = "Mia";
 	final String expectedPassword = Fixture.password(5);
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
@@ -263,7 +260,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final String expectedName = "Mia";
 	final String expectedPassword = Fixture.password(21);
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
@@ -302,7 +299,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final String expectedPassword = Fixture.password(10);
 	final Boolean initialIsActive = null;
 	final Boolean expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,

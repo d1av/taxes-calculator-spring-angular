@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
 @RequestMapping(value = "api/users")
-@Api(tags ={"user Controller"})
+@Api(tags ={"User Controller"})
 public interface UserAPI {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,7 +53,7 @@ public interface UserAPI {
 	    @RequestParam(name = "search", required = false, defaultValue = "") final String search,
 	    @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
 	    @RequestParam(name = "perPage", required = false, defaultValue = "10") final int perPage,
-	    @RequestParam(name = "sort", required = false, defaultValue = "authority") final String sort,
+	    @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
 	    @RequestParam(name = "dir", required = false, defaultValue = "asc") final String direction);
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +62,7 @@ public interface UserAPI {
 	    @ApiResponse(responseCode = "201", description = "user retrieved successfully"),
 	    @ApiResponse(responseCode = "404", description = "user was not found"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
-    UserResponse getById(@PathVariable(name = "id") String id);
+    ResponseEntity<?> getById(@PathVariable(name = "id") String id);
 
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get a user by it's identifier")

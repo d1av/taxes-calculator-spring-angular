@@ -90,7 +90,7 @@ class GetRoleByIdUseCaseTest extends UseCaseTest {
     @Test
     void givenAValidId_whenCallsGetRoleAndGatewayThrows_shouldReturnError() {
 	// given
-	final var aAuthority = Fixture.name();
+	final var aAuthority = Fixture.Roles.member().getAuthority();
 
 	final var expectedErrorMessage = "Gateway error";
 

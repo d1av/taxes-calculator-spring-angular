@@ -20,6 +20,7 @@ import com.taxes.calculator.Fixture;
 import com.taxes.calculator.application.UseCaseTest;
 import com.taxes.calculator.domain.exceptions.NotFoundException;
 import com.taxes.calculator.domain.role.Role;
+import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.user.UserID;
@@ -43,7 +44,7 @@ class GetUserByIdUseCaseTest extends UseCaseTest {
 	final var expectedName = Fixture.name();
 	final var expectedPassword = Fixture.password(10); // not shown in output
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<RoleID>of();
 
 	final var aUser = User.newUser(expectedName, expectedPassword,
 		expectedIsActive);

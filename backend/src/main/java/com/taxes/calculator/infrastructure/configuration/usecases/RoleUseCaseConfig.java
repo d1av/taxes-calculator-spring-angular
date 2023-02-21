@@ -1,4 +1,4 @@
-package com.taxes.calculator.infrastructure.configuration;
+package com.taxes.calculator.infrastructure.configuration.usecases;
 
 import java.util.Objects;
 

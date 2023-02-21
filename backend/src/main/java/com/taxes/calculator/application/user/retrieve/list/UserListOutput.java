@@ -4,10 +4,11 @@ import java.time.Instant;
 import java.util.Set;
 
 import com.taxes.calculator.domain.role.Role;
+import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
 
 public record UserListOutput(String id, String name, Boolean active,
-	Set<Role> roles, Instant createdAt) {
+	Set<RoleID> roles, Instant createdAt) {
     public static UserListOutput from(final User aUser) {
 	return new UserListOutput(aUser.getId().getValue(),
 		aUser.getName(), aUser.getActive(), aUser.getRoles(),

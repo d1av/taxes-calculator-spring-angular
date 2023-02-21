@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 
     @Override
     protected List<Object> getMocks() {
-	return List.of(userGateway,roleGateway);
+	return List.of(userGateway, roleGateway);
     }
 
     @Test
@@ -51,8 +52,12 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedRoles = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
 
+	final var expectedItems = expectedRoles.stream()
+		.map(Role::getId).map(RoleID::getValue)
+		.collect(Collectors.toSet());
+
 	final var aCommand = CreateUserCommand.with(expectedName,
-		expectedPassword, expectedIsActive, expectedRoles);
+		expectedPassword, expectedIsActive, expectedItems);
 
 	final var mappedRoles = MapperUtils.toID(expectedRoles,
 		Role::getId);
@@ -84,13 +89,10 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = Fixture.name();
 	final var expectedPassword = Fixture.password(6);
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<String>of();
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);
-
-	final var mappedRoles = MapperUtils.toID(expectedRoles,
-		Role::getId);
 
 	when(userGateway.create(any())).thenAnswer(returnsFirstArg());
 
@@ -118,12 +120,16 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
+	
+	final var expectedItems = expectedRoles.stream()
+		.map(Role::getId).map(RoleID::getValue)
+		.collect(Collectors.toSet());
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'name' should not be null";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
-		expectedPassword, expectedIsActive, expectedRoles);
+		expectedPassword, expectedIsActive, expectedItems);
 
 	final var mappedRoles = MapperUtils.toID(expectedRoles,
 		Role::getId);
@@ -156,11 +162,15 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedRoles = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
 
+	final var expectedItems = expectedRoles.stream()
+		.map(Role::getId).map(RoleID::getValue)
+		.collect(Collectors.toSet());
+	
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' should not be null";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
-		expectedPassword, expectedIsActive, expectedRoles);
+		expectedPassword, expectedIsActive, expectedItems);
 
 	final var mappedRoles = MapperUtils.toID(expectedRoles,
 		Role::getId);
@@ -190,16 +200,20 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = Fixture.name();
 	final String expectedPassword = Fixture.text(4);
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.of(Fixture.Roles.guest(),
+	final var expectedItems = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
 
+	final var expectedRoles = expectedItems.stream()
+		.map(Role::getId).map(RoleID::getValue)
+		.collect(Collectors.toSet());
+	
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);
 
-	final var mappedRoles = MapperUtils.toID(expectedRoles,
+	final var mappedRoles = MapperUtils.toID(expectedItems,
 		Role::getId);
 
 	when(roleGateway.existsByIds(any())).thenReturn(mappedRoles);
@@ -227,16 +241,20 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = Fixture.name();
 	final String expectedPassword = Fixture.text(21);
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.of(Fixture.Roles.guest(),
+	final var expectedItems = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
 
+	final var expectedRoles = expectedItems.stream()
+		.map(Role::getId).map(RoleID::getValue)
+		.collect(Collectors.toSet());
+	
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);
 
-	final var mappedRoles = MapperUtils.toID(expectedRoles,
+	final var mappedRoles = MapperUtils.toID(expectedItems,
 		Role::getId);
 
 	when(roleGateway.existsByIds(any())).thenReturn(mappedRoles);
@@ -264,8 +282,12 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = Fixture.name();
 	final var expectedPassword = Fixture.text(8);
 	final Boolean expectedIsActive = null;
-	final var expectedRoles = Set.of(Fixture.Roles.guest(),
+	final var expectedItems = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
+
+	final var expectedRoles = expectedItems.stream()
+		.map(Role::getId).map(RoleID::getValue)
+		.collect(Collectors.toSet());
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
@@ -273,7 +295,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);
 
-	final var mappedRoles = MapperUtils.toID(expectedRoles,
+	final var mappedRoles = MapperUtils.toID(expectedItems,
 		Role::getId);
 
 	when(userGateway.create(any())).thenAnswer(returnsFirstArg());
@@ -303,16 +325,13 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = Fixture.name();
 	final var expectedPassword = Fixture.password(10);
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<Role>of();
+	final var expectedRoles = Set.<String>of();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' should not be null";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);
-
-	final var mappedRoles = MapperUtils.toID(expectedRoles,
-		Role::getId);
 
 	when(userGateway.create(any())).thenAnswer(returnsFirstArg());
 

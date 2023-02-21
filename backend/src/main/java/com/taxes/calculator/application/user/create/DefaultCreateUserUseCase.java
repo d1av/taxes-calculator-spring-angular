@@ -1,14 +1,11 @@
 package com.taxes.calculator.application.user.create;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.taxes.calculator.application.utils.MapperUtils;
 import com.taxes.calculator.domain.exceptions.NotificationException;
-import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleGateway;
 import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
@@ -34,23 +31,29 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 	final var aName = anIn.name();
 	final var aPassword = anIn.password();
 	final var aActive = anIn.isActive();
-	final var roles = anIn.roles();
+	final var roles = anIn.rolesId();
 
-	final Set<RoleID> ids = MapperUtils.toID(anIn.roles(),
-		Role::getId);
+	final Set<RoleID> ids = roles.stream().map(RoleID::from)
+		.collect(Collectors.toSet());
 
 	final var notification = Notification.create();
 	notification.append(validateRoles(ids));
 	final var aUser = User.newUser(aName, aPassword, aActive);
-	aUser.addRoles(roles);
+	if (ids != null) {
+	    Set<RoleID> retrievedRoles = roleGateway.existsByIds(ids);
+
+	    if (!retrievedRoles.containsAll(ids)) {
+		throw NotificationException
+		.with(new Error("Roles ids are invalid"));		
+	    }
+	    aUser.addRoles(ids);
+	}
 	notification.validate(() -> aUser);
 
 	if (notification.hasError()) {
 	    throw new NotificationException(
 		    "Could not create Aggregate User", notification);
 	}
-
-	
 
 	return CreateUserOutput.from(this.userGateway.create(aUser));
     }
@@ -71,7 +74,7 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 		    .collect(Collectors.joining(", "));
 
 	    notification.append(
-		    new Error("Some categories could not be found: %s"
+		    new Error("Some roles could not be found: %s"
 			    .formatted(missingIdsMessage)));
 	}
 

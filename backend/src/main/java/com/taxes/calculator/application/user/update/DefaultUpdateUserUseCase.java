@@ -38,17 +38,14 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 	final var aName = anIn.name();
 	final var aPassword = anIn.password();
 	final var aActive = anIn.isActive();
-	final var roles = anIn.roles();
+	final var rolesId = anIn.roles();
 
 	final var actualUser = userGateway.findById(anId)
 		.orElseThrow(notFoundException(anId));
 
-	final Set<RoleID> ids = MapperUtils.toID(anIn.roles(),
-		Role::getId);
-
 	final var notification = Notification.create();
-	notification.append(validateRoles(ids));
-	actualUser.update(aName, aPassword, aActive, roles);
+	notification.append(validateRoles(rolesId));
+	actualUser.update(aName, aPassword, aActive, rolesId);
 	notification.validate(() -> User.with(actualUser));
 
 	actualUser.validate(notification);

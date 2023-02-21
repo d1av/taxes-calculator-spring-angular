@@ -3,6 +3,8 @@ package com.taxes.calculator.domain.user;
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.role.Role;
+import com.taxes.calculator.domain.role.RoleID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +17,7 @@ public class UserTest {
         // given
         final String expectedName = Fixture.name();
         final String expectedPassword = Fixture.password(8);
-        final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+        final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
         final Boolean expectedActive = true;
 
         // when
@@ -44,7 +46,7 @@ public class UserTest {
         // given
         final String expectedName = null;
         final String expectedPassword = Fixture.password(8);
-        final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+        final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
         final boolean expectedActive = true;
 
         final var expectedErrorCount = 1;
@@ -71,7 +73,7 @@ public class UserTest {
     	// given
     	final String expectedName = "";
     	final String expectedPassword = Fixture.password(8);
-    	final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+    	final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
     	final boolean expectedActive = true;
     	
     	final var expectedErrorCount = 1;
@@ -97,7 +99,7 @@ public class UserTest {
     	// given
     	final String expectedName = "    ";
     	final String expectedPassword = Fixture.password(8);
-    	final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+    	final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
     	final boolean expectedActive = true;
     	
     	final var expectedErrorCount = 1;
@@ -123,7 +125,7 @@ public class UserTest {
         // given
         final String expectedName = Fixture.name();
         final String expectedPassword = null;
-        final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+        final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
         final boolean expectedActive = true;
 
         final var expectedErrorCount = 1;
@@ -150,7 +152,7 @@ public class UserTest {
     	// given
     	final String expectedName = Fixture.name();
     	final String expectedPassword = Fixture.password(22);
-    	final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+    	final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
     	final boolean expectedActive = true;
     	
     	final var expectedErrorCount = 1;
@@ -176,7 +178,7 @@ public class UserTest {
     	// given
     	final String expectedName = Fixture.name();
     	final String expectedPassword = "   ";
-    	final Set<Role> expectedRoles = Set.of(Fixture.Roles.member());
+    	final Set<RoleID> expectedRoles = Set.of(Fixture.Roles.member().getId());
     	final boolean expectedActive = true;
     	
     	final var expectedErrorCount = 1;
