@@ -26,11 +26,13 @@ public class RoleJpaEntity {
 
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant updatedAt;
+    
+    
 
     public RoleJpaEntity() {
     }
 
-    public RoleJpaEntity(final String id, final String authority,
+    private RoleJpaEntity(final String id, final String authority,
 	    final Instant createdAt, final Instant updatedAt) {
 	this.id = id;
 	this.authority = authority;

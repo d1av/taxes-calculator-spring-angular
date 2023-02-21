@@ -2,6 +2,7 @@ package com.taxes.calculator.infrastructure.role;
 
 import static com.taxes.calculator.infrastructure.utils.SpecificationUtils.like;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -55,13 +56,10 @@ public class RoleMySQLGateway implements RoleGateway {
 
 	final var pageResult = this.repository
 		.findAll(Specification.where(specifications), page);
-    
-	  return new Pagination<>(
-	                pageResult.getNumber(),
-	                pageResult.getSize(),
-	                pageResult.getTotalElements(),
-	                pageResult.map(RoleJpaEntity::toAggregate).toList()
-	        );
+
+	return new Pagination<>(pageResult.getNumber(),
+		pageResult.getSize(), pageResult.getTotalElements(),
+		pageResult.map(RoleJpaEntity::toAggregate).toList());
     }
 
     @Override
@@ -109,6 +107,17 @@ public class RoleMySQLGateway implements RoleGateway {
 	final Specification<RoleJpaEntity> descriptionLike = like(
 		"description", str);
 	return nameLike.or(like("description", str));
+    }
+
+    @Override
+    public Set<RoleID> existsByAuthority(
+	    Iterable<String> authorities) {
+	final List<RoleJpaEntity> ids = StreamSupport
+		.stream(authorities.spliterator(), false)
+		.map(x -> repository.findByAuthority(x).get())
+		.toList();
+	return ids.stream().map(x -> RoleID.from(x.getId()))
+		.collect(Collectors.toSet());
     }
 
 }

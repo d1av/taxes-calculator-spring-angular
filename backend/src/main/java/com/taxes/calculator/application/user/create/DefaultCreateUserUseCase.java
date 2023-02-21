@@ -24,7 +24,6 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 
     public DefaultCreateUserUseCase(final UserGateway userGateway,
 	    final RoleGateway roleGateway) {
-	super();
 	this.userGateway = Objects.requireNonNull(userGateway);
 	this.roleGateway = Objects.requireNonNull(roleGateway);
     }

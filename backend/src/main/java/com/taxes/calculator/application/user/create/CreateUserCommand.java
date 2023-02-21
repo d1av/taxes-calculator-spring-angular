@@ -18,5 +18,4 @@ public record CreateUserCommand(String name, String password,
 		roles);
 
     }
-
 }

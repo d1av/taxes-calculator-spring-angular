@@ -1,5 +1,5 @@
 CREATE TABLE fixed_tax(
-	id CHAR(32) NOT NULL PRIMARY KEY,
+	id CHAR(32) NOT NULL PRIMARY KEY UNIQUE,
 	regional_council BIGINT NOT NULL,
 	tax_over_work BIGINT NOT NULL,   
 	income_tax BIGINT NOT NULL,

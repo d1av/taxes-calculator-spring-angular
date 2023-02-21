@@ -25,6 +25,8 @@ public interface RoleGateway {
     // utils
     Set<RoleID> existsByIds(Iterable<RoleID> roledIds);
     
+    Set<RoleID> existsByAuthority(Iterable<String> authorities);
+    
     Boolean existById(String id);
 
     Optional<Role> findByAuthority(String anAuthority);

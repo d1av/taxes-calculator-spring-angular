@@ -13,6 +13,8 @@ public interface UserGateway {
 
     // read
     Optional<User> findById(UserID anId);
+    
+    Optional<User> findByName(String name);
 
     Pagination<User> findAll(SearchQuery aQuery);
 

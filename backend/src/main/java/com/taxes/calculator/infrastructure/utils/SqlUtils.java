@@ -1,9 +1,10 @@
 package com.taxes.calculator.infrastructure.utils;
 
 import java.util.Objects;
+import java.util.Set;
 
 public final class SqlUtils {
-
+    
     private SqlUtils() {
     }
 
@@ -16,4 +17,5 @@ public final class SqlUtils {
         if (Objects.isNull(term)) return null;
         return term.toUpperCase();
     }
+
 }

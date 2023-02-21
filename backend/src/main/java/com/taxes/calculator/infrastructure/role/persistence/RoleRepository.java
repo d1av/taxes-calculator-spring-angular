@@ -20,5 +20,8 @@ public interface RoleRepository
 
     @Query(value = "select r.id from Role r where r.id in :ids")
     List<String> existsByIds(@Param("ids") List<String> ids);
+    
+    @Query(value = "select r.authority from Role r where r.authority in :authorities")
+    List<String> existsByAuthority(@Param("authorities") List<String> authorities);
 
 }

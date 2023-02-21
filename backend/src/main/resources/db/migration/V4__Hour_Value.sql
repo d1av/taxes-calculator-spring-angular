@@ -1,5 +1,5 @@
 CREATE TABLE hour_value(
-	id CHAR(32) NOT NULL PRIMARY KEY,
+	id CHAR(32) NOT NULL PRIMARY KEY UNIQUE,
 	expected_salary BIGINT NOT NULL,
 	hour_value BIGINT NOT NULL,
 	days_of_work BIGINT NOT NULL,
