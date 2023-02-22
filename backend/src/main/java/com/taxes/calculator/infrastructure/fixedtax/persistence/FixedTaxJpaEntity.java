@@ -22,7 +22,7 @@ import com.taxes.calculator.domain.fixedtax.FixedTaxID;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.utils.InstantUtils;
 
-@Entity(name = "Fixed Tax")
+@Entity(name = "FixedTax")
 @Table(name = "fixed_tax")
 public class FixedTaxJpaEntity {
 

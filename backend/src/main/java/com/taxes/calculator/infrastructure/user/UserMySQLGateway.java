@@ -85,7 +85,9 @@ public class UserMySQLGateway implements UserGateway {
 
     @Override
     public void deleteById(UserID anId) {
-	this.userRepository.deleteById(anId.getValue());
+	if(this.userRepository.existsById(anId.getValue())) {	    
+	    this.userRepository.deleteById(anId.getValue());
+	}
     }
 
     @Override

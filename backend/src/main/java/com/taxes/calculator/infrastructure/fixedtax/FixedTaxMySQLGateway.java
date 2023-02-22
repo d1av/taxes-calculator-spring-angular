@@ -49,26 +49,27 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 		Sort.by(Sort.Direction.fromString(aQuery.direction()),
 			aQuery.sort()));
 
-	final Specification<FixedTaxJpaEntity> specification = Optional
-		.ofNullable(aQuery.terms())
+	// Dynamic Search
+	final var specifications = Optional.ofNullable(aQuery.terms())
 		.filter(str -> !str.isBlank())
 		.map(this::assembleSpecification).orElse(null);
 
-	final Page<FixedTaxJpaEntity> pageResult = this.fixedTaxRepository
-		.findAll(Specification.where(specification), page);
+	final var pageResult = this.fixedTaxRepository
+		.findAll(Specification.where(specifications), page);
 
 	return new Pagination<>(pageResult.getNumber(),
 		pageResult.getSize(), pageResult.getTotalElements(),
-		pageResult.map(FixedTaxJpaEntity::toAggregate)
-			.toList());
+		pageResult.map(FixedTaxJpaEntity::toAggregate).toList());
     }
 
+    @Transactional
     private Specification<FixedTaxJpaEntity> assembleSpecification(
 	    final String str) {
-	final Specification<FixedTaxJpaEntity> termLike = SpecificationUtils
-		.like("id", str);
-	return termLike
-		.or(SpecificationUtils.like("accountant", str));
+	final Specification<FixedTaxJpaEntity> nameLike = SpecificationUtils.like("id",
+		str);
+	final Specification<FixedTaxJpaEntity> descriptionLike = SpecificationUtils.like(
+		"description", str);
+	return nameLike.or(SpecificationUtils.like("id", str));
     }
 
     @Override
