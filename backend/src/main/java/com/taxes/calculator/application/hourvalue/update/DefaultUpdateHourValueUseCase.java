@@ -1,5 +1,6 @@
 package com.taxes.calculator.application.hourvalue.update;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import com.taxes.calculator.application.utils.EntityStatus;
@@ -17,8 +18,16 @@ import com.taxes.calculator.domain.validation.handler.Notification;
 public class DefaultUpdateHourValueUseCase
 	extends UpdateHourValueUseCase {
 
-    private HourValueGateway hourValueGateway;
-    private UserGateway userGateway;
+    private final HourValueGateway hourValueGateway;
+    private final UserGateway userGateway;
+
+    public DefaultUpdateHourValueUseCase(
+	    final HourValueGateway hourValueGateway,
+	    final UserGateway userGateway) {
+	this.hourValueGateway = Objects
+		.requireNonNull(hourValueGateway);
+	this.userGateway = Objects.requireNonNull(userGateway);
+    }
 
     @Override
     public UpdateHourValueOutput execute(

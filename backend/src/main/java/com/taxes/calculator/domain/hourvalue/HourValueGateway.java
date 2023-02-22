@@ -1,6 +1,5 @@
 package com.taxes.calculator.domain.hourvalue;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.taxes.calculator.domain.pagination.Pagination;
@@ -22,6 +21,4 @@ public interface HourValueGateway {
     // delete
     void deleteById(HourValueID anId);
 
-    // utils
-    List<HourValueID> existsByIds(Iterable<HourValueID> ids);
 }

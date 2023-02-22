@@ -33,7 +33,7 @@ public class HourValueJpaEntity {
     @Column(name = "days_of_work", nullable = false)
     private Integer daysOfWork;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hourValue", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserHourValueJpaEntity> user;
 
     @Column(name = "created_at", nullable = false)

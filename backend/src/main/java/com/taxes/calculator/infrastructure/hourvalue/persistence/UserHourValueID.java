@@ -13,11 +13,10 @@ public class UserHourValueID implements Serializable {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name = "hour_value_id", nullable = false)
+    @Column(name = "hour_id", nullable = false)
     private String hourValueId;
 
     public UserHourValueID() {
-	super();
     }
 
     private UserHourValueID(final String userId,

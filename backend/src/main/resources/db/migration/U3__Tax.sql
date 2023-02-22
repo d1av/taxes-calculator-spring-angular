@@ -1,3 +1,3 @@
-DROP TABLE variable_tax;
+DROP TABLE variable_taxes;
 
-DROP TABLE fixed_tax;
+DROP TABLE fixed_taxes;

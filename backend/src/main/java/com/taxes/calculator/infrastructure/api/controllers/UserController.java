@@ -56,7 +56,9 @@ public class UserController implements UserAPI {
     public ResponseEntity<?> createUser(
 	    @Valid CreateUserRequest input)
 	    throws URISyntaxException {
-
+	
+	//TODO: Bycrypt na senha	
+	
 	final var aCommand = CreateUserCommand.with(input.name(),
 		input.password(), input.active(), input.roles());
 

@@ -1,1 +1,1 @@
-DROP TABLE hour_value;
+DROP TABLE hour_values;

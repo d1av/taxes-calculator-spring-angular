@@ -1,4 +1,4 @@
-CREATE TABLE hour_value(
+CREATE TABLE hour_values(
 	id CHAR(32) NOT NULL PRIMARY KEY UNIQUE,
 	expected_salary BIGINT NOT NULL,
 	hour_value BIGINT NOT NULL,

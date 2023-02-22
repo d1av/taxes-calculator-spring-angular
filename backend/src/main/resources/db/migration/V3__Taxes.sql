@@ -1,4 +1,4 @@
-CREATE TABLE fixed_tax(
+CREATE TABLE fixed_taxes(
 	id CHAR(32) NOT NULL PRIMARY KEY UNIQUE,
 	regional_council BIGINT NOT NULL,
 	tax_over_work BIGINT NOT NULL,   
@@ -13,7 +13,7 @@ CREATE TABLE fixed_tax(
     updated_at DATETIME(6) NOT NULL
 );
 
-CREATE TABLE variable_tax(
+CREATE TABLE variable_taxes(
 	id CHAR(32) NOT NULL PRIMARY KEY,
 	regional_council BIGINT NOT NULL,
 	dental_shop BIGINT NOT NULL,
