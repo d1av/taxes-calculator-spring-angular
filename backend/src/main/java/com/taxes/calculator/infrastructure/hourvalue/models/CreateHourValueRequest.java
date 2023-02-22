@@ -1,10 +1,12 @@
 package com.taxes.calculator.infrastructure.hourvalue.models;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record CreateHourValueRequest(
-	@JsonProperty("expectedSalary") String expectedSalary,
-	@JsonProperty("personalHourValue") String personalHourValue,
+	@JsonProperty("expectedSalary") BigDecimal expectedSalary,
+	@JsonProperty("personalHourValue") BigDecimal personalHourValue,
 	@JsonProperty("daysOfWork") Integer daysOfWork,
 	@JsonProperty("user") String user) {
 

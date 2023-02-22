@@ -9,7 +9,7 @@ CREATE TABLE users_fixedtaxes(
 CREATE TABLE users_hourvalues(
 	user_id CHAR(32) NOT NULL,
 	hour_value_id CHAR(32) NOT NULL,
-	CONSTRAINT idx_hvu_hour_user UNIQUE (user_id,hour_value_id),
+	CONSTRAINT idx_hvu_hour_user UNIQUE (user_id, hour_value_id),
 	CONSTRAINT fk_hvu_hour_value_id FOREIGN KEY (hour_value_id) REFERENCES hour_values (id),
 	CONSTRAINT fk_hvu_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );

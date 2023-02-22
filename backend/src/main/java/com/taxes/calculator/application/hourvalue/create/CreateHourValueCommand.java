@@ -26,4 +26,11 @@ public record CreateHourValueCommand(BigDecimal expectedSalary,
 	return new CreateHourValueCommand(aSalary, aPersonalValue,
 		aDaysOfWork, userId);
     }
+
+    public static CreateHourValueCommand with(
+	    BigDecimal expectedSalary, BigDecimal personalHourValue,
+	    Integer daysOfWork, String userId) {
+	return new CreateHourValueCommand(expectedSalary,
+		personalHourValue, daysOfWork, userId);
+    }
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class HourValueJpaEntity {
     @Column(name = "expected_salary", nullable = false)
     private BigDecimal expectedSalary;
 
-    @Column(name = "personal_hour_value", nullable = false)
+    @Column(name = "hour_value", nullable = false)
     private BigDecimal personalHourValue;
 
     @Column(name = "days_of_work", nullable = false)
@@ -71,7 +72,7 @@ public class HourValueJpaEntity {
     }
 
     private void addUser(UserID userId) {
-	this.user.add(UserHourValueJpaEntity.from(userId, this));	
+	this.user.add(UserHourValueJpaEntity.from(userId, this));
     }
 
     public HourValue toAggregate() {
@@ -82,8 +83,10 @@ public class HourValueJpaEntity {
 
     public UserID getUserID() {
 	if (!this.user.isEmpty()) {
-	    return this.user.iterator().next().getHourValue()
-		    .getUserID();
+	    final var userId = this.user.stream()
+		    .map(x -> UserID.from(x.getId().getUserId()))
+		    .toList();
+	    return userId.get(0);
 	}
 	return null;
     }

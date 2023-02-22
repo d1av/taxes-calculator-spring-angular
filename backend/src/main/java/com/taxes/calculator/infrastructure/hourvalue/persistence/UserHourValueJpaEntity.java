@@ -20,7 +20,7 @@ public class UserHourValueJpaEntity {
     private UserHourValueID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
+    @MapsId("hourValueId")
     private HourValueJpaEntity hourValue;
 
     public UserHourValueJpaEntity() {
