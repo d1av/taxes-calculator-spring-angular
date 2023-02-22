@@ -9,7 +9,6 @@ CREATE TABLE fixed_tax(
 	food BIGINT NOT NULL,
 	education BIGINT NOT NULL,
 	other_fixed_costs BIGINT NOT NULL,
-    user_id CHAR(32) NULL,
 	created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL
 );

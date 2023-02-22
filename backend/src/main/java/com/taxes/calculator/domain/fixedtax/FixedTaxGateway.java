@@ -1,6 +1,5 @@
 package com.taxes.calculator.domain.fixedtax;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.taxes.calculator.domain.pagination.Pagination;
@@ -21,7 +20,4 @@ public interface FixedTaxGateway {
 
     // delete
     void deleteById(FixedTaxID anId);
-
-    // utils
-    List<FixedTaxID> existsByIds(Iterable<FixedTaxID> ids);
 }

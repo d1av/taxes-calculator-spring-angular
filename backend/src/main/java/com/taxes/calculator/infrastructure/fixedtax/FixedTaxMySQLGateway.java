@@ -1,11 +1,14 @@
 package com.taxes.calculator.infrastructure.fixedtax;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.taxes.calculator.domain.fixedtax.FixedTax;
@@ -15,6 +18,7 @@ import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxJpaEntity;
 import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxRepository;
+import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 
 @Service
 public class FixedTaxMySQLGateway implements FixedTaxGateway {
@@ -34,32 +38,50 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     @Override
     public Optional<FixedTax> findById(FixedTaxID anId) {
-	// TODO Auto-generated method stub
-	return Optional.empty();
+	return this.fixedTaxRepository.findById(anId.getValue())
+		.map(FixedTaxJpaEntity::toAggregate);
     }
 
     @Override
     public Pagination<FixedTax> findAll(SearchQuery aQuery) {
-	// TODO Auto-generated method stub
-	return null;
+	final var page = PageRequest.of(aQuery.page(),
+		aQuery.perPage(),
+		Sort.by(Sort.Direction.fromString(aQuery.direction()),
+			aQuery.sort()));
+
+	final Specification<FixedTaxJpaEntity> specification = Optional
+		.ofNullable(aQuery.terms())
+		.filter(str -> !str.isBlank())
+		.map(this::assembleSpecification).orElse(null);
+
+	final Page<FixedTaxJpaEntity> pageResult = this.fixedTaxRepository
+		.findAll(Specification.where(specification), page);
+
+	return new Pagination<>(pageResult.getNumber(),
+		pageResult.getSize(), pageResult.getTotalElements(),
+		pageResult.map(FixedTaxJpaEntity::toAggregate)
+			.toList());
+    }
+
+    private Specification<FixedTaxJpaEntity> assembleSpecification(
+	    final String str) {
+	final Specification<FixedTaxJpaEntity> termLike = SpecificationUtils
+		.like("id", str);
+	return termLike
+		.or(SpecificationUtils.like("accountant", str));
     }
 
     @Override
     public FixedTax update(FixedTax aFixedTax) {
-	// TODO Auto-generated method stub
-	return null;
+	return save(aFixedTax);
     }
 
     @Override
     public void deleteById(FixedTaxID anId) {
-	// TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public List<FixedTaxID> existsByIds(Iterable<FixedTaxID> ids) {
-	// TODO Auto-generated method stub
-	return null;
+	if (!this.fixedTaxRepository.findById(anId.getValue())
+		.isEmpty()) {
+	    this.fixedTaxRepository.deleteById(anId.getValue());
+	}
     }
 
     @Transactional

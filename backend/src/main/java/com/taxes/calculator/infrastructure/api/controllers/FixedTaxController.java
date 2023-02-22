@@ -15,8 +15,10 @@ import com.taxes.calculator.application.fixedtax.create.CreateFixedTaxUseCase;
 import com.taxes.calculator.application.fixedtax.delete.DeleteFixedTaxUseCase;
 import com.taxes.calculator.application.fixedtax.retrieve.get.GetFixedTaxByIdUseCase;
 import com.taxes.calculator.application.fixedtax.retrieve.list.ListFixedTaxUseCase;
+import com.taxes.calculator.application.fixedtax.update.UpdateFixedTaxCommand;
 import com.taxes.calculator.application.fixedtax.update.UpdateFixedTaxUseCase;
 import com.taxes.calculator.domain.pagination.Pagination;
+import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.infrastructure.api.FixedTaxAPI;
 import com.taxes.calculator.infrastructure.fixedtax.models.CreateFixedTaxRequest;
@@ -29,14 +31,14 @@ public class FixedTaxController implements FixedTaxAPI {
     private final CreateFixedTaxUseCase createFixedTaxUseCase;
     private final UpdateFixedTaxUseCase updateFixedTaxUseCase;
     private final DeleteFixedTaxUseCase deleteFixedTaxUseCase;
-    private final GetFixedTaxByIdUseCase getRoleByIdUseCase;
+    private final GetFixedTaxByIdUseCase getFixedTaxByIdUseCase;
     private final ListFixedTaxUseCase listFixedTaxUseCase;
 
     public FixedTaxController(
 	    final CreateFixedTaxUseCase createFixedTaxUseCase,
 	    final UpdateFixedTaxUseCase updateFixedTaxUseCase,
 	    final DeleteFixedTaxUseCase deleteFixedTaxUseCase,
-	    final GetFixedTaxByIdUseCase getRoleByIdUseCase,
+	    final GetFixedTaxByIdUseCase getFixedTaxByIdUseCase,
 	    final ListFixedTaxUseCase listFixedTaxUseCase) {
 	this.createFixedTaxUseCase = Objects
 		.requireNonNull(createFixedTaxUseCase);
@@ -44,8 +46,8 @@ public class FixedTaxController implements FixedTaxAPI {
 		.requireNonNull(updateFixedTaxUseCase);
 	this.deleteFixedTaxUseCase = Objects
 		.requireNonNull(deleteFixedTaxUseCase);
-	this.getRoleByIdUseCase = Objects
-		.requireNonNull(getRoleByIdUseCase);
+	this.getFixedTaxByIdUseCase = Objects
+		.requireNonNull(getFixedTaxByIdUseCase);
 	this.listFixedTaxUseCase = Objects
 		.requireNonNull(listFixedTaxUseCase);
     }
@@ -74,27 +76,37 @@ public class FixedTaxController implements FixedTaxAPI {
     public Pagination<FixedTaxListResponse> listFixedTaxs(
 	    String search, int page, int perPage, String sort,
 	    String direction) {
-	// TODO Auto-generated method stub
-	return null;
+	return this.listFixedTaxUseCase
+		.execute(new SearchQuery(page, perPage, search, sort,
+			direction))
+		.map(FixedTaxListResponse::present);
     }
 
     @Override
     public ResponseEntity<?> getById(String id) {
-	// TODO Auto-generated method stub
-	return null;
+	final var output = this.getFixedTaxByIdUseCase.execute(id);
+	return ResponseEntity.ok().body(output);
     }
 
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateFixedTaxRequest input) {
-	// TODO Auto-generated method stub
-	return null;
+	final var aCommand = UpdateFixedTaxCommand.with(id,
+		input.regionalCouncil(), input.taxOverWork(),
+		input.incomeTax(), input.accountant(),
+		input.dentalShop(), input.transport(), input.food(),
+		input.education(), input.otherFixedCosts(),
+		UserID.from(input.userId()));
+
+	final var output = this.updateFixedTaxUseCase
+		.execute(aCommand);
+	return ResponseEntity.ok().body(output);
     }
 
     @Override
     public ResponseEntity<?> deleteById(String id) {
-	// TODO Auto-generated method stub
-	return null;
+	this.deleteFixedTaxUseCase.execute(id);
+	return ResponseEntity.noContent().build();
     }
 
 }
