@@ -5,16 +5,11 @@ import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.taxes.calculator.domain.role.RoleID;
-import com.taxes.calculator.domain.user.User;
-import com.taxes.calculator.domain.user.UserID;
-import com.taxes.calculator.infrastructure.role.persistence.RoleJpaEntity;
 
 @Entity(name = "UserRole")
 @Table(name = "users_roles")
@@ -23,7 +18,7 @@ public class UserRoleJpaEntity {
     @EmbeddedId
     private UserRoleID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     private UserJpaEntity user;
 

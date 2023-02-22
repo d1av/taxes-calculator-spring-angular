@@ -23,7 +23,6 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     public FixedTaxMySQLGateway(
 	    final FixedTaxRepository fixedTaxRepository) {
-	super();
 	this.fixedTaxRepository = Objects
 		.requireNonNull(fixedTaxRepository);
     }
@@ -65,9 +64,9 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     @Transactional
     private FixedTax save(FixedTax aFixedTax) {
-	return this.fixedTaxRepository
-		.save(FixedTaxJpaEntity.from(aFixedTax))
-		.toAggregate();
+	final var anEntity = this.fixedTaxRepository
+		.save(FixedTaxJpaEntity.from(aFixedTax));
+	return aFixedTax;
     }
 
 }

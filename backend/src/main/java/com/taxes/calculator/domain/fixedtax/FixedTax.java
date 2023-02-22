@@ -65,6 +65,20 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 		aFood, aEducation, aOtherFixedCosts, null, now, now);
     }
 
+    public static FixedTax with(final FixedTaxID id,
+	    final BigDecimal aRegionalCouncil,
+	    final BigDecimal aTaxOverWork,
+	    final BigDecimal aIncomeTax, final BigDecimal aAccountant,
+	    final BigDecimal aDentalShop, final BigDecimal aTransport,
+	    final BigDecimal aFood, final BigDecimal aEducation,
+	    final BigDecimal aOtherFixedCosts, final UserID aUser,
+	    final Instant aCreatedAt, final Instant aUpdatedAt) {
+	return new FixedTax(id, aRegionalCouncil, aTaxOverWork,
+		aIncomeTax, aAccountant, aDentalShop, aTransport,
+		aFood, aEducation, aOtherFixedCosts, aUser,
+		aCreatedAt, aUpdatedAt);
+    }
+
     public static FixedTax with(final BigDecimal aRegionalCouncil,
 	    final BigDecimal aTaxOverWork,
 	    final BigDecimal aIncomeTax, final BigDecimal aAccountant,
@@ -95,9 +109,9 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	this.food = aFood;
 	this.education = aEducation;
 	this.otherFixedCosts = aOtherFixedCosts;
-	
+
 	selfValidate();
-	
+
 	return this;
     }
 
@@ -125,11 +139,9 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 		    notification);
 	}
     }
-    
-    
 
     public BigDecimal getRegionalCouncil() {
-        return regionalCouncil;
+	return regionalCouncil;
     }
 
     public FixedTaxID getId() {
@@ -139,7 +151,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
     public UserID getUser() {
 	return user;
     }
-    
+
     public BigDecimal userIdString() {
 	return regionalCouncil;
     }

@@ -2,7 +2,6 @@ package com.taxes.calculator.infrastructure.user.persistence;
 
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,10 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,7 +18,6 @@ import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.utils.InstantUtils;
-import com.taxes.calculator.infrastructure.role.persistence.RoleJpaEntity;
 
 @Entity(name = "User")
 @Table(name = "users")
@@ -42,7 +36,7 @@ public class UserJpaEntity {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRoleJpaEntity> roles;
 
     @Column(name = "created_at", nullable = false)

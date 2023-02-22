@@ -33,8 +33,8 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 	final var aActive = anIn.isActive();
 	final var roles = anIn.rolesId();
 
-	final Set<RoleID> ids = roles.stream().map(RoleID::from)
-		.collect(Collectors.toSet());
+	final Set<RoleID> ids = roles != null ? roles.stream()
+		.map(RoleID::from).collect(Collectors.toSet()) : null;
 
 	final var notification = Notification.create();
 	notification.append(validateRoles(ids));
@@ -44,7 +44,7 @@ public class DefaultCreateUserUseCase extends CreateUserUseCase {
 
 	    if (!retrievedRoles.containsAll(ids)) {
 		throw NotificationException
-		.with(new Error("Roles ids are invalid"));		
+			.with(new Error("Roles ids are invalid"));
 	    }
 	    aUser.addRoles(ids);
 	}

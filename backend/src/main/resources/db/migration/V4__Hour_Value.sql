@@ -5,6 +5,5 @@ CREATE TABLE hour_value(
 	days_of_work BIGINT NOT NULL,
     user_id CHAR(32) NULL,
 	created_at DATETIME(6) NOT NULL,
-    updated_at DATETIME(6) NOT NULL,
-    CONSTRAINT fk_user_hour_value FOREIGN KEY (user_id) REFERENCES users (id)  
+    updated_at DATETIME(6) NOT NULL
 );

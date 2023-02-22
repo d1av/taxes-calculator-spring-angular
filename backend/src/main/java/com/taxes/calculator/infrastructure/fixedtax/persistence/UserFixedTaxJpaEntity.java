@@ -1,20 +1,24 @@
 package com.taxes.calculator.infrastructure.fixedtax.persistence;
 
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import com.taxes.calculator.domain.fixedtax.FixedTaxID;
 import com.taxes.calculator.domain.user.UserID;
-import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 
+@Entity(name = "UserFixedTax")
+@Table(name = "users_fixedtaxes")
 public class UserFixedTaxJpaEntity {
    
     @EmbeddedId
     private UserFixedTaxID id;
 
-    @ManyToOne
-    @MapsId("userId")
+    @OneToOne
+    @MapsId("fixed_tax_id")
     private FixedTaxJpaEntity fixedTax;
 
     public UserFixedTaxJpaEntity() {

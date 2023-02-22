@@ -11,8 +11,7 @@ CREATE TABLE fixed_tax(
 	other_fixed_costs BIGINT NOT NULL,
     user_id CHAR(32) NULL,
 	created_at DATETIME(6) NOT NULL,
-    updated_at DATETIME(6) NOT NULL,
-    CONSTRAINT fk_user_fixed_tax FOREIGN KEY (user_id) REFERENCES users (id)  
+    updated_at DATETIME(6) NOT NULL
 );
 
 CREATE TABLE variable_tax(
@@ -26,6 +25,5 @@ CREATE TABLE variable_tax(
 	other_fixed_costs BIGINT NOT NULL,
     user_id CHAR(32) NULL,
 	created_at DATETIME(6) NOT NULL,
-    updated_at DATETIME(6) NOT NULL,
-    CONSTRAINT fk_user_variable_tax FOREIGN KEY (user_id) REFERENCES users (id)  
+    updated_at DATETIME(6) NOT NULL
 );

@@ -80,6 +80,7 @@ public class RoleMySQLGateway implements RoleGateway {
 	final var ids = StreamSupport
 		.stream(rolesIds.spliterator(), false)
 		.map(RoleID::getValue).toList();
+	
 	return this.repository.existsByIds(ids).stream()
 		.map(RoleID::from).collect(Collectors.toSet());
     }
