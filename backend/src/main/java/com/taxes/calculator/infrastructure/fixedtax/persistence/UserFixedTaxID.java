@@ -15,7 +15,7 @@ public class UserFixedTaxID implements Serializable {
     private String userId;
 
     @Column(name = "fixed_tax_id", nullable = false)
-    private String fixedTaxId;
+    private String fixedTax;
 
     public UserFixedTaxID() {
     }
@@ -23,7 +23,7 @@ public class UserFixedTaxID implements Serializable {
     private UserFixedTaxID(final String userId,
 	    final String fixedTaxId) {
 	this.userId = userId;
-	this.fixedTaxId = fixedTaxId;
+	this.fixedTax = fixedTaxId;
     }
 
     public static UserFixedTaxID from(final String userId,
@@ -33,7 +33,7 @@ public class UserFixedTaxID implements Serializable {
 
     @Override
     public int hashCode() {
-	return Objects.hash(fixedTaxId, userId);
+	return Objects.hash(fixedTax, userId);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserFixedTaxID implements Serializable {
 	if (getClass() != obj.getClass())
 	    return false;
 	UserFixedTaxID other = (UserFixedTaxID) obj;
-	return Objects.equals(fixedTaxId, other.fixedTaxId)
+	return Objects.equals(fixedTax, other.fixedTax)
 		&& Objects.equals(userId, other.userId);
     }
 
@@ -58,11 +58,11 @@ public class UserFixedTaxID implements Serializable {
     }
 
     public String getFixedTaxId() {
-        return fixedTaxId;
+        return fixedTax;
     }
 
     public void setFixedTaxId(String fixedTaxId) {
-        this.fixedTaxId = fixedTaxId;
+        this.fixedTax = fixedTaxId;
     }
 
     public static long getSerialversionuid() {
