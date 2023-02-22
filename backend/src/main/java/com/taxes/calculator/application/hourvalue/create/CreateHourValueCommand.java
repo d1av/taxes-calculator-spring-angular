@@ -14,7 +14,7 @@ public record CreateHourValueCommand(BigDecimal expectedSalary,
 		aHourValue.getExpectedSalary(),
 		aHourValue.getPersonalHourValue(),
 		aHourValue.getDaysOfWork(),
-		aHourValue.getUser().getId().getValue());
+		aHourValue.getUserId().getValue());
     }
 
     public static CreateHourValueCommand from(BigDecimal aSalary,

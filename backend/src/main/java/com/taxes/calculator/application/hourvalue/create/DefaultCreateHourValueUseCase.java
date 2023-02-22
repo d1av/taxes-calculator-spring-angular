@@ -73,9 +73,9 @@ public class DefaultCreateHourValueUseCase
 	return notification;
     }
 
-    private User foundedUser(Optional<User> aUser) {
+    private UserID foundedUser(Optional<User> aUser) {
 	if (aUser.isPresent()) {
-	    return aUser.get();
+	    return aUser.get().getId();
 	}
 	return null;
     }

@@ -9,8 +9,8 @@ public record GetHourValueByIdOutput(String id,
 	Integer daysOfWork, String userId) {
     public static GetHourValueByIdOutput from(
 	    final HourValue aHourValue) {
-	final var anUser = aHourValue.getUser() != null
-		? aHourValue.getUser().getId().getValue()
+	final var anUser = aHourValue.getUserId() != null
+		? aHourValue.getUserId().getValue()
 		: null;
 	return new GetHourValueByIdOutput(
 		aHourValue.getId().getValue(),

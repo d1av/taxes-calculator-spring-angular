@@ -74,7 +74,7 @@ class CreateHourValueUseCaseTest extends UseCaseTest {
 			&& Objects.equals(expectedDaysOfWork,
 				aHourValue.getDaysOfWork())
 			&& Objects.equals(expectedUser.getId(),
-				aHourValue.getUser().getId())));
+				aHourValue.getUserId())));
     }
 
     @Test
@@ -106,7 +106,7 @@ class CreateHourValueUseCaseTest extends UseCaseTest {
 			&& Objects.equals(expectedDaysOfWork,
 				aHourValue.getDaysOfWork())
 			&& Objects.equals(expectedUser,
-				aHourValue.getUser())));
+				aHourValue.getUserId())));
     }
 
     @Test

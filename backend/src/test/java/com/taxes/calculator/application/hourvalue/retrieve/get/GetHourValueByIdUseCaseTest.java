@@ -19,6 +19,7 @@ import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.hourvalue.HourValueID;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 
 class GetHourValueByIdUseCaseTest extends UseCaseTest {
 
@@ -43,7 +44,7 @@ class GetHourValueByIdUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedPersonalHourValue = aHourValue
 		.getPersonalHourValue();
 	final Integer expectedDaysOfWork = aHourValue.getDaysOfWork();
-	final User expectedUser = aHourValue.getUser();
+	final UserID expectedUser = aHourValue.getUserId();
 
 	when(hourValueGateway.findById(any()))
 		.thenReturn(Optional.of(aHourValue));

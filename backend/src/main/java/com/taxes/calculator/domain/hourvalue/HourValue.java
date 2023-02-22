@@ -7,6 +7,7 @@ import java.util.Objects;
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
@@ -17,20 +18,20 @@ public class HourValue extends AggregateRoot<HourValueID> {
     private BigDecimal expectedSalary;
     private BigDecimal personalHourValue;
     private Integer daysOfWork;
-    private User user;
+    private UserID userId;
     private final Instant createdAt;
     private Instant updatedAt;
 
     private HourValue(final HourValueID id,
 	    final BigDecimal expectedSalary,
 	    final BigDecimal personalHourValue,
-	    final Integer daysOfWork, final User user,
+	    final Integer daysOfWork, final UserID userId,
 	    final Instant createdAt, final Instant updatedAt) {
 	super(id);
 	this.expectedSalary = expectedSalary;
 	this.personalHourValue = personalHourValue;
 	this.daysOfWork = daysOfWork;
-	this.user = user;
+	this.userId = userId;
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
 
@@ -54,13 +55,23 @@ public class HourValue extends AggregateRoot<HourValueID> {
     public static HourValue with(final HourValue aHourValue) {
 	return new HourValue(aHourValue.id, aHourValue.expectedSalary,
 		aHourValue.personalHourValue, aHourValue.daysOfWork,
-		aHourValue.user, aHourValue.createdAt,
+		aHourValue.userId, aHourValue.createdAt,
 		aHourValue.getUpdatedAt());
     }
 
-    public HourValue addUser(final User aUser) {
-	if (this.user == null) {
-	    this.user = aUser;
+    public static HourValue with(final String id,
+	    final BigDecimal expectedSalary,
+	    final BigDecimal personalHourValue,
+	    final Integer daysOfWork, final Instant createdAt,
+	    final Instant updatedAt, UserID userId) {
+	return new HourValue(HourValueID.from(id), expectedSalary,
+		personalHourValue, daysOfWork, userId, createdAt,
+		updatedAt);
+    }
+
+    public HourValue addUser(final UserID aUser) {
+	if (this.userId == null) {
+	    this.userId = aUser;
 	    this.updatedAt = InstantUtils.now();
 	}
 
@@ -90,8 +101,8 @@ public class HourValue extends AggregateRoot<HourValueID> {
 	}
     }
 
-    public User getUser() {
-	return user;
+    public UserID getUserId() {
+	return userId;
     }
 
     public HourValueID getId() {

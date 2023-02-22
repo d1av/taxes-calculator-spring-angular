@@ -86,7 +86,7 @@ class UpdateHourValueUseCaseTest extends UseCaseTest {
 				aHour.getDaysOfWork())
 			&& Objects.equals(
 				expectedUser.getId().getValue(),
-				aHour.getUser().getId().getValue())));
+				aHour.getUserId().getValue())));
     }
 
     @Test

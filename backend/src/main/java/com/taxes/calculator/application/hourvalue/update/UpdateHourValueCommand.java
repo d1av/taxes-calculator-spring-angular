@@ -14,7 +14,7 @@ public record UpdateHourValueCommand(String id,
 		aHourValue.getExpectedSalary(),
 		aHourValue.getPersonalHourValue(),
 		aHourValue.getDaysOfWork(),
-		aHourValue.getUser().getId().getValue());
+		aHourValue.getUserId().getValue());
     }
 
     public static UpdateHourValueCommand with(final String id,

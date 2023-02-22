@@ -58,9 +58,9 @@ public class DefaultUpdateHourValueUseCase
 	return UpdateHourValueOutput.from(aHourValue);
     }
 
-    private User getValidUser(Optional<User> aUser) {
+    private UserID getValidUser(Optional<User> aUser) {
 	if (aUser.isPresent()) {
-	    return aUser.get();
+	    return aUser.get().getId();
 	}
 	return null;
     }
