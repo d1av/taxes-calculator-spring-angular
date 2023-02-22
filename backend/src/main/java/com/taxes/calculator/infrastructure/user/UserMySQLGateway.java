@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -56,6 +58,7 @@ public class UserMySQLGateway implements UserGateway {
     }
 
     @Override
+    @Transactional
     public Pagination<User> findAll(SearchQuery aQuery) {
 	final var page = PageRequest.of(aQuery.page(),
 		aQuery.perPage(),
@@ -94,6 +97,7 @@ public class UserMySQLGateway implements UserGateway {
 		.map(UserID::from).collect(Collectors.toList());
     }
 
+    @Transactional
     private Specification<UserJpaEntity> assembleSpecification(
 	    final String str) {
 	final Specification<UserJpaEntity> nameLike = like("name",
@@ -103,6 +107,7 @@ public class UserMySQLGateway implements UserGateway {
 	return nameLike.or(like("description", str));
     }
 
+    @Transactional
     private User save(User aUser) {
 	return this.userRepository.save(UserJpaEntity.from(aUser))
 		.toAggregate();

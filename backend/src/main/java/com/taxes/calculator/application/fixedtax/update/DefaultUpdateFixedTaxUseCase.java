@@ -1,15 +1,13 @@
 package com.taxes.calculator.application.fixedtax.update;
 
-import java.util.List;
 import java.util.Objects;
 
 import com.taxes.calculator.application.utils.EntityStatus;
-import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
 import com.taxes.calculator.domain.fixedtax.FixedTaxID;
-import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
+import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.validation.Error;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
@@ -54,9 +52,12 @@ public class DefaultUpdateFixedTaxUseCase
 	    notification.append(validateUser(user));
 	    aFixedTax.addUser(user);
 	} else {
-	    notification.append(new Error("User should not be null on update."));
-	    throw new NotificationException("User should not be null on update.",notification);
-		    
+	    notification.append(
+		    new Error("User should not be null on update."));
+	    throw new NotificationException(
+		    "User should not be null on update.",
+		    notification);
+
 	}
 
 	notification.validate(() -> aFixedTax.update(regionalCouncil,
@@ -73,15 +74,15 @@ public class DefaultUpdateFixedTaxUseCase
 		.from(this.fixedTaxGateway.update(aFixedTax));
     }
 
-    private ValidationHandler validateUser(User user) {
+    private ValidationHandler validateUser(UserID userId) {
 	final var notification = Notification.create();
 
-	final var aUser = userGateway.findById(user.getId());
+	final var aUser = userGateway.findById(userId);
 
 	if (aUser.isEmpty()) {
 	    notification.append(
 		    new Error("User could not be found with id: %s"
-			    .formatted(user.getId().getValue())));
+			    .formatted(userId.getValue())));
 	}
 
 	return notification;

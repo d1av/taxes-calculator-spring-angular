@@ -56,13 +56,14 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	when(fixedTaxGateway.create(any()))
 		.thenAnswer(returnsFirstArg());
@@ -87,7 +88,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	assertEquals(expectedOtherFixedCosts,
 		actualOutput.otherFixedCosts());
 	assertEquals(expectedUser.getId().getValue(),
-		actualOutput.user().getId().getValue());
+		actualOutput.user().getValue());
 
 	Mockito.verify(fixedTaxGateway, times(1))
 		.create(argThat(aTax -> Objects.nonNull(aTax.getId())
@@ -109,7 +110,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 				aTax.getEducation())
 			&& Objects.equals(expectedOtherFixedCosts,
 				aTax.getOtherFixedCosts())
-			&& Objects.equals(expectedUser,
+			&& Objects.equals(expectedUserId,
 				aTax.getUser())));
     }
 
@@ -125,7 +126,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
@@ -193,6 +194,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'regionalCouncil' should not be null";
 	final var expectedErrorCount = 1;
@@ -202,7 +204,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -233,6 +235,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'taxOverWork' should not be null";
 	final var expectedErrorCount = 1;
@@ -242,7 +245,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -273,6 +276,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'incomeTax' should not be null";
 	final var expectedErrorCount = 1;
@@ -282,7 +286,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -314,6 +318,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'accountant' should not be null";
 	final var expectedErrorCount = 1;
@@ -323,7 +328,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -355,6 +360,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'dentalShop' should not be null";
 	final var expectedErrorCount = 1;
@@ -364,7 +370,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -396,6 +402,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'transport' should not be null";
 	final var expectedErrorCount = 1;
@@ -405,7 +412,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -437,6 +444,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'food' should not be null";
 	final var expectedErrorCount = 1;
@@ -446,7 +454,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -478,6 +486,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'education' should not be null";
 	final var expectedErrorCount = 1;
@@ -487,7 +496,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -518,7 +527,8 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedEducation = BigDecimal.valueOf(4);
 	final BigDecimal expectedOtherFixedCosts = null;
 	final var expectedUser = Fixture.Users.abella();
-
+	final var expectedUserId = expectedUser.getId();
+	
 	final var expectedErrorMessage = "'otherFixedCosts' should not be null";
 	final var expectedErrorCount = 1;
 
@@ -527,7 +537,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -560,6 +570,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		.valueOf(4);
 	final var invalidUser = User.newUser(UserID.from("INVALID_USER"),
 		"Mia", "MiaMiaMia", true);
+	final var expectedUserId = invalidUser.getId();
 
 	final var expectedErrorMessage = "User could not be found with id: INVALID_USER";
 	final var expectedErrorCount = 1;
@@ -569,7 +580,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		invalidUser);
+		expectedUserId);
 
 	when(userGateway.findById(any()))
 		.thenReturn(Optional.empty());

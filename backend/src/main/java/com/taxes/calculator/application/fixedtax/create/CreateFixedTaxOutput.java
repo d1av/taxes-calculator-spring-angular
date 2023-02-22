@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 
 import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 
 public record CreateFixedTaxOutput(String id,
 	BigDecimal regionalCouncil, BigDecimal taxOverWork,
 	BigDecimal incomeTax, BigDecimal accountant,
 	BigDecimal dentalShop, BigDecimal transport, BigDecimal food,
-	BigDecimal education, BigDecimal otherFixedCosts, User user) {
+	BigDecimal education, BigDecimal otherFixedCosts, UserID user) {
 
     public static CreateFixedTaxOutput from(final FixedTax aTax) {
 	return new CreateFixedTaxOutput(aTax.getId().getValue(),

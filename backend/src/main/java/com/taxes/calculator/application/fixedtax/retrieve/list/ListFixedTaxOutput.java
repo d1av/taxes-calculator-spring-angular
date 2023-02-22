@@ -21,6 +21,6 @@ public record ListFixedTaxOutput(String id,
 		aTax.getDentalShop(), aTax.getTransport(),
 		aTax.getFood(), aTax.getEducation(),
 		aTax.getOtherFixedCosts(), userIdString == null ? null
-			: userIdString.getId().getValue());
+			: userIdString.getValue());
     }
 }

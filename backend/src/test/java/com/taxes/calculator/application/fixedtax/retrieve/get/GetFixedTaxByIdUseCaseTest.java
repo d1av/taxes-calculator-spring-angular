@@ -54,6 +54,7 @@ class GetFixedTaxByIdUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.asa();
+	final var expectedUserId = expectedUser.getId();
 
 	final var aFixedTax = FixedTax.newFixedTax(
 		expectedRegionalCouncil, expectedTaxOverWork,
@@ -61,7 +62,7 @@ class GetFixedTaxByIdUseCaseTest extends UseCaseTest {
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts);
 
-	aFixedTax.addUser(expectedUser);
+	aFixedTax.addUser(expectedUserId);
 
 	final var anId = aFixedTax.getId();
 
@@ -100,13 +101,14 @@ class GetFixedTaxByIdUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.asa();
+	final var expectedUserId = expectedUser.getId();
 
 	final var aFixedTax = FixedTax.newFixedTax(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts);
-	aFixedTax.addUser(expectedUser);
+	aFixedTax.addUser(expectedUserId);
 
 	final var expectedErrorMessage = "VariableTax with ID INVALID_ID was not found";
 	final var expectedErrorCount = 1;

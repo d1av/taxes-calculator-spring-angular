@@ -59,14 +59,16 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
-	final var expectedUser = aFixedTax.getUser();
+	final var expectedUserId = aFixedTax.getUser();
+	final var expectedUser = User.newUser(expectedUserId,
+		"Asa Akira", "asaakira", true);
 
 	final var aCommand = UpdateFixedTaxCommand.with(expectedId,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -94,7 +96,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	assertEquals(expectedOtherFixedCosts,
 		actualOutput.otherFixedCosts());
 	assertEquals(expectedUser.getId().getValue(),
-		actualOutput.user().getId().getValue());
+		actualOutput.user().getValue());
 
 	Mockito.verify(fixedTaxGateway, times(1))
 		.update(argThat(aTax -> Objects.nonNull(aTax.getId())
@@ -116,8 +118,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 				aTax.getEducation())
 			&& Objects.equals(expectedOtherFixedCosts,
 				aTax.getOtherFixedCosts())
-			&& Objects.equals(expectedUser,
-				aTax.getUser())));
+			&& Objects.equals(expectedUserId,
+				aTax.getUser())
+			));
     }
 
     @Test
@@ -135,7 +138,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorMessage = "User should not be null on update.";
 	final var expectedErrorSize = 1;
@@ -181,6 +184,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'regionalCouncil' should not be null";
 	final var expectedErrorCount = 1;
@@ -196,7 +200,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -232,6 +236,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'taxOverWork' should not be null";
 	final var expectedErrorCount = 1;
@@ -241,7 +246,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
 		expectedEducation, expectedOtherFixedCosts,
-		expectedUser);
+		expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -281,6 +286,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedEducation = BigDecimal.valueOf(8);
 	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'incomeTax' should not be null";
 	final var expectedErrorCount = 1;
@@ -290,7 +296,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -311,7 +317,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.firstError().message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUserId));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -335,6 +341,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'accountant' should not be null";
 	final var expectedErrorCount = 1;
@@ -344,7 +351,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -389,6 +396,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'dentalShop' should not be null";
 	final var expectedErrorCount = 1;
@@ -398,7 +406,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -443,6 +451,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'transport' should not be null";
 	final var expectedErrorCount = 1;
@@ -452,7 +461,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -497,6 +506,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'food' should not be null";
 	final var expectedErrorCount = 1;
@@ -506,7 +516,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -551,6 +561,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'education' should not be null";
 	final var expectedErrorCount = 1;
@@ -560,7 +571,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -604,6 +615,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedEducation = BigDecimal.valueOf(4);
 	final BigDecimal expectedOtherFixedCosts = null;
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var expectedErrorMessage = "'otherFixedCosts' should not be null";
 	final var expectedErrorCount = 1;
@@ -613,7 +625,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		expectedTaxOverWork, expectedIncomeTax,
 		expectedAccountant, expectedDentalShop,
 		expectedTransport, expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedOtherFixedCosts, expectedUserId);
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -658,9 +670,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedEducation = BigDecimal.valueOf(4);
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(4);
-	final var invalidUser = User.newUser(
-		UserID.from("INVALID_USER"), "Mia", "MiaMiaMia",
-		true);
+	final var invalidUser = User
+		.newUser(UserID.from("INVALID_USER"), "Mia",
+			"MiaMiaMia", true)
+		.getId();
 
 	final var expectedErrorMessage = "User could not be found with id: INVALID_USER";
 	final var expectedErrorCount = 1;
@@ -691,7 +704,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.firstError().message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(invalidUser.getId()));
+		.findById(eq(invalidUser));
 	Mockito.verify(fixedTaxGateway, times(1)).findById(any());
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
     }

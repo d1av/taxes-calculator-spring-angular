@@ -18,7 +18,7 @@ public class Fixture {
 	    return FixedTax.with(bigDecimal(4), bigDecimal(4),
 		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
 		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), Fixture.Users.asa());
+		    bigDecimal(4), Fixture.Users.asa().getId());
 	}
 
 	public static FixedTax fixedNullUser() {

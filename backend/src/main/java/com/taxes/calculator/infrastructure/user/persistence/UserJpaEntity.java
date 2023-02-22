@@ -42,7 +42,7 @@ public class UserJpaEntity {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<UserRoleJpaEntity> roles;
 
     @Column(name = "created_at", nullable = false)

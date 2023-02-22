@@ -5,12 +5,13 @@ import java.math.BigDecimal;
 import com.taxes.calculator.application.fixedtax.create.CreateFixedTaxCommand;
 import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 
 public record UpdateFixedTaxCommand(String id,
 	BigDecimal regionalCouncil, BigDecimal taxOverWork,
 	BigDecimal incomeTax, BigDecimal accountant,
 	BigDecimal dentalShop, BigDecimal transport, BigDecimal food,
-	BigDecimal education, BigDecimal otherFixedCosts, User user) {
+	BigDecimal education, BigDecimal otherFixedCosts, UserID user) {
 
     public static UpdateFixedTaxCommand from(final FixedTax aTax) {
 	return new UpdateFixedTaxCommand(aTax.getId().getValue(),
@@ -27,7 +28,7 @@ public record UpdateFixedTaxCommand(String id,
 	    final BigDecimal accountant, final BigDecimal dentalShop,
 	    final BigDecimal transport, final BigDecimal food,
 	    final BigDecimal education,
-	    final BigDecimal otherFixedCosts, final User user) {
+	    final BigDecimal otherFixedCosts, final UserID user) {
 	return new UpdateFixedTaxCommand(id, regionalCouncil,
 		taxOverWork, incomeTax, accountant, dentalShop,
 		transport, food, education, otherFixedCosts, user);

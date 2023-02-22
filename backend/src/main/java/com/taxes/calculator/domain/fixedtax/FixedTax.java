@@ -6,6 +6,7 @@ import java.time.Instant;
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
@@ -21,7 +22,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
     private BigDecimal food;
     private BigDecimal education;
     private BigDecimal otherFixedCosts;
-    private User user;
+    private UserID user;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -31,7 +32,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	    final BigDecimal aIncomeTax, final BigDecimal aAccountant,
 	    final BigDecimal aDentalShop, final BigDecimal aTransport,
 	    final BigDecimal aFood, final BigDecimal aEducation,
-	    final BigDecimal aOtherFixedCosts, final User aUser,
+	    final BigDecimal aOtherFixedCosts, final UserID aUser,
 	    final Instant aCreatedAt, final Instant aUpdatedAt) {
 	super(anId);
 	this.regionalCouncil = aRegionalCouncil;
@@ -69,7 +70,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	    final BigDecimal aIncomeTax, final BigDecimal aAccountant,
 	    final BigDecimal aDentalShop, final BigDecimal aTransport,
 	    final BigDecimal aFood, final BigDecimal aEducation,
-	    final BigDecimal aOtherFixedCosts, final User aUser) {
+	    final BigDecimal aOtherFixedCosts, final UserID aUser) {
 	final var now = InstantUtils.now();
 	final var anId = FixedTaxID.unique();
 
@@ -100,7 +101,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	return this;
     }
 
-    public FixedTax addUser(final User aUser) {
+    public FixedTax addUser(final UserID aUser) {
 	if (this.user == null) {
 	    this.user = aUser;
 	    this.updatedAt = InstantUtils.now();
@@ -135,7 +136,7 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	return id;
     }
 
-    public User getUser() {
+    public UserID getUser() {
 	return user;
     }
     

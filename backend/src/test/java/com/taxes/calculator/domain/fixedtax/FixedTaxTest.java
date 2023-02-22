@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 
 class FixedTaxTest {
 
@@ -23,7 +24,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUser = Fixture.Users.asa().getId();
 
 	// when
 	final var actualTax = FixedTax.with(expectedRegionalCouncil,
@@ -47,8 +48,8 @@ class FixedTaxTest {
 	Assertions.assertEquals(expectedEducation, actualTax.getEducation());
 	Assertions.assertEquals(expectedOtherFixedCosts,
 		actualTax.getOtherFixedCosts());
-	Assertions.assertEquals(expectedUser.getName(),
-		actualTax.getUser().getName());
+	Assertions.assertEquals(expectedUser.getValue(),
+		actualTax.getUser().getValue());
 	Assertions.assertNotNull(actualTax.getCreatedAt());
 	Assertions.assertNotNull(actualTax.getUpdatedAt());
     }
@@ -65,7 +66,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	// when
 	final var actualTax = FixedTax.with(expectedRegionalCouncil,
@@ -106,7 +107,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'regionalCouncil' should not be null";
@@ -139,7 +140,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'taxOverWork' should not be null";
@@ -172,7 +173,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'incomeTax' should not be null";
@@ -205,7 +206,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'accountant' should not be null";
@@ -238,7 +239,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'dentalShop' should not be null";
@@ -271,7 +272,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'transport' should not be null";
@@ -304,7 +305,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = null;
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'food' should not be null";
@@ -337,7 +338,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = null;
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'education' should not be null";
@@ -370,7 +371,7 @@ class FixedTaxTest {
 	final BigDecimal expectedFood = Fixture.bigDecimal(4);
 	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
 	final BigDecimal expectedOtherFixedCosts = null;
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var expectedErrorSize = 1;
 	final var expectedErrorMessage = "'otherFixedCosts' should not be null";
