@@ -3,7 +3,6 @@ package com.taxes.calculator.infrastructure.variabletax.persistence;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,11 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
-import com.taxes.calculator.domain.validation.Error;
 
 @Entity(name = "VariableTax")
 @Table(name = "variable_taxes")
@@ -96,7 +93,7 @@ public class VariableTaxJpaEntity {
 	if (userId != null && this.user.isEmpty()) {
 	    this.user
 		    .add(UserVariableTaxJpaEntity.from(userId, this));
-	} 
+	}
     }
 
     public UserID getUserId() {

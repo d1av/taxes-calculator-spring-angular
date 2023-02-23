@@ -1,6 +1,7 @@
 package com.taxes.calculator.application.hourvalue.create;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -8,9 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -196,8 +195,10 @@ class CreateHourValueUseCaseTest extends UseCaseTest {
 	assertNotNull(actualException);
 	assertEquals(expectedErrorsCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,actualException.firstError().message());
-	assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
+	assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(hourValueGateway, times(0)).create(any());
     }

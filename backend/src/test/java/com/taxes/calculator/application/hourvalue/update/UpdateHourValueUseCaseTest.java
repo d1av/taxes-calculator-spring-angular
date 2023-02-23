@@ -1,6 +1,7 @@
 package com.taxes.calculator.application.hourvalue.update;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -20,7 +21,6 @@ import org.mockito.Mockito;
 
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.application.UseCaseTest;
-import com.taxes.calculator.application.fixedtax.update.UpdateFixedTaxCommand;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.hourvalue.HourValueID;

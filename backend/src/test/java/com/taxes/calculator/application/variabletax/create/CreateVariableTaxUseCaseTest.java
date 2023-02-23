@@ -21,7 +21,6 @@ import org.mockito.Mockito;
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.application.UseCaseTest;
 import com.taxes.calculator.domain.exceptions.NotificationException;
-import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
@@ -147,7 +146,6 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 		expectedTravel, expectedCreditCard, expectedWeekend,
 		expectedUser.getId().getValue());
 
-
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
@@ -160,7 +158,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
     }
-    
+
     @Test
     void givenAInvalidNullProsthetistCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
@@ -170,28 +168,28 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
 	final var expectedUser = Fixture.Users.abella();
-	
+
 	final var expectedErrorMessage = "'prosthetist' should not be null";
 	final var expectedErrorCount = 1;
-	
+
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend,
 		expectedUser.getId().getValue());
-	
+
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
 		() -> useCase.execute(aCommand));
-	
+
 	// then
-	
+
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
     }
-    
+
     @Test
     void givenAInvalidNullTravelCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
@@ -201,28 +199,28 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
 	final var expectedUser = Fixture.Users.abella();
-	
+
 	final var expectedErrorMessage = "'travel' should not be null";
 	final var expectedErrorCount = 1;
-	
+
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend,
 		expectedUser.getId().getValue());
-	
+
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
 		() -> useCase.execute(aCommand));
-	
+
 	// then
-	
+
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
     }
-    
+
     @Test
     void givenAInvalidCreditCardTravelCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
@@ -232,28 +230,28 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedCreditCard = null;
 	final var expectedWeekend = BigDecimal.valueOf(4);
 	final var expectedUser = Fixture.Users.abella();
-	
+
 	final var expectedErrorMessage = "'creditCard' should not be null";
 	final var expectedErrorCount = 1;
-	
+
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend,
 		expectedUser.getId().getValue());
-	
+
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
 		() -> useCase.execute(aCommand));
-	
+
 	// then
-	
+
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
     }
-    
+
     @Test
     void givenAInvalidWeekendCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
@@ -263,22 +261,22 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedCreditCard = Fixture.bigDecimal(2);
 	final BigDecimal expectedWeekend = null;
 	final var expectedUser = Fixture.Users.abella();
-	
+
 	final var expectedErrorMessage = "'weekend' should not be null";
 	final var expectedErrorCount = 1;
-	
+
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend,
 		expectedUser.getId().getValue());
-	
+
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
 		() -> useCase.execute(aCommand));
-	
+
 	// then
-	
+
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,

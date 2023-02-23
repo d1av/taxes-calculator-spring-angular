@@ -310,7 +310,7 @@ class VariableTaxTest {
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'prosthetist' should not be null";
 	final UserID expectedUserId = expectedUser.getId();
-	
+
 	// when
 	final var actualException = Assertions
 		.assertThrows(NotificationException.class,

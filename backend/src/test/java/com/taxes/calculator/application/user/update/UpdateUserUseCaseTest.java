@@ -1,6 +1,5 @@
 package com.taxes.calculator.application.user.update;
 
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +22,6 @@ import org.mockito.Mockito;
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.application.UseCaseTest;
 import com.taxes.calculator.domain.exceptions.NotificationException;
-import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleGateway;
 import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.UserGateway;
@@ -98,7 +95,8 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedName = "Mia";
 	final var expectedPassword = "miamiamia";
 	final var expectedIsActive = true;
-	final var expectedRoles = Set.<RoleID>of(Fixture.Roles.guest().getId(),
+	final var expectedRoles = Set.<RoleID>of(
+		Fixture.Roles.guest().getId(),
 		Fixture.Roles.member().getId());
 
 	final var aCommand = UpdateUserCommand.with(
@@ -169,7 +167,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
-	
+
 	Assertions.assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
 

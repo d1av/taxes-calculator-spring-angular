@@ -85,8 +85,10 @@ class CreateRoleUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
-	assertEquals(expectedErrorMessage2, actualException.getErrors().get(1).message());
-	assertEquals(expectedErrorMessage3, actualException.getErrors().get(2).message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
+	assertEquals(expectedErrorMessage3,
+		actualException.getErrors().get(2).message());
 
 	verify(roleGateway, times(0)).create(any());
     }

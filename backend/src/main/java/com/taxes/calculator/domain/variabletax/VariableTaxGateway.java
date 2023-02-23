@@ -1,6 +1,5 @@
 package com.taxes.calculator.domain.variabletax;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.taxes.calculator.domain.pagination.Pagination;

@@ -143,5 +143,4 @@ class ListVariableTaxUseCaseTest extends UseCaseTest {
 	verify(variableTaxGateway, times(1)).findAll(eq(aQuery));
     }
 
-
 }

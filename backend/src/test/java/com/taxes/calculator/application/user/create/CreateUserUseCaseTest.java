@@ -120,7 +120,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
-	
+
 	final var expectedItems = expectedRoles.stream()
 		.map(Role::getId).map(RoleID::getValue)
 		.collect(Collectors.toSet());
@@ -148,8 +148,10 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,actualException.firstError().message());
-	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	verify(userGateway, times(0)).create(any());
     }
@@ -166,7 +168,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedItems = expectedRoles.stream()
 		.map(Role::getId).map(RoleID::getValue)
 		.collect(Collectors.toSet());
-	
+
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'password' should not be null";
 	final var expectedErrorMessage2 = "'password' must be between 6 and 20 characters";
@@ -190,8 +192,10 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,actualException.firstError().message());
-	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	verify(userGateway, times(0)).create(any());
     }
@@ -208,7 +212,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedRoles = expectedItems.stream()
 		.map(Role::getId).map(RoleID::getValue)
 		.collect(Collectors.toSet());
-	
+
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
 
@@ -249,7 +253,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	final var expectedRoles = expectedItems.stream()
 		.map(Role::getId).map(RoleID::getValue)
 		.collect(Collectors.toSet());
-	
+
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
 

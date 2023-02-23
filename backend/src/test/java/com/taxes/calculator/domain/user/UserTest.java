@@ -1,14 +1,13 @@
 package com.taxes.calculator.domain.user;
 
-import com.taxes.calculator.Fixture;
-import com.taxes.calculator.domain.exceptions.NotificationException;
-import com.taxes.calculator.domain.role.Role;
-import com.taxes.calculator.domain.role.RoleID;
+import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
+import com.taxes.calculator.Fixture;
+import com.taxes.calculator.domain.exceptions.NotificationException;
+import com.taxes.calculator.domain.role.RoleID;
 
 public class UserTest {
 
