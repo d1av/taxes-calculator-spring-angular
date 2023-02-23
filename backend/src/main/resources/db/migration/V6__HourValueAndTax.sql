@@ -13,3 +13,11 @@ CREATE TABLE users_hourvalues(
 	CONSTRAINT fk_hvu_hour_value_id FOREIGN KEY (hour_value_id) REFERENCES hour_values (id),
 	CONSTRAINT fk_hvu_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE users_variabletaxes(
+	user_id CHAR(32) NOT NULL,
+	variable_tax_id CHAR(32) NOT NULL,
+	CONSTRAINT idx_vtu_vtax_user UNIQUE (user_id, variable_tax_id),
+	CONSTRAINT fk_vtu_vtax_value_id FOREIGN KEY (variable_tax_id) REFERENCES variable_taxes (id),
+	CONSTRAINT fk_vtu_vtax_id FOREIGN KEY (user_id) REFERENCES users (id)
+);

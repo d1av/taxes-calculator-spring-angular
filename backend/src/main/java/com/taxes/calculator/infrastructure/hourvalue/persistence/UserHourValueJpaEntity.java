@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.taxes.calculator.domain.hourvalue.HourValueID;
 import com.taxes.calculator.domain.user.UserID;
 
 @Entity(name = "UserHourValue")
