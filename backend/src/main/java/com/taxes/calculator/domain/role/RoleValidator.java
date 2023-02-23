@@ -13,31 +13,36 @@ public class RoleValidator extends Validator {
     private final Role role;
 
     public RoleValidator(final Role role,
-                         final ValidationHandler aHandler) {
-        super(aHandler);
-        this.role = role;
+	    final ValidationHandler aHandler) {
+	super(aHandler);
+	this.role = role;
     }
 
     @Override
     public void validate() {
-        checkNameConstraints();
+	checkNameConstraints();
     }
 
     private void checkNameConstraints() {
-        final var authority = this.role.getAuthority();
-        if (Objects.isNull(authority)) {
-            this.validationHandler().append(new Error("'authority' should not be null"));
-        } else {
-            if (authority.trim().isBlank()) {
-                this.validationHandler().append(new Error("'authority' should not be empty"));
-            } else {
-                final int length = authority.length();
-                if (length > ROLE_MAX_LENGTH || length < ROLE_MIN_LENGTH) {
-                    this.validationHandler()
-                            .append(new Error("'authority' must be between %s and %s characters"
-                                    .formatted(ROLE_MIN_LENGTH, ROLE_MAX_LENGTH)));
-                }
-            }
-        }
+	final var authority = this.role.getAuthority();
+	final int length = authority != null ? authority.length() : 0;
+	final String authorityNew = authority != null ? authority
+		: "";
+
+	if (Objects.isNull(authority)) {
+	    this.validationHandler().append(
+		    new Error("'authority' should not be null"));
+	}
+
+	if (authorityNew.trim().isBlank()) {
+	    this.validationHandler().append(
+		    new Error("'authority' should not be empty"));
+	}
+	if (length > ROLE_MAX_LENGTH || length < ROLE_MIN_LENGTH) {
+	    this.validationHandler().append(new Error(
+		    "'authority' must be between %s and %s characters"
+			    .formatted(ROLE_MIN_LENGTH,
+				    ROLE_MAX_LENGTH)));
+	}
     }
 }

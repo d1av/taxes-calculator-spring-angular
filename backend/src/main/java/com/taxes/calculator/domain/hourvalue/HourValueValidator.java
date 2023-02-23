@@ -29,34 +29,44 @@ public class HourValueValidator extends Validator {
 
     private void checkDaysOfWorkConstraints() {
 	final var fieldToValidate = this.hourValue.getDaysOfWork();
-	final var minDays = BigDecimal.valueOf(MIN_DAYS_WORK).doubleValue();
-	final var maxDays = BigDecimal.valueOf(MAX_DAYS_WORK).doubleValue();
+	final var minDays = BigDecimal.valueOf(MIN_DAYS_WORK)
+		.doubleValue();
+	final var maxDays = BigDecimal.valueOf(MAX_DAYS_WORK)
+		.doubleValue();
+	final var fieldToValidateNotNull = fieldToValidate != null
+		? fieldToValidate
+		: 0;
 
 	if (Objects.isNull(fieldToValidate)) {
-	    this.validationHandler()
-		    .append(new Error("'daysOfWork' should not be null"));
-	} else {
-	    if (fieldToValidate < minDays || fieldToValidate > maxDays) {
-		this.validationHandler().append(new Error(
-			"'daysOfWork' should be a number between %s and %s"
-				.formatted(MIN_DAYS_WORK, MAX_DAYS_WORK)));
-	    }
+	    this.validationHandler().append(
+		    new Error("'daysOfWork' should not be null"));
 	}
+	
+	if (fieldToValidateNotNull < minDays
+		|| fieldToValidateNotNull > maxDays) {
+	    this.validationHandler().append(new Error(
+		    "'daysOfWork' should be a number between %s and %s"
+			    .formatted(MIN_DAYS_WORK,
+				    MAX_DAYS_WORK)));
+	}
+
     }
 
     private void checkExpectedSalaryConstraints() {
-	final var fieldToValidate = this.hourValue.getExpectedSalary();
+	final var fieldToValidate = this.hourValue
+		.getExpectedSalary();
 	if (Objects.isNull(fieldToValidate)) {
-	    this.validationHandler()
-		    .append(new Error("'expectedSalary' should not be null"));
+	    this.validationHandler().append(
+		    new Error("'expectedSalary' should not be null"));
 	}
     }
 
     private void checkHourValueConstraints() {
-	final var fieldToValidate = this.hourValue.getPersonalHourValue();
+	final var fieldToValidate = this.hourValue
+		.getPersonalHourValue();
 	if (Objects.isNull(fieldToValidate)) {
-	    this.validationHandler()
-		    .append(new Error("'hourValue' should not be null"));
+	    this.validationHandler().append(
+		    new Error("'hourValue' should not be null"));
 	}
     }
 }
