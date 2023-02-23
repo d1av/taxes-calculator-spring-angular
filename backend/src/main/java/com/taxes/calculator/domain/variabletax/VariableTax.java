@@ -6,6 +6,7 @@ import java.time.Instant;
 import com.taxes.calculator.domain.AggregateRoot;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.validation.ValidationHandler;
 import com.taxes.calculator.domain.validation.handler.Notification;
@@ -17,14 +18,15 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
     private BigDecimal travel;
     private BigDecimal creditCard;
     private BigDecimal weekend;
-    private User user;
+    private UserID user;
     private Instant createdAt;
     private Instant updatedAt;
 
-    private VariableTax(final VariableTaxID anId, final BigDecimal anDentalShop,
+    private VariableTax(final VariableTaxID anId,
+	    final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,
 	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
-	    final User aUser, final Instant createdAt,
+	    final UserID aUserId, final Instant createdAt,
 	    final Instant updatedAt) {
 	super(anId);
 	this.dentalShop = anDentalShop;
@@ -34,7 +36,7 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	this.weekend = aWeekend;
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
-	this.user = aUser;
+	this.user = aUserId;
 
 	selfValidate();
     }
@@ -42,26 +44,39 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
     public static VariableTax with(final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,
 	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
-	    final User aUser) {
+	    final UserID aUser) {
 	final var anId = VariableTaxID.unique();
 	final var now = InstantUtils.now();
-	return new VariableTax(anId, anDentalShop, aProsthetist, aTravel,
-		aCreditCard, aWeekend, aUser, now, now);
+	return new VariableTax(anId, anDentalShop, aProsthetist,
+		aTravel, aCreditCard, aWeekend, aUser, now, now);
     }
 
-    public static VariableTax newVariableTax(final BigDecimal anDentalShop,
+    public static VariableTax newVariableTax(
+	    final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,
 	    final BigDecimal aCreditCard, final BigDecimal aWeekend) {
 	final var anId = VariableTaxID.unique();
 	final var now = InstantUtils.now();
-	return new VariableTax(anId, anDentalShop, aProsthetist, aTravel,
-		aCreditCard, aWeekend, null, now, now);
+	return new VariableTax(anId, anDentalShop, aProsthetist,
+		aTravel, aCreditCard, aWeekend, null, now, now);
     }
 
     public static VariableTax with(VariableTax aTax) {
-	return new VariableTax(aTax.id, aTax.dentalShop, aTax.prosthetist,
-		aTax.travel, aTax.creditCard, aTax.weekend, aTax.user,
-		aTax.createdAt, aTax.updatedAt);
+	return new VariableTax(aTax.id, aTax.dentalShop,
+		aTax.prosthetist, aTax.travel, aTax.creditCard,
+		aTax.weekend, aTax.user, aTax.createdAt,
+		aTax.updatedAt);
+    }
+
+    public static VariableTax with(final VariableTaxID anId,
+	    final BigDecimal anDentalShop,
+	    final BigDecimal aProsthetist, final BigDecimal aTravel,
+	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
+	    final UserID aUserId, final Instant createdAt,
+	    final Instant updatedAt) {
+	return new VariableTax(anId, anDentalShop, aProsthetist,
+		aTravel, aCreditCard, aWeekend, aUserId, createdAt,
+		updatedAt);
     }
 
     public VariableTax update(final BigDecimal anDentalShop,
@@ -79,7 +94,7 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	return this;
     }
 
-    public VariableTax addUser(final User aUser) {
+    public VariableTax addUser(final UserID aUser) {
 	if (this.user == null) {
 	    this.user = aUser;
 	    this.updatedAt = InstantUtils.now();
@@ -99,11 +114,12 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 
 	if (notification.hasError()) {
 	    throw new NotificationException(
-		    "Failed to validate Aggregate VariableTax", notification);
+		    "Failed to validate Aggregate VariableTax",
+		    notification);
 	}
     }
 
-    public User getUser() {
+    public UserID getUserId() {
 	return user;
     }
 

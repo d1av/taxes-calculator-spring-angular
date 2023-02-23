@@ -56,7 +56,7 @@ public class DefaultUpdateVariableTaxUseCase
 	    notification.append(new Error(
 		    "User could not be found: %s".formatted(userId)));
 	} else {
-	    aTax.addUser(aUser.get());
+	    aTax.addUser(aUser.get().getId());
 	}
 
 	if (notification.hasError()) {

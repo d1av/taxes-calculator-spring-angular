@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.variabletax.VariableTax;
+import com.taxes.calculator.domain.variabletax.VariableTaxID;
 import com.taxes.calculator.domain.validation.Error;
 
 @Entity(name = "VariableTax")
@@ -79,21 +80,23 @@ public class VariableTaxJpaEntity {
 		variableTax.getCreatedAt(),
 		variableTax.getUpdatedAt());
 
-	anEntity.addUser(variableTax.getUser().getId());
+	anEntity.addUser(variableTax.getUserId());
 
 	return anEntity;
+    }
+
+    public VariableTax toAggregate() {
+	return VariableTax.with(VariableTaxID.from(getId()),
+		getDentalShop(), getProsthetist(), getTravel(),
+		getCreditCard(), getWeekend(), getUserId(),
+		getCreatedAt(), getUpdatedAt());
     }
 
     public void addUser(UserID userId) {
 	if (userId != null && this.user.isEmpty()) {
 	    this.user
 		    .add(UserVariableTaxJpaEntity.from(userId, this));
-	} else {
-	    throw NotificationException.with(
-		    List.of(new Error("This tax already has an user"),
-			    new Error("User cannot be null")));
-	}
-
+	} 
     }
 
     public UserID getUserId() {

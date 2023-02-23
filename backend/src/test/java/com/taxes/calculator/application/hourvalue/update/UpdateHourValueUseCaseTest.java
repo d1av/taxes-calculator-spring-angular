@@ -266,8 +266,9 @@ class UpdateHourValueUseCaseTest extends UseCaseTest {
 	final Integer expectedDaysOfWork = null;
 	final User expectedUser = Fixture.Users.asa();
 
-	final var expectedErrorCount = 1;
+	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'daysOfWork' should not be null";
+	final var expectedErrorMessage2 = "'daysOfWork' should be a number between 1 and 31";
 
 	when(hourValueGateway.findById(eq(anId)))
 		.thenReturn(Optional.of(aHourValue));
@@ -291,6 +292,8 @@ class UpdateHourValueUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(hourValueGateway, times(0)).update(any());
 	Mockito.verify(userGateway, times(0)).update(any());

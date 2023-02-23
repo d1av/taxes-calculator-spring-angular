@@ -69,7 +69,7 @@ class UpdateRoleUseCaseTest extends UseCaseTest {
 		expectedAuthority);
 
 	final var expectedErrorMessage = "'authority' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorCount = 3;
 
 	when(roleGateway.findById(any()))
 		.thenReturn(Optional.of(aAuthority));

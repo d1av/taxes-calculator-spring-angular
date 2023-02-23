@@ -89,7 +89,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 				aTax.getWeekend())
 			&& Objects.equals(
 				expectedUser.getId().getValue(),
-				aTax.getUser().getId().getValue())));
+				aTax.getUserId().getValue())));
     }
 
     @Test

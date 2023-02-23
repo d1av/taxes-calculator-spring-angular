@@ -9,13 +9,13 @@ public record ListVariableTaxOutput(String id, BigDecimal dentalShop,
 	BigDecimal creditCard, BigDecimal weekend, String userId) {
 
     public static ListVariableTaxOutput from(final VariableTax aTax) {
-	final var aUser = aTax.getUser() != null
-		? aTax.getUser().getId().getValue()
+	final var aUserId = aTax.getUserId() != null
+		? aTax.getUserId().getValue()
 		: null;
 	return new ListVariableTaxOutput(aTax.getId().getValue(),
 		aTax.getDentalShop(), aTax.getProsthetist(),
 		aTax.getTravel(), aTax.getCreditCard(),
-		aTax.getWeekend(), aUser);
+		aTax.getWeekend(), aUserId);
     }
 
 }

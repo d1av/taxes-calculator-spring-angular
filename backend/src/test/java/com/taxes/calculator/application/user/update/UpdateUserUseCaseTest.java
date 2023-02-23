@@ -148,8 +148,9 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
 
-	final var expectedErrorCount = 1;
+	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'name' should not be null";
+	final var expectedErrorMessage2 = "'name' must be between 1 and 200 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -168,6 +169,9 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
+	
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedId));
@@ -186,7 +190,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
 
-	final var expectedErrorCount = 1;
+	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'password' should not be null";
 
 	final var aCommand = UpdateUserCommand.with(

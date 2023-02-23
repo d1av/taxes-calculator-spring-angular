@@ -42,10 +42,11 @@ class HourValueTest {
 	final var expectedErrorMessage = "'expectedSalary' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> HourValue.newHourValue(expectedSalary, expectedHourValue,
-			expectedDaysOfWork));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> HourValue.newHourValue(expectedSalary,
+				expectedHourValue,
+				expectedDaysOfWork));
 
 	// then
 	Assertions.assertEquals(expectedErrorCount,
@@ -65,10 +66,11 @@ class HourValueTest {
 	final var expectedErrorMessage = "'hourValue' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> HourValue.newHourValue(expectedSalary, expectedHourValue,
-			expectedDaysOfWork));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> HourValue.newHourValue(expectedSalary,
+				expectedHourValue,
+				expectedDaysOfWork));
 
 	// then
 	Assertions.assertEquals(expectedErrorCount,
@@ -84,20 +86,24 @@ class HourValueTest {
 	final var expectedHourValue = Fixture.bigDecimal(4);
 	final Integer expectedDaysOfWork = null;
 
-	final var expectedErrorCount = 1;
+	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'daysOfWork' should not be null";
+	final var expectedErrorMessage2 = "'daysOfWork' should be a number between 1 and 31";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> HourValue.newHourValue(expectedSalary, expectedHourValue,
-			expectedDaysOfWork));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> HourValue.newHourValue(expectedSalary,
+				expectedHourValue,
+				expectedDaysOfWork));
 
 	// then
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -122,12 +128,14 @@ class HourValueTest {
 	Assertions.assertEquals(expectedId, updatedHour.getId());
 	Assertions.assertEquals(expectedSalary,
 		updatedHour.getExpectedSalary());
-	Assertions.assertEquals(expectedHourValue, updatedHour.getPersonalHourValue());
+	Assertions.assertEquals(expectedHourValue,
+		updatedHour.getPersonalHourValue());
 	Assertions.assertEquals(expectedDaysOfWork,
 		updatedHour.getDaysOfWork());
-	Assertions.assertEquals(expectedCreatedAt, updatedHour.getCreatedAt());
-	Assertions.assertTrue(
-		expectedUpdatedAt.isBefore(updatedHour.getUpdatedAt()));
+	Assertions.assertEquals(expectedCreatedAt,
+		updatedHour.getCreatedAt());
+	Assertions.assertTrue(expectedUpdatedAt
+		.isBefore(updatedHour.getUpdatedAt()));
     }
 
     @Test
@@ -143,10 +151,11 @@ class HourValueTest {
 	final var expectedErrorMessage = "'expectedSalary' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aHourValue.update(expectedSalary, expectedHourValue,
-			expectedDaysOfWork));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aHourValue.update(expectedSalary,
+				expectedHourValue,
+				expectedDaysOfWork));
 
 	// then
 	Assertions.assertEquals(expectedErrorCount,
@@ -168,10 +177,11 @@ class HourValueTest {
 	final var expectedErrorMessage = "'hourValue' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aHourValue.update(expectedSalary, expectedHourValue,
-			expectedDaysOfWork));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aHourValue.update(expectedSalary,
+				expectedHourValue,
+				expectedDaysOfWork));
 
 	// then
 	Assertions.assertEquals(expectedErrorCount,
@@ -193,10 +203,11 @@ class HourValueTest {
 	final var expectedErrorMessage = "'daysOfWork' should be a number between 1 and 31";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aHourValue.update(expectedSalary, expectedHourValue,
-			expectedDaysOfWork));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aHourValue.update(expectedSalary,
+				expectedHourValue,
+				expectedDaysOfWork));
 
 	// then
 	Assertions.assertEquals(expectedErrorCount,

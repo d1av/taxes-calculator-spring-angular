@@ -21,7 +21,4 @@ public interface VariableTaxGateway {
 
     // delete
     void deleteById(VariableTaxID anId);
-
-    // utils
-    List<VariableTaxID> existsByIds(Iterable<VariableTaxID> ids);
 }

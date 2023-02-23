@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
 
 class VariableTaxTest {
 
@@ -20,23 +21,26 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	// when
-	final var actualVariableTax = VariableTax.with(expectedDentalShop,
-		expectedProsthetist, expectedTravel, expectedCreditCard,
-		expectedWeekend, expectedUser);
+	final var actualVariableTax = VariableTax.with(
+		expectedDentalShop, expectedProsthetist,
+		expectedTravel, expectedCreditCard, expectedWeekend,
+		expectedUserId);
 	// then
 	Assertions.assertNotNull(actualVariableTax);
 	Assertions.assertNotNull(actualVariableTax.getId());
 	Assertions.assertEquals(expectedDentalShop,
 		actualVariableTax.getDentalShop());
-	Assertions.assertEquals(expectedTravel, actualVariableTax.getTravel());
+	Assertions.assertEquals(expectedTravel,
+		actualVariableTax.getTravel());
 	Assertions.assertEquals(expectedCreditCard,
 		actualVariableTax.getCreditCard());
 	Assertions.assertEquals(expectedWeekend,
 		actualVariableTax.getWeekend());
-	Assertions.assertEquals(expectedUser.getName(),
-		actualVariableTax.getUser().getName());
+	Assertions.assertEquals(expectedUser.getId().getValue(),
+		actualVariableTax.getUserId().getValue());
 	Assertions.assertNotNull(actualVariableTax.getCreatedAt());
 	Assertions.assertNotNull(actualVariableTax.getUpdatedAt());
     }
@@ -49,23 +53,26 @@ class VariableTaxTest {
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	// when
-	final var actualVariableTax = VariableTax.with(expectedDentalShop,
-		expectedProsthetist, expectedTravel, expectedCreditCard,
-		expectedWeekend, expectedUser);
+	final var actualVariableTax = VariableTax.with(
+		expectedDentalShop, expectedProsthetist,
+		expectedTravel, expectedCreditCard, expectedWeekend,
+		expectedUser);
 	// then
 	Assertions.assertNotNull(actualVariableTax);
 	Assertions.assertNotNull(actualVariableTax.getId());
 	Assertions.assertEquals(expectedDentalShop,
 		actualVariableTax.getDentalShop());
-	Assertions.assertEquals(expectedTravel, actualVariableTax.getTravel());
+	Assertions.assertEquals(expectedTravel,
+		actualVariableTax.getTravel());
 	Assertions.assertEquals(expectedCreditCard,
 		actualVariableTax.getCreditCard());
 	Assertions.assertEquals(expectedWeekend,
 		actualVariableTax.getWeekend());
-	Assertions.assertEquals(expectedUser, actualVariableTax.getUser());
+	Assertions.assertEquals(expectedUser,
+		actualVariableTax.getUserId());
 	Assertions.assertNotNull(actualVariableTax.getCreatedAt());
 	Assertions.assertNotNull(actualVariableTax.getUpdatedAt());
     }
@@ -79,6 +86,7 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'dentalShop' should not be null";
@@ -86,9 +94,10 @@ class VariableTaxTest {
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
-		() -> VariableTax.with(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend,
-			expectedUser));
+		() -> VariableTax.with(expectedDentalShop,
+			expectedProsthetist, expectedTravel,
+			expectedCreditCard, expectedWeekend,
+			expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -106,6 +115,7 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'prosthetist' should not be null";
@@ -113,9 +123,10 @@ class VariableTaxTest {
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
-		() -> VariableTax.with(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend,
-			expectedUser));
+		() -> VariableTax.with(expectedDentalShop,
+			expectedProsthetist, expectedTravel,
+			expectedCreditCard, expectedWeekend,
+			expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -133,6 +144,7 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'travel' should not be null";
@@ -140,9 +152,10 @@ class VariableTaxTest {
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
-		() -> VariableTax.with(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend,
-			expectedUser));
+		() -> VariableTax.with(expectedDentalShop,
+			expectedProsthetist, expectedTravel,
+			expectedCreditCard, expectedWeekend,
+			expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -160,6 +173,7 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = null;
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'creditCard' should not be null";
@@ -167,9 +181,10 @@ class VariableTaxTest {
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
-		() -> VariableTax.with(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend,
-			expectedUser));
+		() -> VariableTax.with(expectedDentalShop,
+			expectedProsthetist, expectedTravel,
+			expectedCreditCard, expectedWeekend,
+			expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -187,6 +202,7 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = null;
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'weekend' should not be null";
@@ -194,9 +210,10 @@ class VariableTaxTest {
 	// when
 	final var actualException = Assertions.assertThrows(
 		NotificationException.class,
-		() -> VariableTax.with(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend,
-			expectedUser));
+		() -> VariableTax.with(expectedDentalShop,
+			expectedProsthetist, expectedTravel,
+			expectedCreditCard, expectedWeekend,
+			expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -218,30 +235,33 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	// when
 	Thread.sleep(100);
-	final var actualVariableTax = aTax
-		.update(expectedDentalShop, expectedProsthetist, expectedTravel,
-			expectedCreditCard, expectedWeekend)
-		.addUser(expectedUser);
+	final var actualVariableTax = aTax.update(expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend)
+		.addUser(expectedUserId);
 	// then
-	Assertions.assertEquals(aTax.getId(), actualVariableTax.getId());
+	Assertions.assertEquals(aTax.getId(),
+		actualVariableTax.getId());
 	Assertions.assertNotNull(actualVariableTax);
 	Assertions.assertNotNull(actualVariableTax.getId());
 	Assertions.assertEquals(expectedDentalShop,
 		actualVariableTax.getDentalShop());
-	Assertions.assertEquals(expectedTravel, actualVariableTax.getTravel());
+	Assertions.assertEquals(expectedTravel,
+		actualVariableTax.getTravel());
 	Assertions.assertEquals(expectedCreditCard,
 		actualVariableTax.getCreditCard());
 	Assertions.assertEquals(expectedWeekend,
 		actualVariableTax.getWeekend());
-	Assertions.assertEquals(expectedUser.getName(),
-		actualVariableTax.getUser().getName());
+	Assertions.assertEquals(expectedUser.getId().getValue(),
+		actualVariableTax.getUserId().getValue());
 	Assertions.assertEquals(aTax.getCreatedAt(),
 		actualVariableTax.getCreatedAt());
-	Assertions.assertTrue(
-		expectedUpdatedAt.isBefore(actualVariableTax.getUpdatedAt()));
+	Assertions.assertTrue(expectedUpdatedAt
+		.isBefore(actualVariableTax.getUpdatedAt()));
     }
 
     @Test
@@ -255,16 +275,18 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'dentalShop' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aTax.update(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend)
-			.addUser(expectedUser));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+				.addUser(expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -287,13 +309,15 @@ class VariableTaxTest {
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'prosthetist' should not be null";
-
+	final UserID expectedUserId = expectedUser.getId();
+	
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aTax.update(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend)
-			.addUser(expectedUser));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+				.addUser(expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -313,16 +337,18 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'travel' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aTax.update(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend)
-			.addUser(expectedUser));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+				.addUser(expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -342,16 +368,18 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = null;
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'creditCard' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aTax.update(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend)
-			.addUser(expectedUser));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+				.addUser(expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
@@ -359,7 +387,7 @@ class VariableTaxTest {
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
     }
-    
+
     @Test
     public void givenInvalidNullWeekend_whenUpdateVariableTax_shouldReturnNotification() {
 	// given
@@ -371,17 +399,19 @@ class VariableTaxTest {
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = null;
 	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
 
 	// when
 	final var expectedErrorCount = 1;
 	final var expectedErrorMessage = "'weekend' should not be null";
 
 	// when
-	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
-		() -> aTax.update(expectedDentalShop, expectedProsthetist,
-			expectedTravel, expectedCreditCard, expectedWeekend)
-			.addUser(expectedUser));
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+				.addUser(expectedUserId));
 	// then
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,

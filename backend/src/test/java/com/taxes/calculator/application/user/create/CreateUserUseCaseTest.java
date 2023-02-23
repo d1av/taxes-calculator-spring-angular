@@ -166,8 +166,9 @@ class CreateUserUseCaseTest extends UseCaseTest {
 		.map(Role::getId).map(RoleID::getValue)
 		.collect(Collectors.toSet());
 	
-	final var expectedErrorCount = 1;
+	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'password' should not be null";
+	final var expectedErrorMessage2 = "'password' should not be null";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedItems);
@@ -188,8 +189,8 @@ class CreateUserUseCaseTest extends UseCaseTest {
 	Assertions.assertNotNull(actualException);
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
 
 	verify(userGateway, times(0)).create(any());
     }

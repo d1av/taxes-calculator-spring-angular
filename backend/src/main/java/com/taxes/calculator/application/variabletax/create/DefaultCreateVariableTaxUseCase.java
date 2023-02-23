@@ -52,7 +52,7 @@ public class DefaultCreateVariableTaxUseCase
 	final Optional<User> aUser = userGateway.findById(userID);
 
 	if (!aUser.isEmpty()) {
-	    aVariableTax.addUser(aUser.get());
+	    aVariableTax.addUser(aUser.get().getId());
 	}
 
 	return CreateVariableTaxOutput.from(

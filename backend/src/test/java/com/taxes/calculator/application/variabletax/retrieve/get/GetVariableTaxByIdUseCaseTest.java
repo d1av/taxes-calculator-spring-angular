@@ -46,7 +46,7 @@ class GetVariableTaxByIdUseCaseTest extends UseCaseTest {
 	final var aVariableTax = VariableTax.newVariableTax(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend);
-	aVariableTax.addUser(expectedUser);
+	aVariableTax.addUser(expectedUser.getId());
 	final var expectedId = aVariableTax.getId().getValue();
 
 	when(variableTaxGateway.findById(any()))
@@ -113,7 +113,7 @@ class GetVariableTaxByIdUseCaseTest extends UseCaseTest {
 	final var aVariableTax = VariableTax.newVariableTax(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend);
-	aVariableTax.addUser(expectedUser);
+	aVariableTax.addUser(expectedUser.getId());
 	final var expectedId = aVariableTax.getId().getValue();
 
 	final var expectedErrorMessage = "VariableTax with ID %s was not found"

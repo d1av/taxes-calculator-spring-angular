@@ -67,7 +67,9 @@ class CreateRoleUseCaseTest extends UseCaseTest {
 		.with(expectedAuthority);
 
 	final var expectedErrorMessage = "'authority' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage2 = "'authority' should not be empty";
+	final var expectedErrorMessage3 = "'authority' must be between 4 and 20 characters";
+	final var expectedErrorCount = 3;
 
 	when(roleGateway.findByAuthority(any()))
 		.thenReturn(Optional.<Role>empty());
@@ -79,10 +81,12 @@ class CreateRoleUseCaseTest extends UseCaseTest {
 
 	// then
 	Assertions.assertNotNull(actualException);
-	assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
+	assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2, actualException.getErrors().get(1).message());
+	assertEquals(expectedErrorMessage3, actualException.getErrors().get(2).message());
 
 	verify(roleGateway, times(0)).create(any());
     }

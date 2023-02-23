@@ -23,6 +23,7 @@ import com.taxes.calculator.application.UseCaseTest;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
+import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 
 class CreateVariableTaxUseCaseTest extends UseCaseTest {
@@ -50,6 +51,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
 	final var expectedUser = Fixture.Users.abella();
+	final var expectedUserId = expectedUser.getId();
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -80,8 +82,8 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 				aTax.getCreditCard())
 			&& Objects.equals(expectedWeekend,
 				aTax.getWeekend())
-			&& Objects.equals(expectedUser,
-				aTax.getUser())));
+			&& Objects.equals(expectedUserId,
+				aTax.getUserId())));
     }
 
     @Test
@@ -92,7 +94,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedTravel = BigDecimal.valueOf(3);
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
-	final User expectedUser = null;
+	final UserID expectedUser = null;
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -124,7 +126,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 			&& Objects.equals(expectedWeekend,
 				aTax.getWeekend())
 			&& Objects.equals(expectedUser,
-				aTax.getUser())));
+				aTax.getUserId())));
     }
 
     @Test
