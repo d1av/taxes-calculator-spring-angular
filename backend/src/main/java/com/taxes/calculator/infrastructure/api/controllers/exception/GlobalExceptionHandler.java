@@ -1,5 +1,8 @@
 package com.taxes.calculator.infrastructure.api.controllers.exception;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +35,23 @@ public class GlobalExceptionHandler {
 		.body(ApiError.from(ex));
     }
 
+    @ExceptionHandler(value = {
+	    SQLIntegrityConstraintViolationException.class })
+    public ResponseEntity<?> handleNotFoundException(
+	    final SQLIntegrityConstraintViolationException ex) {
+	return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		.body(ApiError.from(ex));
+    }
+
     record ApiError(String message, List<Error> errors) {
 	static ApiError from(final DomainException ex) {
 	    return new ApiError(ex.getMessage(), ex.getErrors());
+	}
+
+	static ApiError from(
+		final SQLIntegrityConstraintViolationException ex) {
+	    return new ApiError(ex.getMessage(),
+		    List.of(new Error(ex.getLocalizedMessage()),new Error(ex.getSQLState())));
 	}
     }
 }

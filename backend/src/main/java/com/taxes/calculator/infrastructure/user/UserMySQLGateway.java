@@ -2,10 +2,10 @@ package com.taxes.calculator.infrastructure.user;
 
 import static com.taxes.calculator.infrastructure.utils.SpecificationUtils.like;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -16,18 +16,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
-import com.taxes.calculator.domain.role.Role;
-import com.taxes.calculator.domain.role.RoleGateway;
-import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.user.UserID;
-import com.taxes.calculator.domain.validation.Error;
-import com.taxes.calculator.infrastructure.role.persistence.RoleJpaEntity;
-import com.taxes.calculator.infrastructure.role.persistence.RoleRepository;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 
@@ -85,7 +78,7 @@ public class UserMySQLGateway implements UserGateway {
 
     @Override
     public void deleteById(UserID anId) {
-	if(this.userRepository.existsById(anId.getValue())) {	    
+	if (this.userRepository.existsById(anId.getValue())) {
 	    this.userRepository.deleteById(anId.getValue());
 	}
     }
