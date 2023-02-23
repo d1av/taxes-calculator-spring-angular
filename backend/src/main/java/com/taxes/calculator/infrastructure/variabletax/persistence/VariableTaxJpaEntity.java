@@ -27,7 +27,7 @@ public class VariableTaxJpaEntity {
     @Column(name = "dental_shop", nullable = false)
     private BigDecimal dentalShop;
 
-    @Column(name = "prothetist", nullable = false)
+    @Column(name = "prosthetist", nullable = false)
     private BigDecimal prosthetist;
 
     @Column(name = "travel", nullable = false)
@@ -72,8 +72,10 @@ public class VariableTaxJpaEntity {
 	final var anEntity = new VariableTaxJpaEntity(
 		variableTax.getId().getValue(),
 		variableTax.getDentalShop(),
-		variableTax.getProsthetist(), variableTax.getTravel(),
-		variableTax.getCreditCard(), variableTax.getWeekend(),
+		variableTax.getProsthetist(), 
+		variableTax.getTravel(),
+		variableTax.getCreditCard(),
+		variableTax.getWeekend(),
 		variableTax.getCreatedAt(),
 		variableTax.getUpdatedAt());
 

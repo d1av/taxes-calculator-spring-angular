@@ -15,13 +15,11 @@ CREATE TABLE fixed_taxes(
 
 CREATE TABLE variable_taxes(
 	id CHAR(32) NOT NULL PRIMARY KEY,
-	regional_council BIGINT NOT NULL,
 	dental_shop BIGINT NOT NULL,
 	prosthetist BIGINT NOT NULL,
 	travel BIGINT NOT NULL,
 	credit_card BIGINT NOT NULL,
 	weekend BIGINT NOT NULL,
-	other_fixed_costs BIGINT NOT NULL,
 	created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL
 );
