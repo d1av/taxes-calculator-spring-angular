@@ -44,7 +44,7 @@ class RoleTest {
         final var expectedErrorCount = 3;
         final var expectedErrorMessage = "'authority' should not be null";
         final var expectedErrorMessage2 = "'authority' should not be empty";
-        final var expectedErrorMessage3 = "'authority' should not be null";
+        final var expectedErrorMessage3 = "'authority' must be between 4 and 20 characters";
 
         // when
         final var actualException = Assertions.assertThrows(
@@ -56,7 +56,7 @@ class RoleTest {
         Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
         Assertions.assertEquals(expectedErrorMessage2, actualException.getErrors().get(1).message());
-        Assertions.assertEquals(expectedErrorMessage2, actualException.getErrors().get(2).message());
+        Assertions.assertEquals(expectedErrorMessage3, actualException.getErrors().get(2).message());
     }
 
     @Test
@@ -140,7 +140,7 @@ class RoleTest {
         final var expectedErrorCount = 3;
         final var expectedErrorMessage = "'authority' should not be null";
         final var expectedErrorMessage2 = "'authority' should not be empty";
-        final var expectedErrorMessage3 = "'authority' should not be null";
+        final var expectedErrorMessage3 = "'authority' must be between 4 and 20 characters";
         final var aRole = Fixture.Roles.member();
 
 
