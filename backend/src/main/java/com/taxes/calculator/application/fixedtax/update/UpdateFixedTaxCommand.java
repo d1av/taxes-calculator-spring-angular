@@ -11,7 +11,8 @@ public record UpdateFixedTaxCommand(String id,
 	BigDecimal regionalCouncil, BigDecimal taxOverWork,
 	BigDecimal incomeTax, BigDecimal accountant,
 	BigDecimal dentalShop, BigDecimal transport, BigDecimal food,
-	BigDecimal education, BigDecimal otherFixedCosts, UserID user) {
+	BigDecimal education, BigDecimal otherFixedCosts,
+	UserID user) {
 
     public static UpdateFixedTaxCommand from(final FixedTax aTax) {
 	return new UpdateFixedTaxCommand(aTax.getId().getValue(),

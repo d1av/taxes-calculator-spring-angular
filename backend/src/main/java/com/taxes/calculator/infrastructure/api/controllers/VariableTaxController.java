@@ -1,5 +1,6 @@
 package com.taxes.calculator.infrastructure.api.controllers;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
@@ -8,12 +9,15 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taxes.calculator.application.variabletax.create.CreateVariableTaxCommand;
 import com.taxes.calculator.application.variabletax.create.CreateVariableTaxUseCase;
 import com.taxes.calculator.application.variabletax.delete.DeleteVariableTaxUseCase;
 import com.taxes.calculator.application.variabletax.retrieve.get.GetVariableTaxByIdUseCase;
 import com.taxes.calculator.application.variabletax.retrieve.list.ListVariableTaxUseCase;
+import com.taxes.calculator.application.variabletax.update.UpdateVariableTaxCommand;
 import com.taxes.calculator.application.variabletax.update.UpdateVariableTaxUseCase;
 import com.taxes.calculator.domain.pagination.Pagination;
+import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.infrastructure.api.VariableTaxAPI;
 import com.taxes.calculator.infrastructure.variabletax.models.CreateVariableTaxRequest;
 import com.taxes.calculator.infrastructure.variabletax.models.UpdateVariableTaxRequest;
@@ -50,35 +54,55 @@ public class VariableTaxController implements VariableTaxAPI {
     public ResponseEntity<?> createVariableTax(
 	    @Valid CreateVariableTaxRequest input)
 	    throws URISyntaxException {
-	// TODO Auto-generated method stub
-	return null;
+	final var aCommand = CreateVariableTaxCommand.with(
+		input.dentalShop(), input.prosthetist(),
+		input.travel(), input.creditCard(), input.weekend(),
+		input.userId());
+
+	final var output = createVariableTaxUseCase.execute(aCommand);
+
+	final URI uri = new URI("api/variabletaxes/" + output.id());
+
+	return ResponseEntity.created(uri).body(output);
     }
 
     @Override
-    public Pagination<VariableTaxListResponse> listVariableTaxs(
+    public ResponseEntity<Pagination<VariableTaxListResponse>> list(
 	    String search, int page, int perPage, String sort,
 	    String direction) {
-	// TODO Auto-generated method stub
-	return null;
+	final var output = listVariableTaxUseCase
+		.execute(new SearchQuery(page, perPage, search, sort,
+			direction));
+
+	return ResponseEntity.ok()
+		.body(output.map(VariableTaxListResponse::present));
     }
 
     @Override
     public ResponseEntity<?> getById(String id) {
-	// TODO Auto-generated method stub
-	return null;
+
+	final var output = getVariableTaxByIdUseCase.execute(id);
+
+	return ResponseEntity.ok().body(output);
     }
 
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateVariableTaxRequest input) {
-	// TODO Auto-generated method stub
-	return null;
+	final var aCommand = UpdateVariableTaxCommand.with(id,
+		input.dentalShop(), input.prosthetist(),
+		input.travel(), input.creditCard(), input.weekend(),
+		input.userId());
+
+	final var output = updateVariableTaxUseCase.execute(aCommand);
+
+	return ResponseEntity.ok().body(output);
     }
 
     @Override
     public ResponseEntity<?> deleteById(String id) {
-	// TODO Auto-generated method stub
-	return null;
+	this.deleteVariableTaxUseCase.execute(id);
+	return ResponseEntity.noContent().build();
     }
 
 }

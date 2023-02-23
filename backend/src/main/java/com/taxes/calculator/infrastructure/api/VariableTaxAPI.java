@@ -47,7 +47,7 @@ public interface VariableTaxAPI {
 	    @ApiResponse(responseCode = "200", description = "Listed successfully"),
 	    @ApiResponse(responseCode = "422", description = "A invalid parameter was received"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
-    Pagination<VariableTaxListResponse> listVariableTaxs(
+    ResponseEntity<Pagination<VariableTaxListResponse>> list(
 	    @RequestParam(name = "search", required = false, defaultValue = "") final String search,
 	    @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
 	    @RequestParam(name = "perPage", required = false, defaultValue = "10") final int perPage,
