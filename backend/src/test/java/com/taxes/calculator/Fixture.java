@@ -1,17 +1,51 @@
 package com.taxes.calculator;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.hourvalue.HourValue;
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.user.UserID;
+import com.taxes.calculator.domain.utils.InstantUtils;
 import com.taxes.calculator.domain.variabletax.VariableTax;
 
 import net.datafaker.Faker;
 
 public class Fixture {
     private static Faker FAKER = new Faker();
+
+    public static class Calculate {
+	public static FixedTax fixed() {
+	    return FixedTax.with(BigDecimal.valueOf(10),
+		    BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+		    BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+		    BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+		    BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+		    nonVariableUser().getId());
+	}
+
+	public static VariableTax variable() {
+	    return VariableTax.with(BigDecimal.valueOf(10),
+		    BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+		    BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+		    nonVariableUser().getId());
+	}
+
+	public static HourValue hourValue() {
+	    return HourValue
+		    .newHourValue(BigDecimal.valueOf(10),
+			    BigDecimal.valueOf(10), 20)
+		    .addUser(nonVariableUser().getId());
+	}
+
+	public static User nonVariableUser() {
+	    final var now = InstantUtils.now();
+	    return User.with(UserID.from("123"), "Mia", "miamiamia", true,
+		    Set.of(), now, now, null);
+	}
+    }
 
     public static class Tax {
 	public static FixedTax fixed() {
@@ -36,14 +70,12 @@ public class Fixture {
 
 	public static VariableTax variableNullUser() {
 	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    null);
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4), null);
 	}
     }
 
     public static BigDecimal bigDecimal(int houses) {
-	return BigDecimal
-		.valueOf(FAKER.random().nextInt(0, houses * 10));
+	return BigDecimal.valueOf(FAKER.random().nextInt(0, houses * 10));
     }
 
     public static Integer daysOfWork() {
@@ -111,8 +143,7 @@ public class Fixture {
 	}
 
 	public static User abella() {
-	    return User.newUser("Abella Danger", "abelladanger",
-		    true);
+	    return User.newUser("Abella Danger", "abelladanger", true);
 	}
 
 	public static User active() {

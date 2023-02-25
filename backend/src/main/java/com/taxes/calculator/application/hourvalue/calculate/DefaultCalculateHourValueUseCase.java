@@ -25,6 +25,8 @@ import com.taxes.calculator.domain.variabletax.VariableTaxID;
 public class DefaultCalculateHourValueUseCase
 	extends CalculateHourValueUseCase {
 
+    private Integer HOURS_WORKED_PER_DAY = 8;
+
     private final HourValueGateway hourValueGateway;
     private final FixedTaxGateway fixedTaxGateway;
     private final VariableTaxGateway variableTaxGateway;
@@ -58,8 +60,8 @@ public class DefaultCalculateHourValueUseCase
 	final BigDecimal totalMonthlyCosts = aVariableTax
 		.getTotalVariableTax().add(aFixedTax.getTotalFixedTax());
 
-	final BigDecimal workedMonthHours = BigDecimal
-		.valueOf(aHourValue.getDaysOfWork() * 8);
+	final BigDecimal workedMonthHours = BigDecimal.valueOf(
+		aHourValue.getDaysOfWork() * HOURS_WORKED_PER_DAY);
 
 	final BigDecimal aSalary = aHourValue.getExpectedSalary();
 
@@ -81,9 +83,9 @@ public class DefaultCalculateHourValueUseCase
 		aHourValue.getDaysOfWork(), aHourValue.getCreatedAt(),
 		aHourValue.getUpdatedAt(), aHourValue.getUserId()));
 
-	return new CalculateHourValueOutput(calculatedValuePerHour,
-		aHourValue.getDaysOfWork(), aFixedTax.getId().getValue(),
-		aVariableTax.getId().getValue());
+	return CalculateHourValueOutput.with(calculatedValuePerHour,
+		workedMonthHours.intValue(), expectedSalary,
+		totalMonthlyCosts, aHourValue, aVariableTax, aFixedTax);
 
     }
 
@@ -105,7 +107,7 @@ public class DefaultCalculateHourValueUseCase
 
 	if (!Objects.equals(userId, aHourValue.getUserId().getValue())) {
 	    notification.append(
-		    new Error("Wrong Hour Value Tax for User with id: %s"
+		    new Error("Wrong Hour Value for User with id: %s"
 			    .formatted(userId)));
 	}
 

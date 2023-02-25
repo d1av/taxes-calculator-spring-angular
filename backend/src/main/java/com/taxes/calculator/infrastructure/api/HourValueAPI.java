@@ -82,7 +82,7 @@ public interface HourValueAPI {
     ResponseEntity<?> deleteById(
 	    @PathVariable(name = "id") String id);
     
-    @PostMapping(value = "calculate",
+    @PostMapping(value = "calculatemonthly",
 	    consumes = MediaType.APPLICATION_JSON_VALUE,
 	    produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a new HourValue")
