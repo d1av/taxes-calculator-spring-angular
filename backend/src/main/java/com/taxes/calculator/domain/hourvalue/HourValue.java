@@ -89,7 +89,7 @@ public class HourValue extends AggregateRoot<HourValueID> {
 
 	return this;
     }
-
+    
     private void selfValidate() {
 	final var notification = Notification.create();
 	validate(notification);

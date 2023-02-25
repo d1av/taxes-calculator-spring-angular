@@ -140,6 +140,14 @@ public class FixedTax extends AggregateRoot<FixedTaxID> {
 	}
     }
 
+    public BigDecimal getTotalFixedTax() {
+	return this.regionalCouncil.add(this.taxOverWork)
+		.add(this.accountant).add(this.incomeTax)
+		.add(this.dentalShop).add(this.transport)
+		.add(this.food).add(this.education)
+		.add(this.otherFixedCosts);
+    }
+
     public BigDecimal getRegionalCouncil() {
 	return regionalCouncil;
     }

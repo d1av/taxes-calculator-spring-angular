@@ -118,6 +118,11 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	}
     }
 
+    public BigDecimal getTotalVariableTax() {
+	return this.dentalShop.add(this.prosthetist).add(this.travel)
+		.add(this.creditCard).add(this.weekend);
+    }
+
     public UserID getUserId() {
 	return user;
     }
