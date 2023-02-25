@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taxes.calculator.application.hourvalue.calculate.CalculateHourValueCommand;
+import com.taxes.calculator.application.hourvalue.calculate.CalculateHourValueUseCase;
 import com.taxes.calculator.application.hourvalue.create.CreateHourValueCommand;
 import com.taxes.calculator.application.hourvalue.create.CreateHourValueUseCase;
 import com.taxes.calculator.application.hourvalue.delete.DeleteHourValueUseCase;
@@ -19,6 +21,7 @@ import com.taxes.calculator.application.hourvalue.update.UpdateHourValueUseCase;
 import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.infrastructure.api.HourValueAPI;
+import com.taxes.calculator.infrastructure.hourvalue.models.CalculateHourValueRequest;
 import com.taxes.calculator.infrastructure.hourvalue.models.CreateHourValueRequest;
 import com.taxes.calculator.infrastructure.hourvalue.models.HourValueListResponse;
 import com.taxes.calculator.infrastructure.hourvalue.models.HourValueResponse;
@@ -32,8 +35,10 @@ public class HourValueController implements HourValueAPI {
     private final GetHourValueByIdUseCase getHourValueByIdUseCase;
     private final ListHourValueUseCase listHourValueUseCase;
     private final DeleteHourValueUseCase deleteHourValueUseCase;
+    private final CalculateHourValueUseCase calculateHourValueUseCase;
 
     public HourValueController(
+	    final CalculateHourValueUseCase calculateHourValueUseCase,
 	    final CreateHourValueUseCase createHourValueUseCase,
 	    final UpdateHourValueUseCase updateHourValueUseCase,
 	    final GetHourValueByIdUseCase getHourValueByIdUseCase,
@@ -41,6 +46,8 @@ public class HourValueController implements HourValueAPI {
 	    final DeleteHourValueUseCase deleteHourValueUseCase) {
 	this.createHourValueUseCase = Objects
 		.requireNonNull(createHourValueUseCase);
+	this.calculateHourValueUseCase = Objects
+		.requireNonNull(calculateHourValueUseCase);
 	this.updateHourValueUseCase = Objects
 		.requireNonNull(updateHourValueUseCase);
 	this.getHourValueByIdUseCase = Objects
@@ -52,8 +59,7 @@ public class HourValueController implements HourValueAPI {
     }
 
     @Override
-    public ResponseEntity<?> create(
-	    @Valid CreateHourValueRequest input)
+    public ResponseEntity<?> create(@Valid CreateHourValueRequest input)
 	    throws URISyntaxException {
 	final var aCommand = CreateHourValueCommand.with(
 		input.expectedSalary(), input.personalHourValue(),
@@ -67,19 +73,17 @@ public class HourValueController implements HourValueAPI {
     }
 
     @Override
-    public Pagination<HourValueListResponse> list(String search,
-	    int page, int perPage, String sort, String direction) {
-	return this.listHourValueUseCase
-		.execute(new SearchQuery(page, perPage, search, sort,
-			direction))
+    public Pagination<HourValueListResponse> list(String search, int page,
+	    int perPage, String sort, String direction) {
+	return this.listHourValueUseCase.execute(
+		new SearchQuery(page, perPage, search, sort, direction))
 		.map(HourValueListResponse::present);
     }
 
     @Override
     public ResponseEntity<?> getById(String id) {
 	final var output = getHourValueByIdUseCase.execute(id);
-	return ResponseEntity.ok()
-		.body(HourValueResponse.from(output));
+	return ResponseEntity.ok().body(HourValueResponse.from(output));
     }
 
     @Override
@@ -98,6 +102,18 @@ public class HourValueController implements HourValueAPI {
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteHourValueUseCase.execute(id);
 	return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<?> calculateHourValue(
+	    @Valid CalculateHourValueRequest input) {
+	final var aCommand = CalculateHourValueCommand.with(
+		input.fixedTaxId(), input.variableTaxId(),
+		input.hourValueId(), input.userId());
+
+	final var output = calculateHourValueUseCase.execute(aCommand);
+
+	return ResponseEntity.ok().body(output);
     }
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.taxes.calculator.domain.pagination.Pagination;
+import com.taxes.calculator.infrastructure.hourvalue.models.CalculateHourValueRequest;
 import com.taxes.calculator.infrastructure.hourvalue.models.CreateHourValueRequest;
 import com.taxes.calculator.infrastructure.hourvalue.models.HourValueListResponse;
 import com.taxes.calculator.infrastructure.hourvalue.models.UpdateHourValueRequest;
@@ -80,4 +81,15 @@ public interface HourValueAPI {
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
     ResponseEntity<?> deleteById(
 	    @PathVariable(name = "id") String id);
+    
+    @PostMapping(value = "calculate",
+	    consumes = MediaType.APPLICATION_JSON_VALUE,
+	    produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create a new HourValue")
+    @ApiResponses(value = {
+	    @ApiResponse(responseCode = "201", description = "Created successfully"),
+	    @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
+	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
+    ResponseEntity<?> calculateHourValue(
+	    @Valid @RequestBody CalculateHourValueRequest input);
 }

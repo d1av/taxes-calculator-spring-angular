@@ -1,8 +1,15 @@
 package com.taxes.calculator.application.hourvalue.calculate;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Objects;
+
+import org.flywaydb.core.internal.logging.slf4j.Slf4jLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.taxes.calculator.domain.exceptions.NotFoundException;
+import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
 import com.taxes.calculator.domain.fixedtax.FixedTaxID;
@@ -10,6 +17,7 @@ import com.taxes.calculator.domain.hourvalue.HourValue;
 import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.hourvalue.HourValueID;
 import com.taxes.calculator.domain.validation.Error;
+import com.taxes.calculator.domain.validation.handler.Notification;
 import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
@@ -30,9 +38,13 @@ public class DefaultCalculateHourValueUseCase
 	this.variableTaxGateway = variableTaxGateway;
     }
 
+    private static Logger LOGGER = LoggerFactory
+	    .getLogger(DefaultCalculateHourValueUseCase.class);
+
     @Override
     public CalculateHourValueOutput execute(
 	    CalculateHourValueCommand anIn) {
+	final var userId = anIn.userId();
 	final var variableTaxId = anIn.variableTaxId();
 	final var fixedTaxId = anIn.fixedTaxId();
 	final var hourValueId = anIn.hourValueId();
@@ -41,14 +53,27 @@ public class DefaultCalculateHourValueUseCase
 	final var aFixedTax = fixedTax(fixedTaxId);
 	final var aHourValue = hourValue(hourValueId);
 
+	checkUserOnValues(userId, aVariableTax, aFixedTax, aHourValue);
+
 	final BigDecimal totalMonthlyCosts = aVariableTax
 		.getTotalVariableTax().add(aFixedTax.getTotalFixedTax());
 
 	final BigDecimal workedMonthHours = BigDecimal
 		.valueOf(aHourValue.getDaysOfWork() * 8);
 
-	final BigDecimal calculatedValuePerHour = totalMonthlyCosts
-		.divide(workedMonthHours);
+	final BigDecimal aSalary = aHourValue.getExpectedSalary();
+
+	final BigDecimal expectedSalary = aSalary.intValue() < 0
+		? BigDecimal.valueOf(0)
+		: aSalary;
+
+	final BigDecimal calculatedValuePerHour = (totalMonthlyCosts
+		.add(expectedSalary)).divide(workedMonthHours);
+
+	LOGGER.info(
+		"Monthly Costs: {} - workedMonthHours: {} - expectedSalary: {} - calculatedValue: {}",
+		totalMonthlyCosts, workedMonthHours, expectedSalary,
+		calculatedValuePerHour);
 
 	this.hourValueGateway.update(HourValue.with(
 		aHourValue.getId().getValue(),
@@ -59,6 +84,35 @@ public class DefaultCalculateHourValueUseCase
 	return new CalculateHourValueOutput(calculatedValuePerHour,
 		aHourValue.getDaysOfWork(), aFixedTax.getId().getValue(),
 		aVariableTax.getId().getValue());
+
+    }
+
+    private void checkUserOnValues(String userId, VariableTax aVariableTax,
+	    FixedTax aFixedTax, HourValue aHourValue) {
+	Notification notification = Notification.create();
+
+	if (!Objects.equals(userId, aVariableTax.getUserId().getValue())) {
+	    notification.append(
+		    new Error("Wrong Variable Tax for User with id: %s"
+			    .formatted(userId)));
+	}
+
+	if (!Objects.equals(userId, aFixedTax.getUser().getValue())) {
+	    notification.append(
+		    new Error("Wrong Fixed Tax for User with id: %s"
+			    .formatted(userId)));
+	}
+
+	if (!Objects.equals(userId, aHourValue.getUserId().getValue())) {
+	    notification.append(
+		    new Error("Wrong Hour Value Tax for User with id: %s"
+			    .formatted(userId)));
+	}
+
+	if (notification.hasError()) {
+	    throw new NotificationException(
+		    "Could not Calculate Hour Value", notification);
+	}
 
     }
 
