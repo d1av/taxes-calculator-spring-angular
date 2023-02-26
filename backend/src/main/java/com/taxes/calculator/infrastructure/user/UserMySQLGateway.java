@@ -106,12 +106,9 @@ public class UserMySQLGateway implements UserGateway {
     @Transactional
     private User save(User aUser) {
 	System.out.println(passwordEncoder.encode(aUser.getPassword()));
-	final var hashedUser = User.with(aUser.getId(), aUser.getName(),
-		passwordEncoder.encode(aUser.getPassword()),
-		aUser.getActive(), aUser.getRoles(), aUser.getCreatedAt(),
-		aUser.getUpdatedAt(), aUser.getDeletedAt());
-
-	return this.userRepository.save(UserJpaEntity.from(hashedUser))
+	final var hashedPassword = passwordEncoder.encode(aUser.getPassword());
+	
+	return this.userRepository.save(UserJpaEntity.from(aUser,hashedPassword))
 		.toAggregate();
     }
 }

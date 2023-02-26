@@ -74,6 +74,17 @@ public class UserJpaEntity {
 
 	return anEntity;
     }
+    
+    public static UserJpaEntity from(final User aUser, String hashedPassword) {
+	final var anEntity = new UserJpaEntity(
+		aUser.getId().getValue(), aUser.getName(),
+		hashedPassword, aUser.getActive(),
+		aUser.getCreatedAt(), aUser.getUpdatedAt(),
+		aUser.getDeletedAt());
+	aUser.getRoles().forEach(anEntity::addRole);
+	
+	return anEntity;
+    }
 
     public User toAggregate() {
 	final var roleIdList = getRoles() != null

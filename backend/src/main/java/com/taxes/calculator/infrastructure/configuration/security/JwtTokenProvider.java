@@ -20,7 +20,7 @@ public class JwtTokenProvider {
 
     private String jwtSecret = "2a10PpT8k8VQjaseDzyUg4HIYe8sR4gBKiQ1SdP1UDDGcwG6zZc4XWGBK";
 
-    private Long jwtExpirationDate = 11233l;
+    private Long jwtExpirationDate = 11233112212121212l;
 
     // generate JWT token
     public String generateToken(Authentication authentication) {
