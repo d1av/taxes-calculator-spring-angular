@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.taxes.calculator.domain.pagination.Pagination;
@@ -28,9 +29,12 @@ import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 public class UserMySQLGateway implements UserGateway {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserMySQLGateway(final UserRepository userRepository) {
-	this.userRepository = Objects.requireNonNull(userRepository);
+    public UserMySQLGateway(final UserRepository userRepository,
+	    final PasswordEncoder passwordEncoder) {
+	this.userRepository = userRepository;
+	this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -53,8 +57,7 @@ public class UserMySQLGateway implements UserGateway {
     @Override
     @Transactional
     public Pagination<User> findAll(SearchQuery aQuery) {
-	final var page = PageRequest.of(aQuery.page(),
-		aQuery.perPage(),
+	final var page = PageRequest.of(aQuery.page(), aQuery.perPage(),
 		Sort.by(Sort.Direction.fromString(aQuery.direction()),
 			aQuery.sort()));
 
@@ -85,8 +88,7 @@ public class UserMySQLGateway implements UserGateway {
 
     @Override
     public List<UserID> existsByIds(Iterable<UserID> userIds) {
-	final var ids = StreamSupport
-		.stream(userIds.spliterator(), false)
+	final var ids = StreamSupport.stream(userIds.spliterator(), false)
 		.map(UserID::getValue).toList();
 	return this.userRepository.existsByIds(ids).stream()
 		.map(UserID::from).collect(Collectors.toList());
@@ -95,8 +97,7 @@ public class UserMySQLGateway implements UserGateway {
     @Transactional
     private Specification<UserJpaEntity> assembleSpecification(
 	    final String str) {
-	final Specification<UserJpaEntity> nameLike = like("name",
-		str);
+	final Specification<UserJpaEntity> nameLike = like("name", str);
 	final Specification<UserJpaEntity> descriptionLike = like(
 		"description", str);
 	return nameLike.or(like("description", str));
@@ -104,7 +105,13 @@ public class UserMySQLGateway implements UserGateway {
 
     @Transactional
     private User save(User aUser) {
-	return this.userRepository.save(UserJpaEntity.from(aUser))
+	System.out.println(passwordEncoder.encode(aUser.getPassword()));
+	final var hashedUser = User.with(aUser.getId(), aUser.getName(),
+		passwordEncoder.encode(aUser.getPassword()),
+		aUser.getActive(), aUser.getRoles(), aUser.getCreatedAt(),
+		aUser.getUpdatedAt(), aUser.getDeletedAt());
+
+	return this.userRepository.save(UserJpaEntity.from(hashedUser))
 		.toAggregate();
     }
 }

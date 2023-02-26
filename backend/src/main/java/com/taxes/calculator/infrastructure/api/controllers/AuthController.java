@@ -1,8 +1,5 @@
 package com.taxes.calculator.infrastructure.api.controllers;
 
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +22,7 @@ public class AuthController implements AuthAPI {
 
 	        String token = authService.login(input);        
 	                
-	        return ResponseEntity.ok().body(AuthResponse.with("AMIGO"));
+	        return ResponseEntity.ok().body(AuthResponse.with(token));
     }
 
 
