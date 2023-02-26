@@ -136,7 +136,7 @@ public class UserTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'password' should not be null";
-	final var expectedErrorMessage2 = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage2 = "'password' must be between 6 and 255 characters";
 
 	// when
 	final var actualException = Assertions
@@ -158,13 +158,13 @@ public class UserTest {
     public void givenAInvalidEmptyPassword_whenCallsCreateUser_shouldReturnAnNotification() {
 	// given
 	final String expectedName = Fixture.name();
-	final String expectedPassword = Fixture.password(22);
+	final String expectedPassword = Fixture.password(1);
 	final Set<RoleID> expectedRoles = Set
 		.of(Fixture.Roles.member().getId());
 	final boolean expectedActive = true;
 
 	final var expectedErrorCount = 1;
-	final var expectedErrorMesage = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage1 = "'password' must be between 6 and 255 characters";
 
 	// when
 	final var actualException = Assertions
@@ -176,7 +176,7 @@ public class UserTest {
 	// then
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMesage,
+	Assertions.assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
     }
 
@@ -191,7 +191,7 @@ public class UserTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'password' should not be empty";
-	final var expectedErrorMessage2 = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage2 = "'password' must be between 6 and 255 characters";
 
 	// when
 	final var actualException = Assertions

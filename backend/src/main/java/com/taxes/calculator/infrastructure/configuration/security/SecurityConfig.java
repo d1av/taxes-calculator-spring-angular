@@ -2,6 +2,7 @@ package com.taxes.calculator.infrastructure.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -49,7 +50,10 @@ public class SecurityConfig {
 
 	http.csrf().disable().authorizeHttpRequests((authorize) ->
 	// authorize.anyRequest().authenticated()
-	authorize
+	authorize.antMatchers(HttpMethod.GET,"/api/**").permitAll()
+		.antMatchers(HttpMethod.POST,"/api/**").permitAll()
+		.antMatchers(HttpMethod.PUT,"/api/**").permitAll()
+		.antMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
 		.anyRequest().permitAll())
 		.exceptionHandling(
 			exception -> exception.authenticationEntryPoint(

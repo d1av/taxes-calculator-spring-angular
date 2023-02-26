@@ -171,7 +171,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'password' should not be null";
-	final var expectedErrorMessage2 = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage2 = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedItems);
@@ -214,7 +214,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 		.collect(Collectors.toSet());
 
 	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);
@@ -245,7 +245,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
     void givenAInvalidMaxLengthPasswordCommand_whenCreateUser_shouldReturnException() {
 	// given
 	final var expectedName = Fixture.name();
-	final String expectedPassword = Fixture.text(21);
+	final String expectedPassword = Fixture.text(256);
 	final var expectedIsActive = true;
 	final var expectedItems = Set.of(Fixture.Roles.guest(),
 		Fixture.Roles.member());
@@ -255,7 +255,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 		.collect(Collectors.toSet());
 
 	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedRoles);

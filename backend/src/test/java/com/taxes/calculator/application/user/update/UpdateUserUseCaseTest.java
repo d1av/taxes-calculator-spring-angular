@@ -227,7 +227,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedRoles = Set.<RoleID>of();
 
 	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -260,12 +260,12 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 
 	final var expectedId = aUser.getId();
 	final String expectedName = "Mia";
-	final String expectedPassword = Fixture.password(21);
+	final String expectedPassword = Fixture.password(256);
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
 
 	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'password' must be between 6 and 20 characters";
+	final var expectedErrorMessage = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,

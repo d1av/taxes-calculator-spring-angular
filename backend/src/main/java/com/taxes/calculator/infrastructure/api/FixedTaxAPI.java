@@ -43,7 +43,6 @@ public interface FixedTaxAPI {
 	    @Valid @RequestBody CreateFixedTaxRequest input)
 	    throws URISyntaxException;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @Operation(summary = "List all FixedTaxs paginated")
     @ApiResponses(value = {

@@ -88,9 +88,16 @@ public class Fixture {
 
     public static String password(int passwordLength) {
 	passwordLength = Math.abs(passwordLength);
-	if (passwordLength > 100)
-	    passwordLength = 100;
-	return FAKER.aws().subnetId().substring(0, passwordLength);
+	if (passwordLength > 300)
+	    passwordLength = 300;
+
+	StringBuilder stringBuilder = new StringBuilder();
+	
+	for (int i = 0; i < passwordLength; i++) {
+	    stringBuilder.append(FAKER.aws().subnetId().substring(0,1));
+	}
+	
+	return stringBuilder.toString();
     }
 
     public static String text(int number) {
@@ -125,15 +132,15 @@ public class Fixture {
 
     public static class Roles {
 	public static Role guest() {
-	    return Role.newRole("guest");
+	    return Role.newRole("role_guest");
 	}
 
 	public static Role member() {
-	    return Role.newRole("member");
+	    return Role.newRole("role_member");
 	}
 
 	public static String roleName() {
-	    return FAKER.onePiece().akumasNoMi().replace(" ", "");
+	    return "ROLE_" +FAKER.onePiece().akumasNoMi().replace(" ", "");
 	}
     }
 
