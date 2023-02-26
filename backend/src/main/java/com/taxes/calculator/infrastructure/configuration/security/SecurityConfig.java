@@ -1,11 +1,10 @@
 package com.taxes.calculator.infrastructure.configuration.security;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,41 +25,42 @@ public class SecurityConfig {
     private JwtAuthenticationFilter authenticationFilter;
 
     public SecurityConfig(UserDetailsService userDetailsService,
-                          JwtAuthenticationEntryPoint authenticationEntryPoint,
-                          JwtAuthenticationFilter authenticationFilter) {
-        this.userDetailsService = userDetailsService;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationFilter = authenticationFilter;
+	    JwtAuthenticationEntryPoint authenticationEntryPoint,
+	    JwtAuthenticationFilter authenticationFilter) {
+	this.userDetailsService = userDetailsService;
+	this.authenticationEntryPoint = authenticationEntryPoint;
+	this.authenticationFilter = authenticationFilter;
     }
 
-  
     @Bean
     static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+	return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    AuthenticationManager authenticationManager(
+	    AuthenticationConfiguration configuration) throws Exception {
+	return configuration.getAuthenticationManager();
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http)
+	    throws Exception {
 
-        http.csrf().disable()
-                .authorizeHttpRequests((authorize) ->
-                        //authorize.anyRequest().authenticated()
-                        authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
-                        	.antMatchers("/api/**").permitAll()
-                                .antMatchers("/api/auth/**").permitAll()
-                ).exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                ).sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+	http.csrf().disable().authorizeHttpRequests((authorize) ->
+	// authorize.anyRequest().authenticated()
+	authorize
+		.anyRequest().permitAll())
+		.exceptionHandling(
+			exception -> exception.authenticationEntryPoint(
+				authenticationEntryPoint))
+		.sessionManagement(
+			session -> session.sessionCreationPolicy(
+				SessionCreationPolicy.STATELESS));
 
-        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+	http.addFilterBefore(authenticationFilter,
+		UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
+	return http.build();
     }
 }

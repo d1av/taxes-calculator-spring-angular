@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.taxes.calculator.infrastructure.api.AuthAPI;
 import com.taxes.calculator.infrastructure.auth.AuthMySQLGateway;
+import com.taxes.calculator.infrastructure.auth.models.AuthOutput;
 import com.taxes.calculator.infrastructure.auth.models.AuthRequest;
 import com.taxes.calculator.infrastructure.auth.models.AuthResponse;
 
@@ -20,9 +21,9 @@ public class AuthController implements AuthAPI {
     @Override
     public ResponseEntity<AuthResponse> login(AuthRequest input) {
 
-	        String token = authService.login(input);        
+	        AuthOutput output = authService.login(input);        
 	                
-	        return ResponseEntity.ok().body(AuthResponse.with(token));
+	        return ResponseEntity.ok().body(AuthResponse.with(output));
     }
 
 

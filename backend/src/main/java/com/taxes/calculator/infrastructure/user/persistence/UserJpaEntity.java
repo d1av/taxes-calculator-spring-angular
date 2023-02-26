@@ -107,6 +107,7 @@ public class UserJpaEntity {
 	this.updatedAt = InstantUtils.now();
     }
 
+    
     public List<RoleID> getCategoriesIDs() {
 	return getRoles().stream()
 		.map(x -> RoleID.from(x.getId().getRoleId()))

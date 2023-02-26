@@ -19,7 +19,7 @@ public class JwtAuthenticationEntryPoint
 	    HttpServletResponse response,
 	    AuthenticationException authException)
 	    throws IOException, ServletException {
-
+	System.out.println(authException.getMessage());
 	response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 		authException.getMessage());
     }

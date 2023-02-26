@@ -1,5 +1,8 @@
 package com.taxes.calculator.infrastructure.auth;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,9 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.infrastructure.auth.models.AuthOutput;
 import com.taxes.calculator.infrastructure.auth.models.AuthRequest;
 import com.taxes.calculator.infrastructure.configuration.security.JwtTokenProvider;
 import com.taxes.calculator.infrastructure.role.persistence.RoleRepository;
+import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 
 @Service
@@ -24,8 +29,7 @@ public class AuthMySQLGateway {
     private RoleRepository roleRepository;
     private JwtTokenProvider jwtTokenProvider;
 
-    public AuthMySQLGateway(
-	    final PasswordEncoder passwordEncoder,
+    public AuthMySQLGateway(final PasswordEncoder passwordEncoder,
 	    final AuthenticationManager authenticationManager,
 	    final UserRepository userRepository,
 	    final RoleRepository roleRepository,
@@ -37,7 +41,7 @@ public class AuthMySQLGateway {
 	this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public String login(AuthRequest authRequest) {
+    public AuthOutput login(AuthRequest authRequest) {
 	Authentication authentication = authenticationManager.authenticate(
 		new UsernamePasswordAuthenticationToken(authRequest.name(),
 			authRequest.password()));
@@ -47,15 +51,19 @@ public class AuthMySQLGateway {
 
 	String token = jwtTokenProvider.generateToken(authentication);
 
-	return token;
+	List<String> roles = authentication.getAuthorities().stream()
+		.map(x -> x.getAuthority()).collect(Collectors.toList());
+
+	return AuthOutput.with(token,roles);
     }
 
     @Transactional
-    public User authenticated() {
+    public UserJpaEntity authenticated() {
 	try {
 	    String username = SecurityContextHolder.getContext()
 		    .getAuthentication().getName();
-	    return userRepository.findByName(username).get().toAggregate();
+
+	    return userRepository.findByName(username).get();
 	} catch (Exception e) {
 	    throw new Error("Invalid user");
 	}
@@ -63,10 +71,10 @@ public class AuthMySQLGateway {
     }
 
 //    public void validateSelfOrAdmin(String userId) {
-//        User user = authenticated();
-//        if(user.getId().getValue() != userId && !user.hasRole("ROLE_ADMIN")) {
-//            throw new Error("Acess denied");
-//        }
+//	UserJpaEntity user = authenticated();
+//	if (user.getId() != userId && !user.hasRole("ADMIN")) {
+//	    throw new Error("Access denied");
+//	}
 //    }
 
 }

@@ -20,7 +20,11 @@ public class Role extends AggregateRoot<RoleID> {
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
 	selfValidate();
-	this.authority = authority.toUpperCase();
+	this.authority = hasRoleString(authority.toUpperCase());
+    }
+
+    private String hasRoleString(String upperCase) {
+	return upperCase;
     }
 
     public static Role with(final RoleID id, final String authority,

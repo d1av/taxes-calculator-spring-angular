@@ -20,7 +20,7 @@ public class JwtTokenProvider {
 
     private String jwtSecret = "2a10PpT8k8VQjaseDzyUg4HIYe8sR4gBKiQ1SdP1UDDGcwG6zZc4XWGBK";
 
-    private Long jwtExpirationDate = 11233112212121212l;
+    private Long jwtExpirationDate = 1977425363l;
 
     // generate JWT token
     public String generateToken(Authentication authentication) {
@@ -31,10 +31,9 @@ public class JwtTokenProvider {
 	Date expireDate = new Date(
 		currentDate.getTime() + jwtExpirationDate);
 
-	String token = Jwts.builder().setSubject(username)
+	return Jwts.builder().setSubject(username)
 		.setIssuedAt(new Date()).setExpiration(expireDate)
 		.signWith(key()).compact();
-	return token;
     }
 
     private Key key() {
