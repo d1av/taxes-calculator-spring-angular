@@ -11,10 +11,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://${mysql.url:localhost:3306}/${mysql.schema:taxes_calculator}?useSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://${mysql.url:localhost:3306}/${mysql.schema:taxes_calculator}?useSSL=false&serverTimezone=UTC
     username: "${mysql.username:root}"
     password: "${mysql.password:root}"
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver  #com.mysql.cj.jdbc.Driver
     hikari:
       auto-commit: false
       connection-timeout: 250 # é feito em miliseconds. O ideal é manter baixo para estorar timeout

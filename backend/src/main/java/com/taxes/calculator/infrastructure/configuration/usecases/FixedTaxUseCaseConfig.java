@@ -20,16 +20,13 @@ import com.taxes.calculator.domain.user.UserGateway;
 
 @Configuration
 public class FixedTaxUseCaseConfig {
-
     private final FixedTaxGateway fixedTaxGateway;
     private final UserGateway userGateway;
 
-    public FixedTaxUseCaseConfig(
-	    final FixedTaxGateway fixedTaxGateway,
+    public FixedTaxUseCaseConfig(final FixedTaxGateway fixedTaxGateway,
 	    final UserGateway userGateway) {
 	super();
-	this.fixedTaxGateway = Objects
-		.requireNonNull(fixedTaxGateway);
+	this.fixedTaxGateway = Objects.requireNonNull(fixedTaxGateway);
 	this.userGateway = Objects.requireNonNull(userGateway);
     }
 
@@ -40,12 +37,14 @@ public class FixedTaxUseCaseConfig {
 
     @Bean
     CreateFixedTaxUseCase createFixedTaxUseCase() {
-	return new DefaultCreateFixedTaxUseCase(fixedTaxGateway,userGateway);
+	return new DefaultCreateFixedTaxUseCase(fixedTaxGateway,
+		userGateway);
     }
 
     @Bean
     UpdateFixedTaxUseCase updateFixedTaxUseCase() {
-	return new DefaultUpdateFixedTaxUseCase(fixedTaxGateway,userGateway);
+	return new DefaultUpdateFixedTaxUseCase(fixedTaxGateway,
+		userGateway);
     }
 
     @Bean

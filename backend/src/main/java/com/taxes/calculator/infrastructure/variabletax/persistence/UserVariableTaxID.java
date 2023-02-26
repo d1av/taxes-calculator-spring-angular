@@ -1,6 +1,7 @@
 package com.taxes.calculator.infrastructure.variabletax.persistence;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -28,6 +29,24 @@ public class UserVariableTaxID implements Serializable {
     public static UserVariableTaxID from(final String userId,
 	    final String variableTaxId) {
 	return new UserVariableTaxID(userId, variableTaxId);
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(userId, variableTaxId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	UserVariableTaxID other = (UserVariableTaxID) obj;
+	return Objects.equals(userId, other.userId)
+		&& Objects.equals(variableTaxId, other.variableTaxId);
     }
 
     public String getUserId() {
