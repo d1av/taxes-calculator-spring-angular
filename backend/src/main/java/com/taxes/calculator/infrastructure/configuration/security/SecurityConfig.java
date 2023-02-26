@@ -33,6 +33,7 @@ public class SecurityConfig {
         this.authenticationFilter = authenticationFilter;
     }
 
+  
     @Bean
     static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -50,14 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated()
                         authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                .antMatchers("/api/auth/**").permitAll()
-                                .antMatchers("/v3/api-docs/**",
-                                        "/configuration/ui",
-                                        "/swagger-resources/**",
-                                        "/configuration/security",
-                                        "/webjars/**",
-                                        "/swagger-ui/**").permitAll()
-                                .anyRequest().authenticated()
+                                .antMatchers("/api/**").permitAll()
                 ).exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationEntryPoint)
                 ).sessionManagement(session -> session
