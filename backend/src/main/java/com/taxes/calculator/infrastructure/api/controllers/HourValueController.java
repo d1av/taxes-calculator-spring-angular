@@ -6,10 +6,13 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taxes.calculator.application.hourvalue.calculate.CalculateHourValueCommand;
+import com.taxes.calculator.application.hourvalue.calculate.CalculateHourValueOutput;
 import com.taxes.calculator.application.hourvalue.calculate.CalculateHourValueUseCase;
 import com.taxes.calculator.application.hourvalue.create.CreateHourValueCommand;
 import com.taxes.calculator.application.hourvalue.create.CreateHourValueUseCase;
@@ -25,6 +28,7 @@ import com.taxes.calculator.infrastructure.hourvalue.models.CalculateHourValueRe
 import com.taxes.calculator.infrastructure.hourvalue.models.CreateHourValueRequest;
 import com.taxes.calculator.infrastructure.hourvalue.models.HourValueListResponse;
 import com.taxes.calculator.infrastructure.hourvalue.models.HourValueResponse;
+import com.taxes.calculator.infrastructure.hourvalue.models.MonthlyOutput;
 import com.taxes.calculator.infrastructure.hourvalue.models.UpdateHourValueRequest;
 
 @RestController
@@ -105,15 +109,17 @@ public class HourValueController implements HourValueAPI {
     }
 
     @Override
-    public ResponseEntity<?> calculateHourValue(
+    @Cacheable("calculateHourValue")
+    public ResponseEntity<MonthlyOutput> calculateHourValue(
 	    @Valid CalculateHourValueRequest input) {
 	final var aCommand = CalculateHourValueCommand.with(
 		input.fixedTaxId(), input.variableTaxId(),
 		input.hourValueId(), input.userId());
 
-	final var output = calculateHourValueUseCase.execute(aCommand);
-
-	return ResponseEntity.ok().body(output);
+	final CalculateHourValueOutput output = calculateHourValueUseCase.execute(aCommand);
+	MonthlyOutput monthlyOutput = MonthlyOutput.from(output);
+	
+	return new ResponseEntity<>(monthlyOutput,HttpStatus.OK);
     }
 
 }

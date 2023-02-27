@@ -2,7 +2,6 @@ package com.taxes.calculator.infrastructure.configuration.usecases;
 
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,22 +17,20 @@ import com.taxes.calculator.application.user.update.DefaultUpdateUserUseCase;
 import com.taxes.calculator.application.user.update.UpdateUserUseCase;
 import com.taxes.calculator.domain.role.RoleGateway;
 import com.taxes.calculator.domain.user.UserGateway;
-import com.taxes.calculator.infrastructure.user.UserMySQLGateway;
-import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 
 @Configuration
 public class UserUseCaseConfig {
-    
+
     private final UserGateway userGateway;
 
     private final RoleGateway roleGateway;
-    
+
     public UserUseCaseConfig(final UserGateway userGateway,
 	    final RoleGateway roleGateway) {
 	this.userGateway = Objects.requireNonNull(userGateway);
 	this.roleGateway = Objects.requireNonNull(roleGateway);
     }
- 
+
     @Bean
     GetUserByIdUseCase getUserByIdUseCase() {
 	return new DefaultGetUserByIdUseCase(userGateway);

@@ -1,5 +1,9 @@
 package com.taxes.calculator.infrastructure.configuration.security;
 
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,18 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.taxes.calculator.domain.exceptions.NotFoundException;
-import com.taxes.calculator.domain.role.Role;
-import com.taxes.calculator.domain.role.RoleID;
-import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.infrastructure.role.persistence.RoleRepository;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
-
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

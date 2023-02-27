@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.taxes.calculator.domain.user.UserID;
 
+
 @Entity(name = "UserVariableTax")
 @Table(name = "users_variabletaxes")
 public class UserVariableTaxJpaEntity {

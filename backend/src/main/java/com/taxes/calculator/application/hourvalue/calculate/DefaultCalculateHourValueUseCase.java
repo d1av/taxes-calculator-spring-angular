@@ -1,12 +1,12 @@
 package com.taxes.calculator.application.hourvalue.calculate;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Objects;
 
-import org.flywaydb.core.internal.logging.slf4j.Slf4jLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 
 import com.taxes.calculator.domain.exceptions.NotFoundException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
@@ -23,7 +23,9 @@ import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
 
 public class DefaultCalculateHourValueUseCase
-	extends CalculateHourValueUseCase {
+	extends CalculateHourValueUseCase implements Serializable {
+
+    private static final long serialVersionUID = -3767877691070366399L;
 
     private Integer HOURS_WORKED_PER_DAY = 8;
 

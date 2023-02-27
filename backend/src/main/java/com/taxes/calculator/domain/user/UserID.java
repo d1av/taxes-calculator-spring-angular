@@ -3,9 +3,10 @@ package com.taxes.calculator.domain.user;
 import com.taxes.calculator.domain.Identifier;
 import com.taxes.calculator.domain.utils.IdUtils;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class UserID extends Identifier {
+public class UserID extends Identifier implements Serializable {
     private final String value;
 
     public UserID(final String value) {

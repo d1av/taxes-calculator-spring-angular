@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface HourValueRepository
 	extends JpaRepository<HourValueJpaEntity, String> {
 
-    Page<HourValueJpaEntity> findAll(Specification<HourValueJpaEntity> whereClause, Pageable pageable);
-    
+    Page<HourValueJpaEntity> findAll(
+	    Specification<HourValueJpaEntity> whereClause,
+	    Pageable pageable);
+
 }

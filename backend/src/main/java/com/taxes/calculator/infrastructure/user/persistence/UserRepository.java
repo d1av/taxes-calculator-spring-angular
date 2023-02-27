@@ -10,15 +10,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.taxes.calculator.domain.pagination.Pagination;
-import com.taxes.calculator.domain.pagination.SearchQuery;
-import com.taxes.calculator.domain.user.User;
-
 public interface UserRepository
 	extends JpaRepository<UserJpaEntity, String> {
 
-    Page<UserJpaEntity> findAll(
-	    Specification<UserJpaEntity> whereClause,
+    Page<UserJpaEntity> findAll(Specification<UserJpaEntity> whereClause,
 	    Pageable pageable);
 
     Optional<UserJpaEntity> findByName(String name);

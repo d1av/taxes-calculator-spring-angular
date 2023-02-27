@@ -1,19 +1,14 @@
 package com.taxes.calculator.infrastructure.role.persistence;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.taxes.calculator.domain.role.Role;
 import com.taxes.calculator.domain.role.RoleID;
-import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 
 @Entity(name = "Role")
 @Table(name = "roles")
