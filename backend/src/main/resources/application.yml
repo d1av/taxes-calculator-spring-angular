@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${port:8080}
  # servlet:
    # context-path: /api
   compression:
@@ -8,8 +8,6 @@ server:
     threads:
       worker: 64
       io: 4
-
-
 spring:
   datasource:
     url: jdbc:mysql://${mysql.url:localhost:3306}/${mysql.schema:taxes_calculator}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
@@ -20,8 +18,8 @@ spring:
       auto-commit: false
       connection-timeout: 250 # é feito em miliseconds. O ideal é manter baixo para estorar timeout
       max-lifetime: 600000 #tempo adviso que uso conexão pode ficar aberto (19mins) - security
-      maximum-pool-size: 20 #numero até o max 20 conexões com o banco de dados. O ideal é manter baixo
-      minimum-idle: 10
+      maximum-pool-size: 10 #numero até o max 20 conexões com o banco de dados. O ideal é manter baixo
+      minimum-idle: 5
       pool-name: master
   jpa:
     open-in-view: false
@@ -38,5 +36,9 @@ spring:
   cache:
     type: redis
   redis:
-    host: localhost
-    port: 6379
+    host: ${redis.url:localhost}
+    port: ${redis.port:6379}
+    
+jwt:
+  secret: ${jwt.key:2a10PpT8k8VQjaseDzyUg4HIYe8sR4gBKiQ1SdP1UDDGcwG6zZc4XWGBK}
+  expiration: ${jwt.duration:1977425363}

@@ -54,8 +54,10 @@ public class SecurityConfig {
 		.antMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
 		.antMatchers("/api/users/**").hasRole("ADMIN")
 		.antMatchers("/api/roles/**").hasRole("ADMIN")
-		.antMatchers("/api/auth/**").permitAll()
-		.anyRequest().authenticated())
+		.antMatchers("/api/fixedtaxes/**").hasRole("MEMBER")
+		.antMatchers("/api/variabletaxes/**").hasRole("MEMBER")
+		.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
+		.antMatchers("/api/auth/**").permitAll())
 		.exceptionHandling(
 			exception -> exception.authenticationEntryPoint(
 				authenticationEntryPoint))

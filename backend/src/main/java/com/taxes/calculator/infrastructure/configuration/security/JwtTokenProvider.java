@@ -18,9 +18,11 @@ import com.taxes.calculator.domain.exceptions.DomainException;
 @Component
 public class JwtTokenProvider {
 
-    private String jwtSecret = "2a10PpT8k8VQjaseDzyUg4HIYe8sR4gBKiQ1SdP1UDDGcwG6zZc4XWGBK";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
-    private Long jwtExpirationDate = 1977425363l;
+    @Value("${jwt.expiration}")
+    private Long jwtExpirationDate;
 
     // generate JWT token
     public String generateToken(Authentication authentication) {
@@ -56,7 +58,7 @@ public class JwtTokenProvider {
 	} catch (MalformedJwtException ex) {
 	    throw DomainException.with(new Error("Invalid JWT token"));
 	} catch (ExpiredJwtException ex) {
-	    throw DomainException.with(new Error("Invalid JWT token"));
+	    throw DomainException.with(new Error("Invalid JWT tokens"));
 	} catch (UnsupportedJwtException ex) {
 	    throw DomainException.with(new Error("Unsupported JWT token"));
 	} catch (IllegalArgumentException ex) {
