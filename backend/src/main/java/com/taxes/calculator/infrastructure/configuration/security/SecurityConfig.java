@@ -49,14 +49,13 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http)
 	    throws Exception {
 
-	http.csrf().disable()
-	.authorizeHttpRequests((authorize) ->
-	// authorize.anyRequest().authenticated()
-	authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/api/**").permitAll()
-		.antMatchers(HttpMethod.PUT, "/api/**").permitAll()
-		.antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-		.anyRequest().permitAll())
+	http.csrf().disable().authorizeHttpRequests((authorize) ->
+	authorize
+		.antMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
+		.antMatchers("/api/users/**").hasRole("ADMIN")
+		.antMatchers("/api/roles/**").hasRole("ADMIN")
+		.antMatchers("/api/auth/**").permitAll()
+		.anyRequest().authenticated())
 		.exceptionHandling(
 			exception -> exception.authenticationEntryPoint(
 				authenticationEntryPoint))

@@ -20,7 +20,7 @@ public class JwtAuthenticationEntryPoint
 	    AuthenticationException authException)
 	    throws IOException, ServletException {
 	
-	response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+	response.sendError(HttpServletResponse.SC_FORBIDDEN,
 		authException.getMessage());
     }
 
