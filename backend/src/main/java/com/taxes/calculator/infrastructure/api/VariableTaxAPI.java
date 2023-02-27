@@ -73,7 +73,7 @@ public interface VariableTaxAPI {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a VariableTax by it's identifier")
+    @Operation(summary = "Delete a VariableTax by it's identifier. ONLY ADMIN.")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "204", description = "VariableTax deleted successfully"),
 	    @ApiResponse(responseCode = "404", description = "VariableTax was not found"),

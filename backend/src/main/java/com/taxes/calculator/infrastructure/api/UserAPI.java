@@ -75,7 +75,7 @@ public interface UserAPI {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a user by it's identifier")
+    @Operation(summary = "Delete a user by it's identifier. ONLY ADMIN.")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "204", description = "user deleted successfully"),
 	    @ApiResponse(responseCode = "404", description = "user was not found"),

@@ -75,7 +75,7 @@ public interface FixedTaxAPI {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a FixedTax by it's identifier")
+    @Operation(summary = "Delete a FixedTax by it's identifier. ONLY ADMIN")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "204", description = "FixedTax deleted successfully"),
 	    @ApiResponse(responseCode = "404", description = "FixedTax was not found"),

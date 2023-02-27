@@ -75,7 +75,7 @@ public interface HourValueAPI {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a HourValue by it's identifier")
+    @Operation(summary = "Delete a HourValue by it's identifier. ONLY ADMIN.")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "204", description = "HourValue deleted successfully"),
 	    @ApiResponse(responseCode = "404", description = "HourValue was not found"),

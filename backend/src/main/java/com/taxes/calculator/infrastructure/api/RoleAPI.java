@@ -75,7 +75,7 @@ public interface RoleAPI {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a role by it's identifier")
+    @Operation(summary = "Delete a role by it's identifier.  ONLY ADMIN")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "204", description = "role deleted successfully"),
 	    @ApiResponse(responseCode = "404", description = "role was not found"),
