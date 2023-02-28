@@ -86,9 +86,10 @@ public interface HourValueAPI {
     @PostMapping(value = "monthly",
 	    consumes = MediaType.APPLICATION_JSON_VALUE,
 	    produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Create a new HourValue")
+    @Operation(summary = "Calculate the hour value based on user fixed tax and variable tax. USES CACHE")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "201", description = "Created successfully"),
+	    @ApiResponse(responseCode = "404", description = "One or more elements were not found"),
 	    @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
     ResponseEntity<MonthlyOutput> calculateHourValue(
