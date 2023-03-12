@@ -20,6 +20,8 @@ import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxJpaEntity;
 import com.taxes.calculator.infrastructure.hourvalue.persistence.HourValueJpaEntity;
 import com.taxes.calculator.infrastructure.hourvalue.persistence.HourValueRepository;
+import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxJpaEntity;
+import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxPersistence;
 import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 
 @Service
@@ -86,6 +88,12 @@ public class HourValueMySQLGateway implements HourValueGateway {
 
     @Transactional
     private HourValue save(HourValue aHourValue) {
+	TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
+		null,
+		null,
+		aHourValue.getId().getValue(),
+		aHourValue.getUserId().getValue()
+		);
 	if (this.repository.findAll().isEmpty()) {
 	    this.repository
 		    .save(HourValueJpaEntity.from(aHourValue));

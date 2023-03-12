@@ -41,7 +41,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     @Override
     public FixedTax create(FixedTax aFixedTax) {
-	return save(aFixedTax);
+	return saveIfDoesntExists(aFixedTax);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     @Override
     public FixedTax update(FixedTax aFixedTax) {
-	return save(aFixedTax);
+	return saveIfDoesntExists(aFixedTax);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
     }
 
     @Transactional
-    private FixedTax save(FixedTax aFixedTax) {
+    private FixedTax saveIfDoesntExists(FixedTax aFixedTax) {
 	if (this.fixedTaxRepository
 		.findByUserIdUserId(
 			aFixedTax.getUser().getValue())
@@ -101,21 +101,25 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
 	    return aFixedTax;
 	} else {
-	    FixedTax existingEntity = this.fixedTaxRepository
-		    .findAll().get(0).toAggregate();
-	    existingEntity.update(aFixedTax.getRegionalCouncil(),
-		    aFixedTax.getTaxOverWork(),
-		    aFixedTax.getIncomeTax(),
-		    aFixedTax.getAccountant(),
-		    aFixedTax.getDentalShop(),
-		    aFixedTax.getTransport(),
-		    aFixedTax.getFood(),
-		    aFixedTax.getEducation(),
-		    aFixedTax.getOtherFixedCosts());
-	    this.fixedTaxRepository.save(
-		    FixedTaxJpaEntity.from(existingEntity));
-	    return existingEntity;
+	    return updateEntity(aFixedTax);
 	}
+    }
+
+    private FixedTax updateEntity(FixedTax aFixedTax) {
+	FixedTax existingEntity = this.fixedTaxRepository
+	    .findAll().get(0).toAggregate();
+	existingEntity.update(aFixedTax.getRegionalCouncil(),
+	    aFixedTax.getTaxOverWork(),
+	    aFixedTax.getIncomeTax(),
+	    aFixedTax.getAccountant(),
+	    aFixedTax.getDentalShop(),
+	    aFixedTax.getTransport(),
+	    aFixedTax.getFood(),
+	    aFixedTax.getEducation(),
+	    aFixedTax.getOtherFixedCosts());
+	this.fixedTaxRepository.save(
+	    FixedTaxJpaEntity.from(existingEntity));
+	return existingEntity;
     }
 
 }

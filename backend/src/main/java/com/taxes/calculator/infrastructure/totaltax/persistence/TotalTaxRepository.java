@@ -1,19 +1,20 @@
 package com.taxes.calculator.infrastructure.totaltax.persistence;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TotalTaxRepository
 	extends JpaRepository<TotalTaxJpaEntity, String> {
 
-    List<TotalTaxJpaEntity> findByFixedTaxId(String fixedTaxId);
+    Optional<TotalTaxJpaEntity> findByFixedTaxId(
+	    String fixedTaxId);
 
-    List<TotalTaxJpaEntity> findByHourValueId(
+    Optional<TotalTaxJpaEntity> findByHourValueId(
 	    String hourValueId);
 
-    List<TotalTaxJpaEntity> findByVariableTaxId(
+    Optional<TotalTaxJpaEntity> findByVariableTaxId(
 	    String variableTaxId);
 
-    List<TotalTaxJpaEntity> findByUserId(String userId);
+    Optional<TotalTaxJpaEntity> findByUserId(String userId);
 }
