@@ -11,11 +11,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.hourvalue.HourValue;
 import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.hourvalue.HourValueID;
 import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
+import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxJpaEntity;
 import com.taxes.calculator.infrastructure.hourvalue.persistence.HourValueJpaEntity;
 import com.taxes.calculator.infrastructure.hourvalue.persistence.HourValueRepository;
 import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
@@ -37,16 +39,18 @@ public class HourValueMySQLGateway implements HourValueGateway {
 
     @Override
     public Optional<HourValue> findById(HourValueID anId) {
-	return Optional.ofNullable(this.repository
-		.findById(anId.getValue())
-		.map(HourValueJpaEntity::toAggregate).orElse(null));
+	return Optional.ofNullable(
+		this.repository.findById(anId.getValue())
+			.map(HourValueJpaEntity::toAggregate)
+			.orElse(null));
     }
 
     @Override
     public Pagination<HourValue> findAll(SearchQuery aQuery) {
 	final var page = PageRequest.of(aQuery.page(),
-		aQuery.perPage(),
-		Sort.by(Sort.Direction.fromString(aQuery.direction()),
+		aQuery.perPage(), Sort.by(
+			Sort.Direction
+				.fromString(aQuery.direction()),
 			aQuery.sort()));
 
 	// Dynamic Search
@@ -56,12 +60,14 @@ public class HourValueMySQLGateway implements HourValueGateway {
 		.map(SpecificationUtils::assembleSpecification)
 		.orElse(null);
 
-	final var pageResult = this.repository.findAll(Specification
-		.where((Specification<HourValueJpaEntity>) specifications),
+	final var pageResult = this.repository.findAll(
+		Specification.where(
+			(Specification<HourValueJpaEntity>) specifications),
 		page);
 
 	return new Pagination<>(pageResult.getNumber(),
-		pageResult.getSize(), pageResult.getTotalElements(),
+		pageResult.getSize(),
+		pageResult.getTotalElements(),
 		pageResult.map(HourValueJpaEntity::toAggregate)
 			.toList());
     }
@@ -80,8 +86,19 @@ public class HourValueMySQLGateway implements HourValueGateway {
 
     @Transactional
     private HourValue save(HourValue aHourValue) {
-	return this.repository
-		.save(HourValueJpaEntity.from(aHourValue))
-		.toAggregate();
+	if (this.repository.findAll().isEmpty()) {
+	    this.repository
+		    .save(HourValueJpaEntity.from(aHourValue));
+	    return aHourValue;
+	} else {
+	    HourValue existingEntity = this.repository.findAll()
+		    .get(0).toAggregate();
+	    existingEntity.update(aHourValue.getExpectedSalary(),
+		    aHourValue.getPersonalHourValue(),
+		    aHourValue.getDaysOfWork());
+	    this.repository.save(
+		    HourValueJpaEntity.from(existingEntity));
+	    return existingEntity;
+	}
     }
 }

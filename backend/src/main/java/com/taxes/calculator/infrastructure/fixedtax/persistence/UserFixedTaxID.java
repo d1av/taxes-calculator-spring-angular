@@ -27,8 +27,8 @@ public class UserFixedTaxID implements Serializable {
     }
 
     public static UserFixedTaxID from(final String userId,
-	    final String roleId) {
-	return new UserFixedTaxID(userId, roleId);
+	    final String fixedTaxId) {
+	return new UserFixedTaxID(userId, fixedTaxId);
     }
 
     @Override
