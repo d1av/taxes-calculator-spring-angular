@@ -10,8 +10,7 @@ import LoggedUser from './models/logged-user.interface';
 })
 export class AuthApiService {
 
-  constructor(private _http: HttpClient,
-    @Inject('API_URL') private _apiUrl: string,
+  constructor(
     private router: Router,
     private _apiService: ApiService
   ) { }
