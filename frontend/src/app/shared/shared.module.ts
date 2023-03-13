@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { FixedTaxComponent } from './components/fixed-tax/fixed-tax.component';
+import { HourValueComponent } from './components/hour-value/hour-value.component';
+import { VariableTaxComponent } from './components/variable-tax/variable-tax.component';
 
 
 
@@ -8,9 +11,18 @@ import { environment } from 'src/environments/environment';
   providers: [
     { provide: 'API_URL', useValue: environment.apiUrl }
   ],
-  declarations: [],
+  declarations: [
+    FixedTaxComponent,
+    VariableTaxComponent,
+    HourValueComponent
+  ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    FixedTaxComponent,
+    VariableTaxComponent,
+    HourValueComponent
   ]
 })
 export class SharedModule { }

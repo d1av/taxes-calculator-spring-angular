@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HomeModule } from './home/home.module';
+import { AuthModule } from './auth/auth.module';
 import { LoginComponent } from './auth/login/login.component';
+import { HomeModule } from './home/home.module';
 
 
 
@@ -16,7 +17,8 @@ import { LoginComponent } from './auth/login/login.component';
     CommonModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AuthModule
   ]
 })
 export class PagesModule { }

@@ -15,11 +15,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotFoundException;
+import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.validation.Error;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(value = { NotificationException.class })
+    public ResponseEntity<?> handleDomainException(
+	    final NotificationException ex, final HttpServletRequest req,
+	    final HttpServletResponse res) {
+	return ResponseEntity.unprocessableEntity()
+		.body(ApiError.from(ex));
+    }
+    
     @ExceptionHandler(value = { DomainException.class })
     public ResponseEntity<?> handleDomainException(
 	    final DomainException ex, final HttpServletRequest req,

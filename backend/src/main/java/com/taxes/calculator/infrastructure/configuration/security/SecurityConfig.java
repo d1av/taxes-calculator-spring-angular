@@ -61,7 +61,8 @@ public class SecurityConfig {
 		.antMatchers("/api/variabletaxes/**").hasRole("MEMBER")
 		.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
 		.antMatchers("/api/totaltaxes/**").hasRole("MEMBER")
-		.antMatchers("/api/auth/**").permitAll())
+		.antMatchers("/api/auth/**").permitAll()
+		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll())
 		.exceptionHandling(
 			exception -> exception.authenticationEntryPoint(
 				authenticationEntryPoint))

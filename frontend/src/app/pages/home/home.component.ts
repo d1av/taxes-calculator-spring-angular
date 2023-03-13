@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: [ './home.component.scss' ]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  apiResponse: any;
 
+  constructor (private totalTaxService: TotalTaxApiService) { }
+
+  ngOnInit(): void {
+    this.callIdsFromApi().then((data) => console.log(data));
+  }
+
+  async callIdsFromApi(): Promise<any> {
+    return await this.totalTaxService.getTotalTax();
+  }
 }

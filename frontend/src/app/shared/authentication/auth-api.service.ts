@@ -1,19 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import AuthRequest from './models/auth-request.types';
 import LoggedUser from './models/logged-user.interface';
+import RegisterRequest from './models/register-request.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthApiService {
 
-  constructor(
+  constructor (
     private router: Router,
     private _apiService: ApiService
   ) { }
+
+  async register(credentials: RegisterRequest): Promise<void> {
+    const registerResponse = await this._apiService.post('auth/register', credentials);
+    if (registerResponse.status === 201) {
+      alert('Usuário registrado com sucesso.');
+      this.router.navigateByUrl('/');
+      return;
+    }
+    alert(registerResponse.message);
+  }
 
   async login(credentials: AuthRequest): Promise<void> {
     const loginResponse = await this._apiService.post('auth/login', credentials);
@@ -39,6 +49,6 @@ export class AuthApiService {
       userId: localStorage.getItem('userId'),
       token: localStorage.getItem('token'),
       name: localStorage.getItem('name')
-    } as LoggedUser
+    } as LoggedUser;
   }
 }

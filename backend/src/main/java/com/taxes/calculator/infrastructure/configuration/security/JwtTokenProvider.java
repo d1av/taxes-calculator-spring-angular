@@ -2,18 +2,22 @@ package com.taxes.calculator.infrastructure.configuration.security;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.List;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import com.taxes.calculator.domain.validation.Error;
 
-import com.taxes.calculator.domain.exceptions.DomainException;
+import com.taxes.calculator.domain.exceptions.NotificationException;
+import com.taxes.calculator.domain.validation.Error;
+import com.taxes.calculator.domain.validation.handler.Notification;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
@@ -34,36 +38,49 @@ public class JwtTokenProvider {
 		currentDate.getTime() + jwtExpirationDate);
 
 	return Jwts.builder().setSubject(username)
-		.setIssuedAt(new Date()).setExpiration(expireDate)
-		.signWith(key()).compact();
+		.setIssuedAt(new Date())
+		.setExpiration(expireDate).signWith(key())
+		.compact();
     }
 
     private Key key() {
-	return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+	return Keys.hmacShaKeyFor(
+		Decoders.BASE64.decode(jwtSecret));
     }
 
     // get username from Jwt token
     public String getUsername(String token) {
-	Claims claims = Jwts.parserBuilder().setSigningKey(key()).build()
-		.parseClaimsJws(token).getBody();
+	Claims claims = Jwts.parserBuilder().setSigningKey(key())
+		.build().parseClaimsJws(token).getBody();
 	String username = claims.getSubject();
 	return username;
     }
 
     // validate Jwt token
     public boolean validateToken(String token) {
+	Notification notification = Notification.create();
 	try {
-	    Jwts.parserBuilder().setSigningKey(key()).build().parse(token);
+	    Jwts.parserBuilder().setSigningKey(key()).build()
+		    .parse(token);
 	    return true;
 	} catch (MalformedJwtException ex) {
-	    throw DomainException.with(new Error("Invalid JWT token"));
+	    notification.append(new Error("Token mal formado"));
+	    throw new NotificationException("Erro no Token JWT",
+		    notification);
 	} catch (ExpiredJwtException ex) {
-	    throw DomainException.with(new Error("Invalid JWT tokens"));
+	    notification.append(new Error("Invalid JWT tokens"));
+	    throw new NotificationException("Erro no Token JWT",
+		    notification);
 	} catch (UnsupportedJwtException ex) {
-	    throw DomainException.with(new Error("Unsupported JWT token"));
+	    notification
+		    .append(new Error("Unsupported JWT token"));
+	    throw new NotificationException("Erro no Token JWT",
+		    notification);
 	} catch (IllegalArgumentException ex) {
-	    throw DomainException
-		    .with(new Error("JWT claims string is empty."));
+	    notification.append(
+		    new Error("JWT claims string is empty."));
+	    throw new NotificationException("Erro no Token JWT",
+		    notification);
 	}
     }
 }
