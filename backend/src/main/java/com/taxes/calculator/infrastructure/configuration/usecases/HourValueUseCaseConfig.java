@@ -17,10 +17,13 @@ import com.taxes.calculator.application.hourvalue.retrieve.list.DefaultListHourV
 import com.taxes.calculator.application.hourvalue.retrieve.list.ListHourValueUseCase;
 import com.taxes.calculator.application.hourvalue.update.DefaultUpdateHourValueUseCase;
 import com.taxes.calculator.application.hourvalue.update.UpdateHourValueUseCase;
+import com.taxes.calculator.application.totaltax.DefaultTotalTaxUseCase;
+import com.taxes.calculator.application.totaltax.TotalTaxUseCase;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
 import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
+import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxRepository;
 
 @Configuration
 public class HourValueUseCaseConfig {
@@ -29,49 +32,64 @@ public class HourValueUseCaseConfig {
     private final VariableTaxGateway variableTaxGateway;
     private final HourValueGateway hourValueGateway;
     private final UserGateway userGateway;
+    private final TotalTaxRepository totalTaxRepository;
 
-    public HourValueUseCaseConfig(final FixedTaxGateway fixedTaxGateway,
+    public HourValueUseCaseConfig(
+	    final FixedTaxGateway fixedTaxGateway,
 	    final HourValueGateway hourValueGateway,
 	    final UserGateway userGateway,
-	    final VariableTaxGateway variableTaxGateway) {
-	this.fixedTaxGateway = Objects.requireNonNull(fixedTaxGateway);
+	    final VariableTaxGateway variableTaxGateway,
+	    final TotalTaxRepository totalTaxRepository) {
+	this.fixedTaxGateway = Objects
+		.requireNonNull(fixedTaxGateway);
 	this.variableTaxGateway = Objects
 		.requireNonNull(variableTaxGateway);
-	this.hourValueGateway = Objects.requireNonNull(hourValueGateway);
+	this.hourValueGateway = Objects
+		.requireNonNull(hourValueGateway);
 	this.userGateway = Objects.requireNonNull(userGateway);
+	this.totalTaxRepository = Objects
+		.requireNonNull(totalTaxRepository);
     }
 
     @Bean
     CalculateHourValueUseCase calculateHourValueUseCase() {
-	return new DefaultCalculateHourValueUseCase(hourValueGateway,
-		fixedTaxGateway, variableTaxGateway);
+	return new DefaultCalculateHourValueUseCase(
+		hourValueGateway, fixedTaxGateway,
+		variableTaxGateway);
     }
 
     @Bean
     CreateHourValueUseCase createHourValueUseCase() {
-	return new DefaultCreateHourValueUseCase(hourValueGateway,
-		userGateway);
+	return new DefaultCreateHourValueUseCase(
+		hourValueGateway, userGateway);
     }
 
     @Bean
     UpdateHourValueUseCase updateHourValueUseCase() {
-	return new DefaultUpdateHourValueUseCase(hourValueGateway,
-		userGateway);
+	return new DefaultUpdateHourValueUseCase(
+		hourValueGateway, userGateway);
     }
 
     @Bean
     GetHourValueByIdUseCase getHourValueByIdUseCase() {
-	return new DefaultGetHourValueByIdUseCase(hourValueGateway);
+	return new DefaultGetHourValueByIdUseCase(
+		hourValueGateway);
     }
 
     @Bean
     DeleteHourValueUseCase deleteHourValueUseCase() {
-	return new DefaultDeleteHourValueUseCase(hourValueGateway);
+	return new DefaultDeleteHourValueUseCase(
+		hourValueGateway);
     }
 
     @Bean
     ListHourValueUseCase listHourValueUseCase() {
 	return new DefaultListHourValueUseCase(hourValueGateway);
+    }
+
+    @Bean
+    TotalTaxUseCase totalTaxUseCase() {
+	return new DefaultTotalTaxUseCase(totalTaxRepository);
     }
 
 }

@@ -22,8 +22,8 @@ import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
 
-public class DefaultCalculateHourValueUseCase
-	extends CalculateHourValueUseCase implements Serializable {
+public class DefaultCalculateHourValueUseCase extends
+	CalculateHourValueUseCase implements Serializable {
 
     private static final long serialVersionUID = -3767877691070366399L;
 
@@ -57,65 +57,82 @@ public class DefaultCalculateHourValueUseCase
 	final var aFixedTax = fixedTax(fixedTaxId);
 	final var aHourValue = hourValue(hourValueId);
 
-	checkUserOnValues(userId, aVariableTax, aFixedTax, aHourValue);
+	checkUserOnValues(userId, aVariableTax, aFixedTax,
+		aHourValue);
 
 	final BigDecimal totalMonthlyCosts = aVariableTax
-		.getTotalVariableTax().add(aFixedTax.getTotalFixedTax());
+		.getTotalVariableTax()
+		.add(aFixedTax.getTotalFixedTax());
 
-	final BigDecimal workedMonthHours = BigDecimal.valueOf(
-		aHourValue.getDaysOfWork() * HOURS_WORKED_PER_DAY);
+	final BigDecimal workedMonthHours = BigDecimal
+		.valueOf(aHourValue.getDaysOfWork()
+			* HOURS_WORKED_PER_DAY);
 
-	final BigDecimal aSalary = aHourValue.getExpectedSalary();
+	final BigDecimal aSalary = aHourValue
+		.getExpectedSalary();
 
 	final BigDecimal expectedSalary = aSalary.intValue() < 0
 		? BigDecimal.valueOf(0)
 		: aSalary;
 
-	final BigDecimal calculatedValuePerHour = (totalMonthlyCosts
-		.add(expectedSalary)).divide(workedMonthHours);
+	final BigDecimal calculatedValuePerHour = BigDecimal
+		.valueOf((totalMonthlyCosts.add(expectedSalary))
+			.doubleValue()
+			/ workedMonthHours.doubleValue());
+	// .divide(workedMonthHours)
 
 	LOGGER.info(
 		"Monthly Costs: {} - workedMonthHours: {} - expectedSalary: {} - calculatedValue: {}",
-		totalMonthlyCosts, workedMonthHours, expectedSalary,
-		calculatedValuePerHour);
+		totalMonthlyCosts, workedMonthHours,
+		expectedSalary, calculatedValuePerHour);
 
-	this.hourValueGateway.update(HourValue.with(
-		aHourValue.getId().getValue(),
-		aHourValue.getExpectedSalary(), calculatedValuePerHour,
-		aHourValue.getDaysOfWork(), aHourValue.getCreatedAt(),
-		aHourValue.getUpdatedAt(), aHourValue.getUserId()));
+	this.hourValueGateway.update(
+		HourValue.with(aHourValue.getId().getValue(),
+			aHourValue.getExpectedSalary(),
+			calculatedValuePerHour,
+			aHourValue.getDaysOfWork(),
+			aHourValue.getCreatedAt(),
+			aHourValue.getUpdatedAt(),
+			aHourValue.getUserId()));
 
-	return CalculateHourValueOutput.with(calculatedValuePerHour,
+	return CalculateHourValueOutput.with(
+		calculatedValuePerHour,
 		workedMonthHours.intValue(), expectedSalary,
-		totalMonthlyCosts, aHourValue, aVariableTax, aFixedTax);
+		totalMonthlyCosts, aHourValue, aVariableTax,
+		aFixedTax);
 
     }
 
-    private void checkUserOnValues(String userId, VariableTax aVariableTax,
-	    FixedTax aFixedTax, HourValue aHourValue) {
+    private void checkUserOnValues(String userId,
+	    VariableTax aVariableTax, FixedTax aFixedTax,
+	    HourValue aHourValue) {
 	Notification notification = Notification.create();
 
-	if (!Objects.equals(userId, aVariableTax.getUserId().getValue())) {
-	    notification.append(
-		    new Error("Wrong Variable Tax for User with id: %s"
+	if (!Objects.equals(userId,
+		aVariableTax.getUserId().getValue())) {
+	    notification.append(new Error(
+		    "Wrong Variable Tax for User with id: %s"
 			    .formatted(userId)));
 	}
 
-	if (!Objects.equals(userId, aFixedTax.getUser().getValue())) {
-	    notification.append(
-		    new Error("Wrong Fixed Tax for User with id: %s"
+	if (!Objects.equals(userId,
+		aFixedTax.getUser().getValue())) {
+	    notification.append(new Error(
+		    "Wrong Fixed Tax for User with id: %s"
 			    .formatted(userId)));
 	}
 
-	if (!Objects.equals(userId, aHourValue.getUserId().getValue())) {
-	    notification.append(
-		    new Error("Wrong Hour Value for User with id: %s"
+	if (!Objects.equals(userId,
+		aHourValue.getUserId().getValue())) {
+	    notification.append(new Error(
+		    "Wrong Hour Value for User with id: %s"
 			    .formatted(userId)));
 	}
 
 	if (notification.hasError()) {
 	    throw new NotificationException(
-		    "Could not Calculate Hour Value", notification);
+		    "Could not Calculate Hour Value",
+		    notification);
 	}
 
     }
@@ -123,23 +140,31 @@ public class DefaultCalculateHourValueUseCase
     private VariableTax variableTax(final String variableTaxId) {
 	return variableTaxGateway
 		.findById(VariableTaxID.from(variableTaxId))
-		.orElseThrow(() -> NotFoundException.with(
-			new Error("Variable Tax not found with id: %s"
-				.formatted(variableTaxId))));
+		.orElseThrow(
+			() -> NotFoundException.with(new Error(
+				"Variable Tax not found with id: %s"
+					.formatted(
+						variableTaxId))));
     }
 
     private FixedTax fixedTax(final String fixedTaxId) {
-	return fixedTaxGateway.findById(FixedTaxID.from(fixedTaxId))
-		.orElseThrow(() -> NotFoundException
-			.with(new Error("Fixed Tax not found with id: %s"
-				.formatted(fixedTaxId))));
+	return fixedTaxGateway
+		.findById(FixedTaxID.from(fixedTaxId))
+		.orElseThrow(
+			() -> NotFoundException.with(new Error(
+				"Fixed Tax not found with id: %s"
+					.formatted(
+						fixedTaxId))));
     }
 
     private HourValue hourValue(final String hourValueId) {
-	return hourValueGateway.findById(HourValueID.from(hourValueId))
-		.orElseThrow(() -> NotFoundException
-			.with(new Error("Hour Value not found with id: %s"
-				.formatted(hourValueId))));
+	return hourValueGateway
+		.findById(HourValueID.from(hourValueId))
+		.orElseThrow(
+			() -> NotFoundException.with(new Error(
+				"Hour Value not found with id: %s"
+					.formatted(
+						hourValueId))));
     }
 
 }
