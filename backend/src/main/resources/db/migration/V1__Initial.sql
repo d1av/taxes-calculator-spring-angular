@@ -7,3 +7,4 @@ CREATE TABLE users(
     updated_at DATETIME(6) NOT NULL,
     deleted_at DATETIME(6) NULL
 );
+
