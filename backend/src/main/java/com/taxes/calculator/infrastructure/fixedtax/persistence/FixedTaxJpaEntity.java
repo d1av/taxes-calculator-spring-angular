@@ -60,6 +60,9 @@ public class FixedTaxJpaEntity {
     @OneToMany(mappedBy = "fixedTax", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserFixedTaxJpaEntity> user;
 
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -72,12 +75,15 @@ public class FixedTaxJpaEntity {
 
     private FixedTaxJpaEntity(final String id,
 	    final BigDecimal regionalCouncil,
-	    final BigDecimal taxOverWork, final BigDecimal incomeTax,
-	    final BigDecimal accountant, final BigDecimal dentalShop,
+	    final BigDecimal taxOverWork,
+	    final BigDecimal incomeTax,
+	    final BigDecimal accountant,
+	    final BigDecimal dentalShop,
 	    final BigDecimal transport, final BigDecimal food,
 	    final BigDecimal education,
 	    final BigDecimal otherFixedCosts,
-	    final UserFixedTaxJpaEntity user, final Instant createdAt,
+	    final UserFixedTaxJpaEntity user,
+	    final String userId, final Instant createdAt,
 	    final Instant updatedAt) {
 	this.id = id;
 	this.regionalCouncil = regionalCouncil;
@@ -90,18 +96,21 @@ public class FixedTaxJpaEntity {
 	this.education = education;
 	this.otherFixedCosts = otherFixedCosts;
 	this.user = new HashSet<>();
+	this.userId = userId;
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
     }
 
     public static FixedTaxJpaEntity from(final FixedTax aTax) {
 	final var anEntity = new FixedTaxJpaEntity(
-		aTax.getId().getValue(), aTax.getRegionalCouncil(),
-		aTax.getTaxOverWork(), aTax.getIncomeTax(),
-		aTax.getAccountant(), aTax.getDentalShop(),
-		aTax.getTransport(), aTax.getFood(),
-		aTax.getEducation(), aTax.getOtherFixedCosts(), null,
-		aTax.getCreatedAt(), aTax.getUpdatedAt());
+		aTax.getId().getValue(),
+		aTax.getRegionalCouncil(), aTax.getTaxOverWork(),
+		aTax.getIncomeTax(), aTax.getAccountant(),
+		aTax.getDentalShop(), aTax.getTransport(),
+		aTax.getFood(), aTax.getEducation(),
+		aTax.getOtherFixedCosts(), null,
+		aTax.getUser().getValue(), aTax.getCreatedAt(),
+		aTax.getUpdatedAt());
 
 	anEntity.addUser(aTax.getUser());
 
@@ -115,7 +124,8 @@ public class FixedTaxJpaEntity {
 
     public FixedTax toAggregate() {
 	final var userId = UserID.from(getUser().stream()
-		.map(x -> x.getId().getUserId()).iterator().next());
+		.map(x -> x.getId().getUserId()).iterator()
+		.next());
 	return FixedTax.with(FixedTaxID.from(getId()),
 		getRegionalCouncil(), getTaxOverWork(),
 		getIncomeTax(), getAccountant(), getDentalShop(),

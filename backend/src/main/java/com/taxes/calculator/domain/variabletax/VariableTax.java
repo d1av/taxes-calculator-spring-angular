@@ -67,11 +67,15 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 		aTax.updatedAt);
     }
 
-    public static VariableTax with(final VariableTaxID anId,
+    public static VariableTax with(
+	    final VariableTaxID anId,
 	    final BigDecimal anDentalShop,
-	    final BigDecimal aProsthetist, final BigDecimal aTravel,
-	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
-	    final UserID aUserId, final Instant createdAt,
+	    final BigDecimal aProsthetist, 
+	    final BigDecimal aTravel,
+	    final BigDecimal aCreditCard, 
+	    final BigDecimal aWeekend,
+	    final UserID aUserId, 
+	    final Instant createdAt,
 	    final Instant updatedAt) {
 	return new VariableTax(anId, anDentalShop, aProsthetist,
 		aTravel, aCreditCard, aWeekend, aUserId, createdAt,

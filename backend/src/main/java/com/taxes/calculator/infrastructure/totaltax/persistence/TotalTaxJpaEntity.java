@@ -31,9 +31,12 @@ public class TotalTaxJpaEntity {
     public TotalTaxJpaEntity() {
     }
 
-    private TotalTaxJpaEntity(final String taxId,
-	    final String fixedTaxId, final String variableTaxId,
-	    final String hourValueId, final String userId) {
+    private TotalTaxJpaEntity(
+	    final String taxId,
+	    final String fixedTaxId, 
+	    final String variableTaxId,
+	    final String hourValueId, 
+	    final String userId) {
 	this.fixedTaxId = fixedTaxId;
 	this.variableTaxId = variableTaxId;
 	this.hourValueId = hourValueId;

@@ -37,6 +37,9 @@ public class HourValueJpaEntity {
     @OneToMany(mappedBy = "hourValue", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserHourValueJpaEntity> user;
 
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -50,21 +53,26 @@ public class HourValueJpaEntity {
     private HourValueJpaEntity(final String id,
 	    final BigDecimal expectedSalary,
 	    final BigDecimal personalHourValue,
-	    final Integer daysOfWork, final Instant createdAt,
-	    final Instant updatedAt) {
+	    final Integer daysOfWork, final String userId,
+	    final Instant createdAt, final Instant updatedAt) {
 	this.id = id;
 	this.expectedSalary = expectedSalary;
 	this.personalHourValue = personalHourValue;
 	this.daysOfWork = daysOfWork;
+	this.userId = userId;
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
 	this.user = new HashSet<>();
     }
 
-    public static HourValueJpaEntity from(final HourValue aHour) {
+    public static HourValueJpaEntity from(
+	    final HourValue aHour) {
 	final var entity = new HourValueJpaEntity(
-		aHour.getId().getValue(), aHour.getExpectedSalary(),
-		aHour.getPersonalHourValue(), aHour.getDaysOfWork(),
+		aHour.getId().getValue(),
+		aHour.getExpectedSalary(),
+		aHour.getPersonalHourValue(),
+		aHour.getDaysOfWork(),
+		aHour.getUserId().getValue(),
 		aHour.getCreatedAt(), aHour.getUpdatedAt());
 
 	entity.addUser(aHour.getUserId());
@@ -91,6 +99,14 @@ public class HourValueJpaEntity {
 	return null;
     }
 
+    public String getUserId() {
+	return userId;
+    }
+
+    public void setUserId(String userId) {
+	this.userId = userId;
+    }
+
     public String getId() {
 	return id;
     }
@@ -111,7 +127,8 @@ public class HourValueJpaEntity {
 	return personalHourValue;
     }
 
-    public void setPersonalHourValue(BigDecimal personalHourValue) {
+    public void setPersonalHourValue(
+	    BigDecimal personalHourValue) {
 	this.personalHourValue = personalHourValue;
     }
 

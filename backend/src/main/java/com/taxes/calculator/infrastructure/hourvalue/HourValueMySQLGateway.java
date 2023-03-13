@@ -1,26 +1,24 @@
 package com.taxes.calculator.infrastructure.hourvalue;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.hourvalue.HourValue;
 import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.hourvalue.HourValueID;
 import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
-import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxJpaEntity;
+import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.infrastructure.hourvalue.persistence.HourValueJpaEntity;
 import com.taxes.calculator.infrastructure.hourvalue.persistence.HourValueRepository;
-import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxJpaEntity;
 import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxPersistence;
 import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 
@@ -36,7 +34,7 @@ public class HourValueMySQLGateway implements HourValueGateway {
 
     @Override
     public HourValue create(HourValue aHourValue) {
-	return save(aHourValue);
+	return saveIfDoesntExists(aHourValue);
     }
 
     @Override
@@ -76,7 +74,7 @@ public class HourValueMySQLGateway implements HourValueGateway {
 
     @Override
     public HourValue update(HourValue aHourValue) {
-	return save(aHourValue);
+	return saveIfDoesntExists(aHourValue);
     }
 
     @Override
@@ -87,26 +85,41 @@ public class HourValueMySQLGateway implements HourValueGateway {
     }
 
     @Transactional
-    private HourValue save(HourValue aHourValue) {
-	TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
-		null,
-		null,
-		aHourValue.getId().getValue(),
-		aHourValue.getUserId().getValue()
-		);
-	if (this.repository.findAll().isEmpty()) {
+    private HourValue saveIfDoesntExists(HourValue aHourValue) {
+	String userId = aHourValue.getUserId().getValue();
+	if (this.repository.findByUserId(userId).isEmpty()) {
 	    this.repository
 		    .save(HourValueJpaEntity.from(aHourValue));
+	    TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
+		    null, null, aHourValue.getId().getValue(),
+		    userId);
 	    return aHourValue;
 	} else {
-	    HourValue existingEntity = this.repository.findAll()
-		    .get(0).toAggregate();
-	    existingEntity.update(aHourValue.getExpectedSalary(),
-		    aHourValue.getPersonalHourValue(),
-		    aHourValue.getDaysOfWork());
-	    this.repository.save(
-		    HourValueJpaEntity.from(existingEntity));
-	    return existingEntity;
+	    return updateEntity(aHourValue);
 	}
+    }
+
+    @Transactional
+    private HourValue updateEntity(HourValue aHourValue) {
+	List<HourValueJpaEntity> entity = this.repository
+		.findByUserId(aHourValue.getUserId().getValue());
+	if (!entity.isEmpty()) {
+	    HourValueJpaEntity existingEntity = entity.get(0);
+
+	    HourValue parentEntity = HourValue.with(
+		    existingEntity.getId(),
+		    existingEntity.getExpectedSalary(),
+		    existingEntity.getPersonalHourValue(),
+		    existingEntity.getDaysOfWork(),
+		    existingEntity.getCreatedAt(),
+		    existingEntity.getUpdatedAt(),
+		    existingEntity.getUserID());
+
+	    this.repository
+		    .save(HourValueJpaEntity.from(parentEntity));
+
+	    return parentEntity;
+	}
+	return null;
     }
 }

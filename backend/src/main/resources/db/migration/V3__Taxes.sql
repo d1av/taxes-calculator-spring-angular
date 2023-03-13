@@ -9,6 +9,7 @@ CREATE TABLE fixed_taxes(
 	food BIGINT NOT NULL,
 	education BIGINT NOT NULL,
 	other_fixed_costs BIGINT NOT NULL,
+	user_id CHAR(32) NOT NULL,
 	created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL
 );
@@ -20,6 +21,7 @@ CREATE TABLE variable_taxes(
 	travel BIGINT NOT NULL,
 	credit_card BIGINT NOT NULL,
 	weekend BIGINT NOT NULL,
+	user_id CHAR(32) NOT NULL,
 	created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL
 );

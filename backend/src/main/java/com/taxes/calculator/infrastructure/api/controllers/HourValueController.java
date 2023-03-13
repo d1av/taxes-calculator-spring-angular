@@ -112,6 +112,10 @@ public class HourValueController implements HourValueAPI {
     @Cacheable("calculateHourValue")
     public ResponseEntity<MonthlyOutput> calculateHourValue(
 	    @Valid CalculateHourValueRequest input) {
+	final var userId =input.userId();
+	
+	
+	
 	final var aCommand = CalculateHourValueCommand.with(
 		input.fixedTaxId(), input.variableTaxId(),
 		input.hourValueId(), input.userId());

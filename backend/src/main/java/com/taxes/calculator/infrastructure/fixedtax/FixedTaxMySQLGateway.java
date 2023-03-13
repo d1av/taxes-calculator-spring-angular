@@ -24,6 +24,7 @@ import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxJpaEntit
 import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxRepository;
 import com.taxes.calculator.infrastructure.fixedtax.persistence.UserFixedTaxID;
 import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxJpaEntity;
+import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxPersistence;
 import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxRepository;
 import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 
@@ -92,33 +93,34 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     @Transactional
     private FixedTax saveIfDoesntExists(FixedTax aFixedTax) {
-	if (this.fixedTaxRepository
-		.findByUserIdUserId(
-			aFixedTax.getUser().getValue())
+	String userId = aFixedTax.getUser().getValue();
+	if (this.fixedTaxRepository.findByUserId(userId)
 		.isEmpty()) {
 	    this.fixedTaxRepository
 		    .save(FixedTaxJpaEntity.from(aFixedTax));
-
+	    TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
+		    aFixedTax.getId().getValue(), null, null,
+		    userId);
 	    return aFixedTax;
 	} else {
 	    return updateEntity(aFixedTax);
 	}
     }
 
+    @Transactional
     private FixedTax updateEntity(FixedTax aFixedTax) {
 	FixedTax existingEntity = this.fixedTaxRepository
-	    .findAll().get(0).toAggregate();
+		.findAll().get(0).toAggregate();
 	existingEntity.update(aFixedTax.getRegionalCouncil(),
-	    aFixedTax.getTaxOverWork(),
-	    aFixedTax.getIncomeTax(),
-	    aFixedTax.getAccountant(),
-	    aFixedTax.getDentalShop(),
-	    aFixedTax.getTransport(),
-	    aFixedTax.getFood(),
-	    aFixedTax.getEducation(),
-	    aFixedTax.getOtherFixedCosts());
-	this.fixedTaxRepository.save(
-	    FixedTaxJpaEntity.from(existingEntity));
+		aFixedTax.getTaxOverWork(),
+		aFixedTax.getIncomeTax(),
+		aFixedTax.getAccountant(),
+		aFixedTax.getDentalShop(),
+		aFixedTax.getTransport(), aFixedTax.getFood(),
+		aFixedTax.getEducation(),
+		aFixedTax.getOtherFixedCosts());
+	this.fixedTaxRepository
+		.save(FixedTaxJpaEntity.from(existingEntity));
 	return existingEntity;
     }
 

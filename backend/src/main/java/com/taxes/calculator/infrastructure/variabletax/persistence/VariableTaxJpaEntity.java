@@ -42,6 +42,9 @@ public class VariableTaxJpaEntity {
     @OneToMany(mappedBy = "variableTax", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserVariableTaxJpaEntity> user;
 
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -52,10 +55,11 @@ public class VariableTaxJpaEntity {
     }
 
     private VariableTaxJpaEntity(final String id,
-	    final BigDecimal dentalShop, final BigDecimal prosthetist,
+	    final BigDecimal dentalShop,
+	    final BigDecimal prosthetist,
 	    final BigDecimal travel, final BigDecimal creditCard,
-	    final BigDecimal weekend, final Instant createdAt,
-	    final Instant updatedAt) {
+	    final BigDecimal weekend, final String userId,
+	    final Instant createdAt, final Instant updatedAt) {
 	this.id = id;
 	this.dentalShop = dentalShop;
 	this.prosthetist = prosthetist;
@@ -63,6 +67,7 @@ public class VariableTaxJpaEntity {
 	this.creditCard = creditCard;
 	this.weekend = weekend;
 	this.user = new HashSet<>();
+	this.userId = userId;
 	this.createdAt = createdAt;
 	this.updatedAt = updatedAt;
     }
@@ -72,10 +77,11 @@ public class VariableTaxJpaEntity {
 	final var anEntity = new VariableTaxJpaEntity(
 		variableTax.getId().getValue(),
 		variableTax.getDentalShop(),
-		variableTax.getProsthetist(), 
+		variableTax.getProsthetist(),
 		variableTax.getTravel(),
 		variableTax.getCreditCard(),
 		variableTax.getWeekend(),
+		variableTax.getUserId().getValue(),
 		variableTax.getCreatedAt(),
 		variableTax.getUpdatedAt());
 
@@ -93,8 +99,8 @@ public class VariableTaxJpaEntity {
 
     public void addUser(UserID userId) {
 	if (userId != null && this.user.isEmpty()) {
-	    this.user
-		    .add(UserVariableTaxJpaEntity.from(userId, this));
+	    this.user.add(
+		    UserVariableTaxJpaEntity.from(userId, this));
 	}
     }
 
@@ -105,6 +111,10 @@ public class VariableTaxJpaEntity {
 	    return UserID.from(userId.get(0));
 	}
 	return null;
+    }
+
+    public void setUserId(String userId) {
+	this.userId = userId;
     }
 
     public String getId() {

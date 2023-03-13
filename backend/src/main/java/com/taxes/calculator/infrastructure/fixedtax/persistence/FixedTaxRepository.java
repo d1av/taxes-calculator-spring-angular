@@ -15,6 +15,6 @@ public interface FixedTaxRepository
 	    Specification<FixedTaxJpaEntity> whereClause,
 	    Pageable pageable);
 
-    List<FixedTaxJpaEntity> findByUserIdUserId(String userId);
+    List<FixedTaxJpaEntity> findByUserId(String userId);
 
 }
