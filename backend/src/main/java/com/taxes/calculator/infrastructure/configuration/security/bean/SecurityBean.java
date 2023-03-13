@@ -24,4 +24,5 @@ public class SecurityBean {
 	return new JwtAuthenticationFilter(jwtTokenProvider,
 		customUserDetailsService);
     }
+
 }

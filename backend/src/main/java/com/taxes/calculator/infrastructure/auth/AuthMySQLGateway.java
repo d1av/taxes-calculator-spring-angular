@@ -2,6 +2,7 @@ package com.taxes.calculator.infrastructure.auth;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -40,36 +41,54 @@ public class AuthMySQLGateway {
 	    final JwtTokenProvider jwtTokenProvider) {
 	this.authenticationManager = Objects
 		.requireNonNull(authenticationManager);
-	this.userRepository = Objects.requireNonNull(userRepository);
-	this.roleRepository = Objects.requireNonNull(roleRepository);
-	this.jwtTokenProvider = Objects.requireNonNull(jwtTokenProvider);
+	this.userRepository = Objects
+		.requireNonNull(userRepository);
+	this.roleRepository = Objects
+		.requireNonNull(roleRepository);
+	this.jwtTokenProvider = Objects
+		.requireNonNull(jwtTokenProvider);
     }
 
     public AuthOutput login(AuthRequest authRequest) {
-	Authentication authentication = authenticationManager.authenticate(
-		new UsernamePasswordAuthenticationToken(authRequest.name(),
-			authRequest.password()));
+	Authentication authentication = authenticationManager
+		.authenticate(
+			new UsernamePasswordAuthenticationToken(
+				authRequest.name(),
+				authRequest.password()));
 
 	SecurityContextHolder.getContext()
 		.setAuthentication(authentication);
 
-	String token = jwtTokenProvider.generateToken(authentication);
+	String token = jwtTokenProvider
+		.generateToken(authentication);
 
-	List<String> roles = authentication.getAuthorities().stream()
-		.map(x -> x.getAuthority()).collect(Collectors.toList());
+	List<String> roles = authentication.getAuthorities()
+		.stream().map(x -> x.getAuthority())
+		.collect(Collectors.toList());
 
-	return AuthOutput.with(token, roles);
+	Optional<UserJpaEntity> user = userRepository
+		.findByName(authRequest.name());
+	
+	if (user.isPresent()) {
+	    return AuthOutput.with(token, roles,
+		    user.get().getId());
+	}
+
+	return AuthOutput.with(token, roles, null);
     }
 
     public RegisterOutput register(RegisterRequest input) {
 	final var memberRole = roleRepository
 		.findByAuthority("ROLE_MEMBER");
 
-	final var encodedPassword = EncoderUtils.encode(input.password());
-	final var user = User.newUser(input.name(), encodedPassword, true);
+	final var encodedPassword = EncoderUtils
+		.encode(input.password());
+	final var user = User.newUser(input.name(),
+		encodedPassword, true);
 
 	if (memberRole.isPresent()) {
-	    user.addRoleID(RoleID.from(memberRole.get().getId()));
+	    user.addRoleID(
+		    RoleID.from(memberRole.get().getId()));
 	}
 
 	final UserJpaEntity savedUser = userRepository
