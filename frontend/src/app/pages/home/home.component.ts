@@ -7,12 +7,16 @@ import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.servic
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit {
+
   apiResponse: any;
 
   constructor (private totalTaxService: TotalTaxApiService) { }
 
   ngOnInit(): void {
-    this.callIdsFromApi().then((data) => console.log(data));
+    this.callIdsFromApi().then((data) => {
+      this.apiResponse = data;
+      console.log(this.apiResponse);
+    });
   }
 
   async callIdsFromApi(): Promise<any> {

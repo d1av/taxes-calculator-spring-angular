@@ -51,4 +51,12 @@ export class AuthApiService {
       name: localStorage.getItem('name')
     } as LoggedUser;
   }
+
+  public logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
+    localStorage.removeItem('userId');
+
+    this.router.navigateByUrl('auth/login');
+  }
 }

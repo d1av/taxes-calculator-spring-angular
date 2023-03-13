@@ -60,7 +60,7 @@ public class SecurityConfig {
 		.antMatchers("/api/fixedtaxes/**").hasRole("MEMBER")
 		.antMatchers("/api/variabletaxes/**").hasRole("MEMBER")
 		.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
-		.antMatchers("/api/totaltaxes/**").hasRole("MEMBER")
+		.antMatchers("/api/totaltaxes/**").authenticated()
 		.antMatchers("/api/auth/**").permitAll()
 		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll())
 		.exceptionHandling(

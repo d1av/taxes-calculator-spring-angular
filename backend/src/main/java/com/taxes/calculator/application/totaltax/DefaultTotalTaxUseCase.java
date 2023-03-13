@@ -1,9 +1,9 @@
 package com.taxes.calculator.application.totaltax;
 
 import java.util.Objects;
+import java.util.Optional;
 
-import com.taxes.calculator.domain.exceptions.NotificationException;
-import com.taxes.calculator.domain.validation.Error;
+import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxJpaEntity;
 import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxRepository;
 
 public class DefaultTotalTaxUseCase extends TotalTaxUseCase {
@@ -18,11 +18,14 @@ public class DefaultTotalTaxUseCase extends TotalTaxUseCase {
 
     @Override
     public TotalTaxOutput execute(String anIn) {
-	return TotalTaxOutput.with(totalTaxRepository
-		.findByUserId(anIn)
-		.orElseThrow(() -> NotificationException
-			.with(new Error(
-				"Please, try creating a new fields"))));
+	Optional<TotalTaxJpaEntity> entity = totalTaxRepository
+		.findByUserId(anIn);
+	if (entity.isPresent()) {
+	    return TotalTaxOutput.with(entity.get());
+	}
+	return TotalTaxOutput
+		.with(totalTaxRepository.save(TotalTaxJpaEntity
+			.with(null, null, null, null, anIn)));
     }
 
 }
