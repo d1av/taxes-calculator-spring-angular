@@ -5,12 +5,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthModule } from './auth/auth.module';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeModule } from './home/home.module';
+import { MonthlyComponent } from './monthly/monthly.component';
 
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    MonthlyComponent
   ],
   imports: [
     HomeModule,

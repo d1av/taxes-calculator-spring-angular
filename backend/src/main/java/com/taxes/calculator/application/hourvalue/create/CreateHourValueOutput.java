@@ -9,11 +9,13 @@ public record CreateHourValueOutput(String id,
 	BigDecimal personalHourValue, String userId) {
     public static CreateHourValueOutput from(
 	    final HourValue aHourValue) {
+	String userId = aHourValue.getUserId() != null
+		? aHourValue.getUserId().getValue()
+		: null;
 	return new CreateHourValueOutput(
 		aHourValue.getId().getValue(),
 		aHourValue.getDaysOfWork(),
 		aHourValue.getExpectedSalary(),
-		aHourValue.getPersonalHourValue(),
-		aHourValue.getUserId().getValue());
+		aHourValue.getPersonalHourValue(), userId);
     }
 }

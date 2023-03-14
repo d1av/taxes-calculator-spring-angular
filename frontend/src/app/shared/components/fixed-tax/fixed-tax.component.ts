@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FixedTaxApiService } from '../../services/fixed-tax-api.service';
 import { FixedTaxResponse } from '../../services/response/fixedtax-response.types';
 
@@ -22,6 +22,10 @@ export class FixedTaxComponent implements OnChanges {
         console.log(this.fixedTaxData);
       });
     }
+  }
+
+  stringify(): string {
+    return JSON.stringify(this.fixedTaxData);
   }
 
 }

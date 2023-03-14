@@ -5,9 +5,14 @@ import { AuthGuard } from './shared/authentication/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivate: [ AuthGuard ],
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'hourvalue',
+    loadChildren: () =>
+      import('./pages/monthly/monthly.module').then((m) => m.MonthlyModule),
   },
   {
     path: 'auth',
@@ -17,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

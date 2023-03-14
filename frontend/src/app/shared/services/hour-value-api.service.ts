@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { HourValueResponse } from './response/hourvalue-response.types';
+import { MonthlyResponse } from './response/monthly.types';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,11 @@ export class HourValueApiService {
 
   constructor (private apiService: ApiService) { }
 
-  public getHourValueById(hourValueId: string): Promise<HourValueResponse> {
-    return this.apiService.get('hourvalues/' + hourValueId);
+  public getHourValueById(hourValueId: string): Observable<HourValueResponse> {
+    return from(this.apiService.get('hourvalues/' + hourValueId));
   }
 
+  public getMonthlyHourValue(userId: string): Observable<MonthlyResponse> {
+    return from(this.apiService.get('hourvalues/monthly/' + userId));
+  }
 }

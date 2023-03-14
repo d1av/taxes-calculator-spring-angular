@@ -18,12 +18,20 @@ export class TotalTaxApiService {
         response.userId = userId;
         if (response.fixedTaxId) {
           localStorage.setItem('fixedTaxId', response.fixedTaxId);
+        } else {
+          localStorage.removeItem('fixedTaxId');
         }
-        if (response.fixedTaxId) {
+
+        if (response.variableTaxId) {
           localStorage.setItem('variableTaxId', response.variableTaxId);
+        } else {
+          localStorage.removeItem('variableTaxId');
         }
-        if (response.fixedTaxId) {
+        
+        if (response.hourValueId) {
           localStorage.setItem('hourValueId', response.hourValueId);
+        } else {
+          localStorage.removeItem('hourValueId');
         }
         return response;
       }

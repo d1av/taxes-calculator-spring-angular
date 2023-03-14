@@ -56,6 +56,9 @@ export class AuthApiService {
     localStorage.removeItem('token');
     localStorage.removeItem('name');
     localStorage.removeItem('userId');
+    localStorage.removeItem('fixedTaxId');
+    localStorage.removeItem('variableTaxId');
+    localStorage.removeItem('hourValueId');
 
     this.router.navigateByUrl('auth/login');
   }

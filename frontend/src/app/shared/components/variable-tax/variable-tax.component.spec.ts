@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VariableTaxComponent } from './variable-tax.component';
+import VariableTaxComponent from './variable-tax.component';
 
 describe('VariableTaxComponent', () => {
   let component: VariableTaxComponent;
@@ -10,7 +10,7 @@ describe('VariableTaxComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ VariableTaxComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(VariableTaxComponent);
     component = fixture.componentInstance;
