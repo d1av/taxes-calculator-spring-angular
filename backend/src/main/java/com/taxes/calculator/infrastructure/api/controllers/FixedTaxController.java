@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +54,7 @@ public class FixedTaxController implements FixedTaxAPI {
 		.requireNonNull(listFixedTaxUseCase);
     }
 
+    @CacheEvict(value = "fixedTaxGetById", allEntries = true)
     @Override
     public ResponseEntity<?> createFixedTax(
 	    @Valid CreateFixedTaxRequest input)
@@ -61,14 +64,16 @@ public class FixedTaxController implements FixedTaxAPI {
 	final var aCommand = CreateFixedTaxCommand.with(
 		input.regionalCouncil(), input.taxOverWork(),
 		input.incomeTax(), input.accountant(),
-		input.dentalShop(), input.transport(), input.food(),
-		input.education(), input.otherFixedCosts(), userId);
+		input.dentalShop(), input.transport(),
+		input.food(), input.education(),
+		input.otherFixedCosts(), userId);
 
 	final var output = this.createFixedTaxUseCase
 		.execute(aCommand);
 
 	return ResponseEntity
-		.created(new URI("/api/fixedtaxes" + output.id()))
+		.created(
+			new URI("/api/fixedtaxes" + output.id()))
 		.body(output);
     }
 
@@ -77,25 +82,29 @@ public class FixedTaxController implements FixedTaxAPI {
 	    String search, int page, int perPage, String sort,
 	    String direction) {
 	return this.listFixedTaxUseCase
-		.execute(new SearchQuery(page, perPage, search, sort,
-			direction))
+		.execute(new SearchQuery(page, perPage, search,
+			sort, direction))
 		.map(FixedTaxListResponse::present);
     }
 
+    @Cacheable(value = "fixedTaxGetById")
     @Override
     public ResponseEntity<?> getById(String id) {
-	final var output = this.getFixedTaxByIdUseCase.execute(id);
+	final var output = this.getFixedTaxByIdUseCase
+		.execute(id);
 	return ResponseEntity.ok().body(output);
     }
 
+    @CacheEvict(value = "fixedTaxGetById", allEntries = true)
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateFixedTaxRequest input) {
 	final var aCommand = UpdateFixedTaxCommand.with(id,
 		input.regionalCouncil(), input.taxOverWork(),
 		input.incomeTax(), input.accountant(),
-		input.dentalShop(), input.transport(), input.food(),
-		input.education(), input.otherFixedCosts(),
+		input.dentalShop(), input.transport(),
+		input.food(), input.education(),
+		input.otherFixedCosts(),
 		UserID.from(input.userId()));
 
 	final var output = this.updateFixedTaxUseCase
@@ -103,6 +112,7 @@ public class FixedTaxController implements FixedTaxAPI {
 	return ResponseEntity.ok().body(output);
     }
 
+    @CacheEvict(value = "fixedTaxGetById", allEntries = true)
     @Override
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteFixedTaxUseCase.execute(id);

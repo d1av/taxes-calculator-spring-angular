@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,7 @@ public class HourValueController implements HourValueAPI {
 		.requireNonNull(totalTaxUseCase);
     }
 
+    @CacheEvict(value = "HourValueGetById", allEntries = true)
     @Override
     public ResponseEntity<?> create(
 	    @Valid CreateHourValueRequest input)
@@ -95,6 +97,7 @@ public class HourValueController implements HourValueAPI {
 		.map(HourValueListResponse::present);
     }
 
+    @Cacheable(value = "HourValueGetById")
     @Override
     public ResponseEntity<?> getById(String id) {
 	final var output = getHourValueByIdUseCase.execute(id);
@@ -102,6 +105,7 @@ public class HourValueController implements HourValueAPI {
 		.body(HourValueResponse.from(output));
     }
 
+    @CacheEvict(value = "HourValueGetById", allEntries = true)
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateHourValueRequest input) {
@@ -116,6 +120,7 @@ public class HourValueController implements HourValueAPI {
 	return ResponseEntity.ok().body(output);
     }
 
+    @CacheEvict(value = "HourValueGetById", allEntries = true)
     @Override
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteHourValueUseCase.execute(id);

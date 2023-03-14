@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 class RedisConfiguration {
-    
+
     @Bean
     CacheManager cacheManager() {
-	return new ConcurrentMapCacheManager("calculateHourValue",
-		"orderprice");
+	return new ConcurrentMapCacheManager(
+		"calculateHourValue", "orderprice",
+		"HourValueGetById", "VariableTaxGetById",
+		"fixedTaxGetById");
     }
-  
+
 }

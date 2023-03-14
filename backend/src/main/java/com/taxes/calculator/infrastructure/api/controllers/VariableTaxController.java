@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,18 +52,21 @@ public class VariableTaxController implements VariableTaxAPI {
 		.requireNonNull(deleteVariableTaxUseCase);
     }
 
+    @CacheEvict(value = "VariableTaxGetById", allEntries = true)
     @Override
     public ResponseEntity<?> createVariableTax(
 	    @Valid CreateVariableTaxRequest input)
 	    throws URISyntaxException {
 	final var aCommand = CreateVariableTaxCommand.with(
 		input.dentalShop(), input.prosthetist(),
-		input.travel(), input.creditCard(), input.weekend(),
-		input.userId());
+		input.travel(), input.creditCard(),
+		input.weekend(), input.userId());
 
-	final var output = createVariableTaxUseCase.execute(aCommand);
+	final var output = createVariableTaxUseCase
+		.execute(aCommand);
 
-	final URI uri = new URI("api/variabletaxes/" + output.id());
+	final URI uri = new URI(
+		"api/variabletaxes/" + output.id());
 
 	return ResponseEntity.created(uri).body(output);
     }
@@ -71,13 +76,14 @@ public class VariableTaxController implements VariableTaxAPI {
 	    String search, int page, int perPage, String sort,
 	    String direction) {
 	final var output = listVariableTaxUseCase
-		.execute(new SearchQuery(page, perPage, search, sort,
-			direction));
+		.execute(new SearchQuery(page, perPage, search,
+			sort, direction));
 
-	return ResponseEntity.ok()
-		.body(output.map(VariableTaxListResponse::present));
+	return ResponseEntity.ok().body(
+		output.map(VariableTaxListResponse::present));
     }
 
+    @Cacheable(value = "VariableTaxGetById")
     @Override
     public ResponseEntity<?> getById(String id) {
 
@@ -86,19 +92,22 @@ public class VariableTaxController implements VariableTaxAPI {
 	return ResponseEntity.ok().body(output);
     }
 
+    @CacheEvict(value = "VariableTaxGetById", allEntries = true)
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateVariableTaxRequest input) {
 	final var aCommand = UpdateVariableTaxCommand.with(id,
 		input.dentalShop(), input.prosthetist(),
-		input.travel(), input.creditCard(), input.weekend(),
-		input.userId());
+		input.travel(), input.creditCard(),
+		input.weekend(), input.userId());
 
-	final var output = updateVariableTaxUseCase.execute(aCommand);
+	final var output = updateVariableTaxUseCase
+		.execute(aCommand);
 
 	return ResponseEntity.ok().body(output);
     }
 
+    @CacheEvict(value = "VariableTaxGetById", allEntries = true)
     @Override
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteVariableTaxUseCase.execute(id);

@@ -34,9 +34,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
-    crossorigin:
-      enables: true
-      allow-credentials: true
   cache:
     type: redis
   redis:
