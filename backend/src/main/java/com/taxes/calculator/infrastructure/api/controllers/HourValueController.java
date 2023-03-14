@@ -125,8 +125,7 @@ public class HourValueController implements HourValueAPI {
     @Override
     @Cacheable("calculateHourValue")
     public ResponseEntity<MonthlyOutput> calculateHourValue(
-	    @Valid CalculateHourValueRequest input) {
-	final var userId = input.userId();
+	    @Valid String userId) {
 
 	final TotalTaxOutput totalTax = totalTaxUseCase
 		.execute(userId);

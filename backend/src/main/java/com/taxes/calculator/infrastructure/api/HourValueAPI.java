@@ -62,7 +62,8 @@ public interface HourValueAPI {
 	    @ApiResponse(responseCode = "201", description = "HourValue retrieved successfully"),
 	    @ApiResponse(responseCode = "404", description = "HourValue was not found"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
-    ResponseEntity<?> getById(@PathVariable(name = "id") String id);
+    ResponseEntity<?> getById(
+	    @PathVariable(name = "id") String id);
 
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get a HourValue by it's identifier")
@@ -70,7 +71,8 @@ public interface HourValueAPI {
 	    @ApiResponse(responseCode = "200", description = "HourValue updated successfully"),
 	    @ApiResponse(responseCode = "404", description = "HourValue was not found"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
-    ResponseEntity<?> updateById(@PathVariable(name = "id") String id,
+    ResponseEntity<?> updateById(
+	    @PathVariable(name = "id") String id,
 	    @RequestBody UpdateHourValueRequest input);
 
     @DeleteMapping(value = "{id}")
@@ -82,10 +84,8 @@ public interface HourValueAPI {
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
     ResponseEntity<?> deleteById(
 	    @PathVariable(name = "id") String id);
-    
-    @PostMapping(value = "monthly",
-	    consumes = MediaType.APPLICATION_JSON_VALUE,
-	    produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "monthly/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Calculate the hour value based on user fixed tax and variable tax. USES CACHE")
     @ApiResponses(value = {
 	    @ApiResponse(responseCode = "201", description = "Created successfully"),
@@ -93,5 +93,5 @@ public interface HourValueAPI {
 	    @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
 	    @ApiResponse(responseCode = "500", description = "A internal server error was thrown") })
     ResponseEntity<MonthlyOutput> calculateHourValue(
-	    @Valid @RequestBody CalculateHourValueRequest input);
+	    @Valid @PathVariable(name = "userId") String userId);
 }
