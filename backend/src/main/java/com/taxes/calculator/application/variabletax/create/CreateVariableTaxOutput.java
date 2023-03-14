@@ -1,9 +1,25 @@
 package com.taxes.calculator.application.variabletax.create;
 
-import com.taxes.calculator.domain.variabletax.VariableTaxID;
+import java.math.BigDecimal;
 
-public record CreateVariableTaxOutput(String id) {
-    public static CreateVariableTaxOutput from(final VariableTaxID anId) {
-	return new CreateVariableTaxOutput(anId.getValue());
+import com.taxes.calculator.domain.variabletax.VariableTax;
+
+public record CreateVariableTaxOutput(String id,
+	BigDecimal creditCard, BigDecimal dentalShop,
+	BigDecimal prosthetist, BigDecimal travel,
+	BigDecimal weekend, String userId) {
+    public static CreateVariableTaxOutput from(
+	    final VariableTax vTax) {
+	String id = vTax.getId() != null
+		? vTax.getId().getValue()
+		: null;
+	String userId = vTax.getUserId() != null
+		? vTax.getUserId().getValue()
+		: null;
+
+	return new CreateVariableTaxOutput(id,
+		vTax.getCreditCard(), vTax.getDentalShop(),
+		vTax.getProsthetist(), vTax.getTravel(),
+		vTax.getWeekend(), userId);
     }
 }

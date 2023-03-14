@@ -1,5 +1,5 @@
 CREATE TABLE total_taxes(
-    tax_id INT AUTO_INCREMENT PRIMARY KEY,
+    tax_id CHAR(32) UNIQUE PRIMARY KEY,
     fixed_tax_id CHAR(32),
     variable_tax_id CHAR(32),
     hour_value_id CHAR(32),

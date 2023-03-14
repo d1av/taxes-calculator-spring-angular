@@ -1,6 +1,6 @@
 <p>home works!</p>
 <section style="display: flex;width: 100%;gap: 30px;">
-  <app-fixed-tax></app-fixed-tax>
-  <app-variable-tax></app-variable-tax>
-  <app-hour-value></app-hour-value>
+  <app-fixed-tax [fixedTaxId]="totalTaxResponse?.fixedTaxId" ></app-fixed-tax>
+  <app-variable-tax [variableTaxId]="totalTaxResponse?.variableTaxId"></app-variable-tax>
+  <app-hour-value [hourValueId]="totalTaxResponse?.hourValueId"></app-hour-value>
 </section>

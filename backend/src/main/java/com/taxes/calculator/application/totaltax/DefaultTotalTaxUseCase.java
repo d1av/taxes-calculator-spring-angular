@@ -25,7 +25,7 @@ public class DefaultTotalTaxUseCase extends TotalTaxUseCase {
 	}
 	return TotalTaxOutput
 		.with(totalTaxRepository.save(TotalTaxJpaEntity
-			.with(null, null, null, null, anIn)));
+			.newEntity(null, null, null, anIn)));
     }
 
 }

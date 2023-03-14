@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TotalTaxResponse } from 'src/app/shared/services/response/total-tax-response.type';
 import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
 
 @Component({
@@ -8,14 +9,14 @@ import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.servic
 })
 export class HomeComponent implements OnInit {
 
-  apiResponse: any;
+  totalTaxResponse: TotalTaxResponse | undefined;
 
   constructor (private totalTaxService: TotalTaxApiService) { }
 
   ngOnInit(): void {
     this.callIdsFromApi().then((data) => {
-      this.apiResponse = data;
-      console.log(this.apiResponse);
+      this.totalTaxResponse = data;
+      console.log(this.totalTaxResponse);
     });
   }
 

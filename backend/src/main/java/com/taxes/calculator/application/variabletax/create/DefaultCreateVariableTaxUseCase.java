@@ -39,7 +39,8 @@ public class DefaultCreateVariableTaxUseCase
 	final var notification = Notification.create();
 
 	final var aVariableTax = VariableTax.newVariableTax(
-		dentalShop, prosthetist, travel, creditCard, weekend);
+		dentalShop, prosthetist, travel, creditCard,
+		weekend);
 
 	notification.validate(() -> aVariableTax);
 
@@ -49,13 +50,14 @@ public class DefaultCreateVariableTaxUseCase
 		    notification);
 	}
 
-	final Optional<User> aUser = userGateway.findById(userID);
+	final Optional<User> aUser = userGateway
+		.findById(userID);
 
 	if (!aUser.isEmpty()) {
 	    aVariableTax.addUser(aUser.get().getId());
 	}
 
-	return CreateVariableTaxOutput.from(
-		variableTaxGateway.create(aVariableTax).getId());
+	return CreateVariableTaxOutput
+		.from(variableTaxGateway.create(aVariableTax));
     }
 }

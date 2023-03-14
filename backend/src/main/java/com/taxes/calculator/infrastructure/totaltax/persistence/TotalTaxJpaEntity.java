@@ -2,18 +2,17 @@ package com.taxes.calculator.infrastructure.totaltax.persistence;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.taxes.calculator.domain.totaltax.TotalTaxID;
 
 @Entity(name = "TotalTax")
 @Table(name = "total_taxes")
 public class TotalTaxJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tax_id", nullable = false)
+    @Column(name = "tax_id", nullable = false, unique = true)
     private String taxId;
 
     @Column(name = "fixed_tax_id", length = (32))
@@ -31,12 +30,10 @@ public class TotalTaxJpaEntity {
     public TotalTaxJpaEntity() {
     }
 
-    private TotalTaxJpaEntity(
-	    final String taxId,
-	    final String fixedTaxId, 
-	    final String variableTaxId,
-	    final String hourValueId, 
-	    final String userId) {
+    private TotalTaxJpaEntity(final String taxId,
+	    final String fixedTaxId, final String variableTaxId,
+	    final String hourValueId, final String userId) {
+	this.taxId = taxId;
 	this.fixedTaxId = fixedTaxId;
 	this.variableTaxId = variableTaxId;
 	this.hourValueId = hourValueId;
@@ -50,11 +47,19 @@ public class TotalTaxJpaEntity {
 		variableTaxId, hourValueId, userId);
     }
 
-    public static TotalTaxJpaEntity update(
+    public TotalTaxJpaEntity update(
 	    final TotalTaxJpaEntity aTax) {
 	return new TotalTaxJpaEntity(aTax.taxId, aTax.fixedTaxId,
 		aTax.variableTaxId, aTax.hourValueId,
 		aTax.userId);
+    }
+
+    public static TotalTaxJpaEntity newEntity(
+	    final String fixedTaxId, final String variableTaxId,
+	    final String hourValueId, final String userId) {
+	return new TotalTaxJpaEntity(
+		TotalTaxID.unique().getValue(), fixedTaxId,
+		variableTaxId, hourValueId, userId);
     }
 
     public String getTaxId() {

@@ -81,6 +81,9 @@ public class HourValueMySQLGateway implements HourValueGateway {
     public void deleteById(HourValueID anId) {
 	if (this.repository.existsById(anId.getValue())) {
 	    this.repository.deleteById(anId.getValue());
+	    TotalTaxPersistence
+		    .deleteValueWhenHourValueIsDeleted(
+			    anId.getValue());
 	}
     }
 

@@ -82,6 +82,9 @@ public class VariableTaxMYSQLGateway
     public void deleteById(VariableTaxID anId) {
 	if (this.repository.existsById(anId.getValue())) {
 	    this.repository.deleteById(anId.getValue());
+	    TotalTaxPersistence
+		    .deleteValueWhenVariableTaxIsDeleted(
+			    anId.getValue());
 	}
     }
 

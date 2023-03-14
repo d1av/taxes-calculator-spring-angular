@@ -8,6 +8,6 @@ public record CreateHourValueRequest(
 	@JsonProperty("expectedSalary") BigDecimal expectedSalary,
 	@JsonProperty("personalHourValue") BigDecimal personalHourValue,
 	@JsonProperty("daysOfWork") Integer daysOfWork,
-	@JsonProperty("user") String user) {
+	@JsonProperty("userId") String userId) {
 
 }

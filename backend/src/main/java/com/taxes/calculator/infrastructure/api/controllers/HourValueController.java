@@ -75,7 +75,7 @@ public class HourValueController implements HourValueAPI {
 	final var aCommand = CreateHourValueCommand.with(
 		input.expectedSalary(),
 		input.personalHourValue(), input.daysOfWork(),
-		input.user());
+		input.userId());
 
 	final var output = createHourValueUseCase
 		.execute(aCommand);

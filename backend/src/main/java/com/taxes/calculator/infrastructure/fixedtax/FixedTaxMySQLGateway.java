@@ -88,6 +88,8 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 	if (!this.fixedTaxRepository.findById(anId.getValue())
 		.isEmpty()) {
 	    this.fixedTaxRepository.deleteById(anId.getValue());
+	    TotalTaxPersistence.deleteValueWhenFixedTaxIsDeleted(
+		    anId.getValue());
 	}
     }
 

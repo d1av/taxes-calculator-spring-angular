@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
@@ -51,7 +51,7 @@ public class SecurityConfig {
 
 	http
 	.csrf().disable()
-	.cors().disable()
+	.cors().and()
 	.authorizeHttpRequests((authorize) ->
 	authorize
 		.antMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
@@ -60,11 +60,12 @@ public class SecurityConfig {
 		.antMatchers("/api/fixedtaxes/**").hasRole("MEMBER")
 		.antMatchers("/api/variabletaxes/**").hasRole("MEMBER")
 		.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
-		.antMatchers("/api/totaltaxes/**").authenticated()
+		.antMatchers("/api/totaltaxes/**").hasRole("MEMBER")
 		.antMatchers("/api/auth/**").permitAll()
-		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll())
-		.exceptionHandling(
-			exception -> exception.authenticationEntryPoint(
+		.antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
+		)
+		.exceptionHandling(exception -> exception
+			.authenticationEntryPoint(
 				authenticationEntryPoint))
 		.sessionManagement(
 			session -> session.sessionCreationPolicy(

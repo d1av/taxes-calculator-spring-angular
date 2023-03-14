@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 @EnableCaching
+@CrossOrigin(origins = "*")
 public class CalculatorApplication {
 
     public static void main(String[] args) {
