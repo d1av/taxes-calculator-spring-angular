@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,6 +27,9 @@ import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxRe
 @Service
 public class VariableTaxMYSQLGateway
 	implements VariableTaxGateway {
+
+    private static final Logger LOGGER = LoggerFactory
+	    .getLogger(VariableTaxMYSQLGateway.class);
 
     private final VariableTaxRepository repository;
 
@@ -100,6 +105,8 @@ public class VariableTaxMYSQLGateway
 		    userId);
 	    return aVariableTax;
 	} else {
+	    LOGGER.info("Log from variable: {}", this.repository
+		    .findByUserId(userId).isEmpty());
 	    return updateEntity(aVariableTax);
 	}
     }
@@ -109,24 +116,25 @@ public class VariableTaxMYSQLGateway
 	List<VariableTaxJpaEntity> foundedList = this.repository
 		.findByUserId(
 			aVariableTax.getUserId().getValue());
+
 	if (!foundedList.isEmpty()) {
 	    VariableTaxJpaEntity existingEntity = foundedList
 		    .get(0);
-	    VariableTax parentEntity = VariableTax.with(
-		    VariableTaxID.from(existingEntity.getId()),
-		    existingEntity.getDentalShop(),
-		    existingEntity.getProsthetist(),
-		    existingEntity.getTravel(),
-		    existingEntity.getCreditCard(),
-		    existingEntity.getWeekend(),
-		    existingEntity.getUserId(),
-		    existingEntity.getCreatedAt(),
-		    existingEntity.getUpdatedAt());
 
-	    this.repository.save(
-		    VariableTaxJpaEntity.from(parentEntity));
+	    VariableTax updatedTax = existingEntity.toAggregate()
+		    .update(aVariableTax.getDentalShop(),
+			    aVariableTax.getProsthetist(),
+			    aVariableTax.getTravel(),
+			    aVariableTax.getCreditCard(),
+			    aVariableTax.getWeekend());
 
-	    return parentEntity;
+	    this.repository
+		    .save(VariableTaxJpaEntity.from(updatedTax));
+
+	    LOGGER.info("Variable tax updated with id: {}",
+		    updatedTax.getId().getValue());
+
+	    return updatedTax;
 	}
 	return null;
     }

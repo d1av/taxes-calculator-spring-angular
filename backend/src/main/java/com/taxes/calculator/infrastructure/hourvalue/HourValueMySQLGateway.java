@@ -109,19 +109,16 @@ public class HourValueMySQLGateway implements HourValueGateway {
 	if (!entity.isEmpty()) {
 	    HourValueJpaEntity existingEntity = entity.get(0);
 
-	    HourValue parentEntity = HourValue.with(
-		    existingEntity.getId(),
-		    existingEntity.getExpectedSalary(),
-		    existingEntity.getPersonalHourValue(),
-		    existingEntity.getDaysOfWork(),
-		    existingEntity.getCreatedAt(),
-		    existingEntity.getUpdatedAt(),
-		    existingEntity.getUserID());
+	    HourValue updatedEntity = existingEntity
+		    .toAggregate()
+		    .update(aHourValue.getExpectedSalary(),
+			    aHourValue.getPersonalHourValue(),
+			    aHourValue.getDaysOfWork());
 
 	    this.repository
-		    .save(HourValueJpaEntity.from(parentEntity));
+		    .save(HourValueJpaEntity.from(updatedEntity));
 
-	    return parentEntity;
+	    return updatedEntity;
 	}
 	return null;
     }
