@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VariableTaxResponse } from '../../services/response/variabletax-response.type';
 import { VariableTaxApiService } from '../../services/variable-tax-api.service';
@@ -8,7 +8,7 @@ import { VariableTaxApiService } from '../../services/variable-tax-api.service';
   templateUrl: './variable-tax.component.html',
   styleUrls: [ './variable-tax.component.scss' ]
 })
-export class VariableTaxComponent implements OnChanges {
+export class VariableTaxComponent implements OnChanges, OnInit {
   @Input() variableTaxId: string | undefined;
 
   variableTaxData: VariableTaxResponse | undefined;
@@ -17,11 +17,19 @@ export class VariableTaxComponent implements OnChanges {
   isDisabled: boolean = false;
 
   constructor (private variableTaxService: VariableTaxApiService) { }
+
+
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
     if (this.variableTaxId) {
       this.variableTaxService.getVariableTaxById(this.variableTaxId).subscribe(data => {
         this.variableTaxData = data;
+        this.initializeForm();
       });
     }
   }
