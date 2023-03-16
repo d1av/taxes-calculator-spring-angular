@@ -1,5 +1,117 @@
 <p>fixed-tax works!</p>
 <p>{{ fixedTaxId != null ? fixedTaxId : "Create new Fixed Tax" }}</p>
-<div style="overflow-wrap: break-word;width: 300px">
+<div style="overflow-wrap: break-word; width: 300px; border: 5px solid red">
   <p>{{ stringify() }}</p>
+
+  <!-- Form BEGIN -->
+  <form [formGroup]="fixedTaxForm">
+    <div class="mb-3">
+      <label for="regionalCouncil" class="form-label">Conselho Regional</label>
+      <input
+        type="number"
+        class="form-control"
+        id="regionalCouncil"
+        formControlName="regionalCouncil"
+        placeholder="Conselho Regional"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="taxOverWork" class="form-label">Taxa de Trabalho</label>
+      <input
+        type="number"
+        class="form-control"
+        id="taxOverWork"
+        formControlName="taxOverWork"
+        placeholder="Taxa Sobre o Trabalho"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="incomeTax" class="form-label">Imposto de Renda</label>
+      <input
+        type="number"
+        class="form-control"
+        id="incomeTax"
+        formControlName="incomeTax"
+        placeholder="Valor mensal do Imposto de Renda"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="accountant" class="form-label">Contador</label>
+      <input
+        type="number"
+        class="form-control"
+        id="accountant"
+        formControlName="accountant"
+        placeholder="Valor destinado a contadoria"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="dentalShop" class="form-label">Compras em Lojas</label>
+      <input
+        type="number"
+        class="form-control"
+        id="dentalShop"
+        formControlName="dentalShop"
+        placeholder="Valor de compras de Lojas"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="transport" class="form-label">Transporte</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="transport"
+        id="transport"
+        placeholder="Valor usado no transporte mensal"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="food" class="form-label">Comida</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="food"
+        id="food"
+        placeholder="Valor mensal gasto em comida"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="education" class="form-label">Educação</label>
+      <input
+        type="number"
+        class="form-control"
+        id="education"
+        formControlName="education"
+        placeholder="Valor mensal gasto em educação"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="otherFixedCosts" class="form-label">Outro Custos Fixos</label>
+      <input
+        type="number"
+        class="form-control"
+        id="otherFixedCosts"
+        formControlName="otherFixedCosts"
+        placeholder="Soma mensal de outros custos fixos"
+      />
+    </div>
+  </form>
+  <!-- Form END -->
+  <p>Form value: {{ fixedTaxForm.value | json }}</p>
+  <button
+    *ngIf="fixedTaxId == null"
+    type="button"
+    class="btn btn-primary"
+    (click)="saveFixedTax()"
+  >
+    Salvar
+  </button>
+  <button
+    *ngIf="fixedTaxId != null"
+    type="button"
+    class="btn btn-primary"
+    (click)="updateFixedTax()"
+  >
+    Salvar Alterações
+  </button>
 </div>

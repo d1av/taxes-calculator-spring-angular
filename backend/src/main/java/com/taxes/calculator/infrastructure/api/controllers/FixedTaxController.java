@@ -25,6 +25,7 @@ import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.infrastructure.api.FixedTaxAPI;
 import com.taxes.calculator.infrastructure.fixedtax.models.CreateFixedTaxRequest;
 import com.taxes.calculator.infrastructure.fixedtax.models.FixedTaxListResponse;
+import com.taxes.calculator.infrastructure.fixedtax.models.FixedTaxResponse;
 import com.taxes.calculator.infrastructure.fixedtax.models.UpdateFixedTaxRequest;
 
 @RestController
@@ -109,7 +110,9 @@ public class FixedTaxController implements FixedTaxAPI {
 
 	final var output = this.updateFixedTaxUseCase
 		.execute(aCommand);
-	return ResponseEntity.ok().body(output);
+
+	return ResponseEntity.ok()
+		.body(FixedTaxResponse.from(output));
     }
 
     @CacheEvict(value = "fixedTaxGetById", allEntries = true)

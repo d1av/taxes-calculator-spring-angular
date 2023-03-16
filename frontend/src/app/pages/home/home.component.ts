@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.callIdsFromApi().then((data) => {
       this.totalTaxResponse = data;
-      console.log(this.totalTaxResponse);
     });
   }
 

@@ -7,11 +7,18 @@ import { FixedTaxResponse } from './response/fixedtax-response.types';
   providedIn: 'root'
 })
 export class FixedTaxApiService {
-
   constructor (private apiService: ApiService) { }
 
   public getFixedTaxById(fixedTaxId: string): Observable<FixedTaxResponse> {
     return from(this.apiService.get('fixedtaxes/' + fixedTaxId));
+  }
+
+  public updateFixedTax(requestObj: FixedTaxResponse) {
+    return from(this.apiService.put('fixedtaxes/' + requestObj.id, requestObj));
+  }
+
+  public createFixedTax(requestObj: FixedTaxResponse) {
+    return from(this.apiService.post('fixedtaxes/', requestObj));
   }
 
 }
