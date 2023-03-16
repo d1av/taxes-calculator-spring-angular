@@ -52,7 +52,7 @@ public class VariableTaxController implements VariableTaxAPI {
 		.requireNonNull(deleteVariableTaxUseCase);
     }
 
-    @CacheEvict(value = "VariableTaxGetById", allEntries = true)
+    @CacheEvict(value = {"VariableTaxGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> createVariableTax(
 	    @Valid CreateVariableTaxRequest input)
@@ -92,7 +92,7 @@ public class VariableTaxController implements VariableTaxAPI {
 	return ResponseEntity.ok().body(output);
     }
 
-    @CacheEvict(value = "VariableTaxGetById", allEntries = true)
+    @CacheEvict(value = {"VariableTaxGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateVariableTaxRequest input) {
@@ -107,7 +107,7 @@ public class VariableTaxController implements VariableTaxAPI {
 	return ResponseEntity.ok().body(output);
     }
 
-    @CacheEvict(value = "VariableTaxGetById", allEntries = true)
+    @CacheEvict(value = {"VariableTaxGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteVariableTaxUseCase.execute(id);

@@ -69,7 +69,7 @@ public class HourValueController implements HourValueAPI {
 		.requireNonNull(totalTaxUseCase);
     }
 
-    @CacheEvict(value = "HourValueGetById", allEntries = true)
+    @CacheEvict(value = {"HourValueGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> create(
 	    @Valid CreateHourValueRequest input)
@@ -97,7 +97,7 @@ public class HourValueController implements HourValueAPI {
 		.map(HourValueListResponse::present);
     }
 
-    @Cacheable(value = "HourValueGetById")
+    @Cacheable(value = {"HourValueGetById","calculateHourValue"})
     @Override
     public ResponseEntity<?> getById(String id) {
 	final var output = getHourValueByIdUseCase.execute(id);
@@ -105,7 +105,7 @@ public class HourValueController implements HourValueAPI {
 		.body(HourValueResponse.from(output));
     }
 
-    @CacheEvict(value = "HourValueGetById", allEntries = true)
+    @CacheEvict(value = {"HourValueGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateHourValueRequest input) {
@@ -120,7 +120,7 @@ public class HourValueController implements HourValueAPI {
 	return ResponseEntity.ok().body(output);
     }
 
-    @CacheEvict(value = "HourValueGetById", allEntries = true)
+    @CacheEvict(value = {"HourValueGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteHourValueUseCase.execute(id);

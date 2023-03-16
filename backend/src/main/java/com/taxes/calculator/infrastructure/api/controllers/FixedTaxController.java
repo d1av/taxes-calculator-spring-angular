@@ -55,7 +55,7 @@ public class FixedTaxController implements FixedTaxAPI {
 		.requireNonNull(listFixedTaxUseCase);
     }
 
-    @CacheEvict(value = "fixedTaxGetById", allEntries = true)
+    @CacheEvict(value = {"fixedTaxGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> createFixedTax(
 	    @Valid CreateFixedTaxRequest input)
@@ -96,7 +96,7 @@ public class FixedTaxController implements FixedTaxAPI {
 	return ResponseEntity.ok().body(output);
     }
 
-    @CacheEvict(value = "fixedTaxGetById", allEntries = true)
+    @CacheEvict(value = {"fixedTaxGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> updateById(String id,
 	    UpdateFixedTaxRequest input) {
@@ -115,7 +115,7 @@ public class FixedTaxController implements FixedTaxAPI {
 		.body(FixedTaxResponse.from(output));
     }
 
-    @CacheEvict(value = "fixedTaxGetById", allEntries = true)
+    @CacheEvict(value = {"fixedTaxGetById","calculateHourValue"}, allEntries = true)
     @Override
     public ResponseEntity<?> deleteById(String id) {
 	this.deleteFixedTaxUseCase.execute(id);
