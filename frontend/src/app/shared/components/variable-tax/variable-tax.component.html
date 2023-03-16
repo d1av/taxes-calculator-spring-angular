@@ -1,181 +1,168 @@
- <!-- Form BEGIN -->
-  <form [formGroup]="variableTaxForm">
-    <div class="mb-3">
-      <div
-        *ngIf="
-          creditCard?.invalid &&
-          (creditCard?.dirty || creditCard?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="creditCard?.hasError('required')">
-          Preencha o valor.
-        </div>
-        <div *ngIf="creditCard?.hasError('min')">
-          O valor tem maior ou igual a zero.
-        </div>
-        <div *ngIf="creditCard?.hasError('max')">Número muito grande</div>
+<!-- Form BEGIN -->
+<form [formGroup]="variableTaxForm">
+  <div class="mb-3">
+    <div
+      *ngIf="creditCard?.invalid && (creditCard?.dirty || creditCard?.touched)"
+      class="alert alert-danger mt-1"
+    >
+      <div *ngIf="creditCard?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="creditCard?.hasError('min')">
+        O valor tem maior ou igual a zero.
       </div>
+      <div *ngIf="creditCard?.hasError('max')">Número muito grande</div>
+    </div>
 
-      <label for="creditCard" class="form-label">Cartão de Crédito</label>
+    <label for="creditCard" class="form-label">Cartão de Crédito</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">R$</span>
       <input
         type="number"
         class="form-control"
         id="creditCard"
         [class.is-invalid]="
-          variableTaxForm.get('creditCard')?.errors &&
-          creditCard?.touched
+          variableTaxForm.get('creditCard')?.errors && creditCard?.touched
         "
         formControlName="creditCard"
         placeholder="Dias de Trabalho no Mês"
       />
+      <span class="input-group-text">,00</span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div
+      *ngIf="dentalShop?.invalid && (dentalShop?.dirty || dentalShop?.touched)"
+      class="alert alert-danger mt-1"
+    >
+      <div *ngIf="dentalShop?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="dentalShop?.hasError('min')">
+        Caso nenhum valor, coloque zero.
+      </div>
+      <div *ngIf="dentalShop?.hasError('max')">Número muito grande</div>
     </div>
 
-
-    <div class="mb-3">
-      <div
-        *ngIf="
-          dentalShop?.invalid &&
-          (dentalShop?.dirty || dentalShop?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="dentalShop?.hasError('required')">
-          Preencha o valor.
-        </div>
-        <div *ngIf="dentalShop?.hasError('min')">
-          Caso nenhum valor, coloque zero.
-        </div>
-        <div *ngIf="dentalShop?.hasError('max')">Número muito grande</div>
-      </div>
-
-      <label for="dentalShop" class="form-label">Compras</label>
+    <label for="dentalShop" class="form-label">Compras</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">R$</span>
       <input
         type="number"
         class="form-control"
         id="dentalShop"
         [class.is-invalid]="
-          variableTaxForm.get('dentalShop')?.errors &&
-          dentalShop?.touched
+          variableTaxForm.get('dentalShop')?.errors && dentalShop?.touched
         "
         formControlName="dentalShop"
         placeholder="Valor mensal das compras"
       />
+      <span class="input-group-text">,00</span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div
+      *ngIf="
+        prosthetist?.invalid && (prosthetist?.dirty || prosthetist?.touched)
+      "
+      class="alert alert-danger mt-1"
+    >
+      <div *ngIf="prosthetist?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="prosthetist?.hasError('min')">
+        Caso nenhum valor, coloque zero.
+      </div>
+      <div *ngIf="prosthetist?.hasError('max')">Número muito grande</div>
     </div>
 
-
-    <div class="mb-3">
-      <div
-        *ngIf="
-          prosthetist?.invalid &&
-          (prosthetist?.dirty || prosthetist?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="prosthetist?.hasError('required')">
-          Preencha o valor.
-        </div>
-        <div *ngIf="prosthetist?.hasError('min')">
-          Caso nenhum valor, coloque zero.
-        </div>
-        <div *ngIf="prosthetist?.hasError('max')">Número muito grande</div>
-      </div>
-
-      <label for="prosthetist" class="form-label">Saúde</label>
+    <label for="prosthetist" class="form-label">Saúde</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">R$</span>
       <input
         type="number"
         class="form-control"
         id="prosthetist"
         [class.is-invalid]="
-          variableTaxForm.get('prosthetist')?.errors &&
-          prosthetist?.touched
+          variableTaxForm.get('prosthetist')?.errors && prosthetist?.touched
         "
         formControlName="prosthetist"
         placeholder="Gastos em saúde"
       />
+      <span class="input-group-text">,00</span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div
+      *ngIf="weekend?.invalid && (weekend?.dirty || weekend?.touched)"
+      class="alert alert-danger mt-1"
+    >
+      <div *ngIf="weekend?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="weekend?.hasError('min')">
+        Caso nenhum valor, coloque zero.
+      </div>
+      <div *ngIf="weekend?.hasError('max')">Número muito grande</div>
     </div>
 
-
-    <div class="mb-3">
-      <div
-        *ngIf="
-          weekend?.invalid &&
-          (weekend?.dirty || weekend?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="weekend?.hasError('required')">
-          Preencha o valor.
-        </div>
-        <div *ngIf="weekend?.hasError('min')">
-          Caso nenhum valor, coloque zero.
-        </div>
-        <div *ngIf="weekend?.hasError('max')">Número muito grande</div>
-      </div>
-
-      <label for="weekend" class="form-label">Feriádo</label>
+    <label for="weekend" class="form-label">Feriado</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">R$</span>
       <input
         type="number"
         class="form-control"
         id="weekend"
         [class.is-invalid]="
-          variableTaxForm.get('weekend')?.errors &&
-          weekend?.touched
+          variableTaxForm.get('weekend')?.errors && weekend?.touched
         "
         formControlName="weekend"
         placeholder="Gastos de Feriado"
       />
+      <span class="input-group-text">,00</span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div
+      *ngIf="travel?.invalid && (travel?.dirty || travel?.touched)"
+      class="alert alert-danger mt-1"
+    >
+      <div *ngIf="travel?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="travel?.hasError('min')">
+        Caso nenhum valor, coloque zero.
+      </div>
+      <div *ngIf="travel?.hasError('max')">Número muito grande</div>
     </div>
 
-    <div class="mb-3">
-      <div
-        *ngIf="
-          travel?.invalid &&
-          (travel?.dirty || travel?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="travel?.hasError('required')">
-          Preencha o valor.
-        </div>
-        <div *ngIf="travel?.hasError('min')">
-          Caso nenhum valor, coloque zero.
-        </div>
-        <div *ngIf="travel?.hasError('max')">Número muito grande</div>
-      </div>
-
-      <label for="travel" class="form-label">Viagens</label>
+    <label for="travel" class="form-label">Viagens</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">R$</span>
       <input
         type="number"
         class="form-control"
         id="travel"
         [class.is-invalid]="
-          variableTaxForm.get('travel')?.errors &&
-          travel?.touched
+          variableTaxForm.get('travel')?.errors && travel?.touched
         "
         formControlName="travel"
         placeholder="Gastos em Viagem"
       />
+      <span class="input-group-text">,00</span>
     </div>
-
-
-  </form>
-   <button
-    *ngIf="variableTaxId == null"
-    type="button"
-    [disabled]="isDisabled"
-    class="btn btn-primary"
-    (click)="createVariableTax()"
-  >
-    Salvar
-  </button>
-  <button
-    *ngIf="variableTaxId != null"
-    type="button"
-    [disabled]="isDisabled"
-    class="btn btn-primary"
-    (click)="updateVariableTax()"
-  >
-    Salvar Alterações
-  </button>
+  </div>
+</form>
+<button
+  *ngIf="variableTaxId == null"
+  type="button"
+  [disabled]="isDisabled"
+  class="btn btn-primary"
+  (click)="createVariableTax()"
+>
+  Salvar
+</button>
+<button
+  *ngIf="variableTaxId != null"
+  type="button"
+  [disabled]="isDisabled"
+  class="btn btn-primary"
+  (click)="updateVariableTax()"
+>
+  Salvar Alterações
+</button>
 <!-- Form END -->
