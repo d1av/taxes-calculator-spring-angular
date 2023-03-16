@@ -11,6 +11,14 @@ export class HourValueApiService {
 
   constructor (private apiService: ApiService) { }
 
+  updateHourValue(requestObj: HourValueResponse): Observable<HourValueResponse> {
+    return from(this.apiService.put('hourvalues/' + requestObj.id, requestObj));
+  }
+
+  createHourValue(requestObj: HourValueResponse): Observable<HourValueResponse> {
+    return from(this.apiService.post('hourvalues/', requestObj));
+  }
+
   public getHourValueById(hourValueId: string): Observable<HourValueResponse> {
     return from(this.apiService.get('hourvalues/' + hourValueId));
   }

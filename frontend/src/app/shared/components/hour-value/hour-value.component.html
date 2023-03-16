@@ -1,5 +1,84 @@
-<p>hour-value works!</p>
-<p>{{ hourValueId != null ? hourValueId : "Create new Hour Value" }}</p>
-<div style="overflow-wrap: break-word;width: 300px">
-  <p>{{ stringify() }}</p>
-</div>
+  <!-- Form BEGIN -->
+  <form [formGroup]="hourValueForm">
+    <div class="mb-3">
+      <div
+        *ngIf="
+          daysOfWork?.invalid &&
+          (daysOfWork?.dirty || daysOfWork?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="daysOfWork?.hasError('required')">
+          Preencha o valor.
+        </div>
+        <div *ngIf="daysOfWork?.hasError('min')">
+          É necessário pelo menos 1 dia de trabalho.
+        </div>
+        <div *ngIf="daysOfWork?.hasError('max')">Máximo de dias é 31</div>
+      </div>
+
+      <label for="daysOfWork" class="form-label">Dias de Trabalho</label>
+      <input
+        type="number"
+        class="form-control"
+        id="daysOfWork"
+        [class.is-invalid]="
+          hourValueForm.get('daysOfWork')?.errors &&
+          daysOfWork?.touched
+        "
+        formControlName="daysOfWork"
+        placeholder="Dias de Trabalho no Mês"
+      />
+    </div>
+
+
+    <div class="mb-3">
+      <div
+        *ngIf="
+          expectedSalary?.invalid &&
+          (expectedSalary?.dirty || expectedSalary?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="expectedSalary?.hasError('required')">
+          Preencha o valor.
+        </div>
+        <div *ngIf="expectedSalary?.hasError('min')">
+          Caso nenhum valor, coloque zero.
+        </div>
+        <div *ngIf="expectedSalary?.hasError('max')">Número muito grande</div>
+      </div>
+
+      <label for="expectedSalary" class="form-label">Salario Mensal Líquido Esperado</label>
+      <input
+        type="number"
+        class="form-control"
+        id="expectedSalary"
+        [class.is-invalid]="
+          hourValueForm.get('expectedSalary')?.errors &&
+          expectedSalary?.touched
+        "
+        formControlName="expectedSalary"
+        placeholder="Dias de Trabalho no Mês"
+      />
+    </div>
+  </form>
+   <button
+    *ngIf="hourValueId == null"
+    type="button"
+    [disabled]="isDisabled"
+    class="btn btn-primary"
+    (click)="createHourValue()"
+  >
+    Salvar
+  </button>
+  <button
+    *ngIf="hourValueId != null"
+    type="button"
+    [disabled]="isDisabled"
+    class="btn btn-primary"
+    (click)="updateHourValue()"
+  >
+    Salvar Alterações
+  </button>
+<!-- Form END -->

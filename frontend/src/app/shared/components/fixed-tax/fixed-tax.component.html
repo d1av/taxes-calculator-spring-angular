@@ -1,114 +1,273 @@
-<p>fixed-tax works!</p>
-<p>{{ fixedTaxId != null ? fixedTaxId : "Create new Fixed Tax" }}</p>
 <div style="overflow-wrap: break-word; width: 300px; border: 5px solid red">
-  <p>{{ stringify() }}</p>
-
   <!-- Form BEGIN -->
   <form [formGroup]="fixedTaxForm">
     <div class="mb-3">
+      <div
+        *ngIf="
+          regionalCouncil?.invalid &&
+          (regionalCouncil?.dirty || regionalCouncil?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="regionalCouncil?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="regionalCouncil?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="regionalCouncil?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="regionalCouncil" class="form-label">Conselho Regional</label>
       <input
         type="number"
         class="form-control"
         id="regionalCouncil"
+        [class.is-invalid]="
+          fixedTaxForm.get('regionalCouncil')?.errors &&
+          regionalCouncil?.touched
+        "
         formControlName="regionalCouncil"
         placeholder="Conselho Regional"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="
+          taxOverWork?.invalid && (taxOverWork?.dirty || taxOverWork?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="taxOverWork?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="taxOverWork?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="taxOverWork?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="taxOverWork" class="form-label">Taxa de Trabalho</label>
       <input
         type="number"
         class="form-control"
         id="taxOverWork"
+        [class.is-invalid]="
+          fixedTaxForm.get('taxOverWork')?.errors && taxOverWork?.touched
+        "
         formControlName="taxOverWork"
         placeholder="Taxa Sobre o Trabalho"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="incomeTax?.invalid && (incomeTax?.dirty || incomeTax?.touched)"
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="incomeTax?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="incomeTax?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="incomeTax?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="incomeTax" class="form-label">Imposto de Renda</label>
       <input
         type="number"
         class="form-control"
         id="incomeTax"
+        [class.is-invalid]="
+          fixedTaxForm.get('incomeTax')?.errors && incomeTax?.touched
+        "
         formControlName="incomeTax"
         placeholder="Valor mensal do Imposto de Renda"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="
+          accountant?.invalid && (accountant?.dirty || accountant?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="accountant?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="accountant?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="accountant?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="accountant" class="form-label">Contador</label>
       <input
         type="number"
         class="form-control"
         id="accountant"
+        [class.is-invalid]="
+          fixedTaxForm.get('accountant')?.errors && accountant?.touched
+        "
         formControlName="accountant"
         placeholder="Valor destinado a contadoria"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="
+          dentalShop?.invalid && (dentalShop?.dirty || dentalShop?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="dentalShop?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="dentalShop?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="dentalShop?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="dentalShop" class="form-label">Compras em Lojas</label>
       <input
         type="number"
         class="form-control"
         id="dentalShop"
+        [class.is-invalid]="
+          fixedTaxForm.get('dentalShop')?.errors && dentalShop?.touched
+        "
         formControlName="dentalShop"
         placeholder="Valor de compras de Lojas"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="transport?.invalid && (transport?.dirty || transport?.touched)"
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="transport?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="transport?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="transport?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="transport" class="form-label">Transporte</label>
       <input
         type="number"
         class="form-control"
         formControlName="transport"
+        [class.is-invalid]="
+          fixedTaxForm.get('transport')?.errors && transport?.touched
+        "
         id="transport"
         placeholder="Valor usado no transporte mensal"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="food?.invalid && (food?.dirty || food?.touched)"
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="food?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="food?.hasError('min')">O menor valor aceito é zero.</div>
+        <div *ngIf="food?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="food" class="form-label">Comida</label>
       <input
         type="number"
         class="form-control"
         formControlName="food"
+        [class.is-invalid]="fixedTaxForm.get('food')?.errors && food?.touched"
         id="food"
         placeholder="Valor mensal gasto em comida"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="education?.invalid && (education?.dirty || education?.touched)"
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="education?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="education?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="education?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="education" class="form-label">Educação</label>
       <input
         type="number"
         class="form-control"
         id="education"
+        [class.is-invalid]="
+          fixedTaxForm.get('education')?.errors && education?.touched
+        "
         formControlName="education"
         placeholder="Valor mensal gasto em educação"
       />
     </div>
+
     <div class="mb-3">
+      <div
+        *ngIf="
+          otherFixedCosts?.invalid &&
+          (otherFixedCosts?.dirty || otherFixedCosts?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="otherFixedCosts?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="otherFixedCosts?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="otherFixedCosts?.hasError('max')">Valor muito grande.</div>
+      </div>
+
       <label for="otherFixedCosts" class="form-label">Outro Custos Fixos</label>
       <input
         type="number"
         class="form-control"
         id="otherFixedCosts"
+        [class.is-invalid]="
+          fixedTaxForm.get('otherFixedCosts')?.errors &&
+          otherFixedCosts?.touched
+        "
         formControlName="otherFixedCosts"
         placeholder="Soma mensal de outros custos fixos"
       />
     </div>
   </form>
   <!-- Form END -->
-  <p>Form value: {{ fixedTaxForm.value | json }}</p>
   <button
     *ngIf="fixedTaxId == null"
     type="button"
+    [disabled]="isDisabled"
     class="btn btn-primary"
-    (click)="saveFixedTax()"
+    (click)="createFixedTax()"
   >
     Salvar
   </button>
   <button
     *ngIf="fixedTaxId != null"
     type="button"
+    [disabled]="isDisabled"
     class="btn btn-primary"
     (click)="updateFixedTax()"
   >
