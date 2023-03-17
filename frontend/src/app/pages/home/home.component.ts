@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TotalTaxResponse } from 'src/app/shared/services/response/total-tax-response.type';
 import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
 
@@ -9,7 +9,11 @@ import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.servic
 })
 export class HomeComponent implements OnInit {
 
+  isDisabled: boolean = false;
+
   totalTaxResponse: TotalTaxResponse | undefined;
+
+  @Output() buttonClick = new EventEmitter();
 
   constructor (private totalTaxService: TotalTaxApiService) { }
 
@@ -22,4 +26,21 @@ export class HomeComponent implements OnInit {
   async callIdsFromApi(): Promise<any> {
     return await this.totalTaxService.getTotalTax();
   }
+
+  sendClick() {
+    this.buttonClick.emit();
+  }
+
+  theButtonIsDisabled(status: boolean) {
+    this.waitMiliseconds(1000);
+    this.isDisabled = status;
+    return status;
+  }
+
+  waitMiliseconds(millisec: number) {
+    return new Promise(resolve => {
+      setTimeout(() => { resolve(''); }, millisec);
+    });
+  }
+
 }

@@ -147,22 +147,4 @@
     </div>
   </div>
 </form>
-<button
-  *ngIf="variableTaxId == null"
-  type="button"
-  [disabled]="isDisabled"
-  class="btn btn-primary"
-  (click)="createVariableTax()"
->
-  Salvar
-</button>
-<button
-  *ngIf="variableTaxId != null"
-  type="button"
-  [disabled]="isDisabled"
-  class="btn btn-primary"
-  (click)="updateVariableTax()"
->
-  Salvar Alterações
-</button>
 <!-- Form END -->

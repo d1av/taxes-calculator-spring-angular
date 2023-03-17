@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VariableTaxResponse } from '../../services/response/variabletax-response.type';
 import { VariableTaxApiService } from '../../services/variable-tax-api.service';
@@ -10,6 +10,7 @@ import { VariableTaxApiService } from '../../services/variable-tax-api.service';
 })
 export class VariableTaxComponent implements OnChanges, OnInit {
   @Input() variableTaxId: string | undefined;
+  @Input() buttonClickFromHome: EventEmitter<any> = new EventEmitter();
 
   variableTaxData: VariableTaxResponse | undefined;
   variableTaxForm: FormGroup = new FormGroup({});
@@ -20,6 +21,13 @@ export class VariableTaxComponent implements OnChanges, OnInit {
 
 
   ngOnInit(): void {
+    this.buttonClickFromHome.subscribe(() => {
+      if (this.variableTaxId) {
+        this.updateVariableTax();
+      } else {
+        this.createVariableTax();
+      }
+    });
     this.initializeForm();
   }
 
@@ -53,7 +61,6 @@ export class VariableTaxComponent implements OnChanges, OnInit {
     };
     this.isDisabled = true;
     this.variableTaxService.updateVariableTax(requestObj).subscribe(data => {
-      console.log(data);
       this.variableTaxData = data;
       this.isDisabled = false;
     });
@@ -66,7 +73,6 @@ export class VariableTaxComponent implements OnChanges, OnInit {
     };
     this.isDisabled = true;
     this.variableTaxService.createVariableTax(requestObj).subscribe(data => {
-      console.log(data);
       this.variableTaxData = data;
       this.isDisabled = false;
     });

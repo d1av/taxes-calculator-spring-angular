@@ -292,22 +292,4 @@
     </div>
   </form>
   <!-- Form END -->
-  <button
-    *ngIf="fixedTaxId == null"
-    type="button"
-    [disabled]="isDisabled"
-    class="btn btn-primary"
-    (click)="createFixedTax()"
-  >
-    Salvar
-  </button>
-  <button
-    *ngIf="fixedTaxId != null"
-    type="button"
-    [disabled]="isDisabled"
-    class="btn btn-primary"
-    (click)="updateFixedTax()"
-  >
-    Salvar Alterações
-  </button>
 </div>

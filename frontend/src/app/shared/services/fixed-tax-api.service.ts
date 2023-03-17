@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
+import { from } from 'rxjs';
 import { ApiService } from './api.service';
 import { FixedTaxResponse } from './response/fixedtax-response.types';
 
@@ -7,10 +7,19 @@ import { FixedTaxResponse } from './response/fixedtax-response.types';
   providedIn: 'root'
 })
 export class FixedTaxApiService {
+
+  fixedTaxResponse: FixedTaxResponse = {} as FixedTaxResponse;
+
   constructor (private apiService: ApiService) { }
 
-  public getFixedTaxById(fixedTaxId: string): Observable<FixedTaxResponse> {
-    return from(this.apiService.get('fixedtaxes/' + fixedTaxId));
+  public getFixedTaxById(fixedTaxId: string) {
+    return from(this.apiService.get('fixedtaxes/' + fixedTaxId))
+  }
+
+  public getFixedTax(fixedTaxId: string) {
+    this.getFixedTaxById(fixedTaxId);
+    console.log(this.fixedTaxResponse);
+    return this.fixedTaxResponse;
   }
 
   public updateFixedTax(requestObj: FixedTaxResponse) {

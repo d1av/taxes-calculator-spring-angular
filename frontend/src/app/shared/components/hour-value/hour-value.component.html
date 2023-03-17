@@ -59,22 +59,4 @@
     </div>
   </div>
 </form>
-<button
-  *ngIf="hourValueId == null"
-  type="button"
-  [disabled]="isDisabled"
-  class="btn btn-primary"
-  (click)="createHourValue()"
->
-  Salvar
-</button>
-<button
-  *ngIf="hourValueId != null"
-  type="button"
-  [disabled]="isDisabled"
-  class="btn btn-primary"
-  (click)="updateHourValue()"
->
-  Salvar Alterações
-</button>
 <!-- Form END -->

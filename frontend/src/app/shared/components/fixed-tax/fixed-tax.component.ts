@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FixedTaxApiService } from '../../services/fixed-tax-api.service';
 import { FixedTaxResponse } from '../../services/response/fixedtax-response.types';
@@ -10,27 +10,37 @@ import { FixedTaxResponse } from '../../services/response/fixedtax-response.type
 })
 export class FixedTaxComponent implements OnChanges, OnInit {
   @Input() fixedTaxId: string | undefined;
+  @Input() buttonClickFromHome: EventEmitter<any> = new EventEmitter;
+
 
   public fixedTaxData: FixedTaxResponse | undefined;
 
   fixedTaxForm: FormGroup = new FormGroup({});
 
-  isDisabled: boolean = false;
+  @Output() isDisabled = new EventEmitter<boolean>();
 
   constructor (private fixedTaxService: FixedTaxApiService) {
   }
   ngOnInit(): void {
+    this.buttonClickFromHome.subscribe(() => {
+      if (this.fixedTaxId == null) {
+        this.createFixedTax();
+      } else {
+        this.updateFixedTax();
+      }
+    });
     this.initializeForm();
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (this.fixedTaxId) {
-      this.fixedTaxService.getFixedTaxById(this.fixedTaxId).subscribe(data => {
+      this.fixedTaxService.getFixedTaxById(this.fixedTaxId).subscribe((data: FixedTaxResponse) => {
         this.fixedTaxData = data;
         this.initializeForm();
       });
-    }
+    };
   }
+
 
   initializeForm() {
     const aTax = this.fixedTaxData;
@@ -57,11 +67,10 @@ export class FixedTaxComponent implements OnChanges, OnInit {
       userId: localStorage.getItem('userId'),
       id: this.fixedTaxId
     };
-    this.isDisabled = true;
+    this.isDisabled.emit(true);
     this.fixedTaxService.updateFixedTax(requestObj).subscribe(data => {
-      console.log(data);
       this.fixedTaxData = data;
-      this.isDisabled = false;
+      this.isDisabled.emit(false);
     });
   }
 
@@ -70,11 +79,10 @@ export class FixedTaxComponent implements OnChanges, OnInit {
       ...this.fixedTaxForm.value,
       userId: localStorage.getItem('userId')
     };
-    this.isDisabled = true;
+    this.isDisabled.emit(true);
     this.fixedTaxService.createFixedTax(requestObj).subscribe(data => {
-      console.log(data);
       this.fixedTaxData = data;
-      this.isDisabled = false;
+      this.isDisabled.emit(false);
     });
   }
 

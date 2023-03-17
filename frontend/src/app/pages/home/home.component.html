@@ -1,6 +1,30 @@
+
+
+
+
 <p>home works!</p>
-<section style="display: flex;width: 100%;gap: 30px;">
-  <app-fixed-tax [fixedTaxId]="totalTaxResponse?.fixedTaxId" ></app-fixed-tax>
-  <app-variable-tax [variableTaxId]="totalTaxResponse?.variableTaxId"></app-variable-tax>
-  <app-hour-value [hourValueId]="totalTaxResponse?.hourValueId"></app-hour-value>
+<section style="display: flex; width: 100%; gap: 30px">
+  <app-fixed-tax
+  (isDisabled)="theButtonIsDisabled($event)"
+    [buttonClickFromHome]="buttonClick"
+    [fixedTaxId]="totalTaxResponse?.fixedTaxId"
+  ></app-fixed-tax>
+  <app-variable-tax
+    [buttonClickFromHome]="buttonClick"
+    [variableTaxId]="totalTaxResponse?.variableTaxId"
+  ></app-variable-tax>
+  <app-hour-value
+    [buttonClickFromHome]="buttonClick"
+    [hourValueId]="totalTaxResponse?.hourValueId"
+  ></app-hour-value>
+  <div>
+    <button
+      type="button"
+      [disabled]="isDisabled"
+      class="btn btn-primary"
+      (click)="sendClick()"
+    >
+      Salvar Alterações
+    </button>
+  </div>
 </section>
