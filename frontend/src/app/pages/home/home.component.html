@@ -4,7 +4,6 @@
     <h1>Taxas Fixas</h1>
     <app-fixed-tax
       (isDisabled)="theButtonIsDisabled($event)"
-      [buttonClickFromHome]="buttonClick"
       [fixedTaxId]="totalTaxResponse?.fixedTaxId"
     ></app-fixed-tax>
   </section>
@@ -13,21 +12,24 @@
     <section class="section-variable-tax">
       <h1>Taxas Variáveis</h1>
       <app-variable-tax
-        [buttonClickFromHome]="buttonClick"
         [variableTaxId]="totalTaxResponse?.variableTaxId"
       ></app-variable-tax>
       <app-hour-value
-        [buttonClickFromHome]="buttonClick"
         [hourValueId]="totalTaxResponse?.hourValueId"
       ></app-hour-value>
       <div>
         <button
+          *ngIf="
+            totalTaxResponse?.variableTaxId != null &&
+            totalTaxResponse?.hourValueId != null &&
+            totalTaxResponse?.fixedTaxId != null
+          "
           type="button"
           [disabled]="isDisabled"
           class="btn btn-primary"
           (click)="sendClick()"
         >
-          Salvar Alterações
+          Ver Valor no Mês
         </button>
       </div>
     </section>

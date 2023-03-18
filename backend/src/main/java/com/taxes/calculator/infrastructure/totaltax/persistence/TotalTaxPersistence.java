@@ -6,26 +6,32 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import ch.qos.logback.classic.Logger;
 
 @Service
 public class TotalTaxPersistence {
 
-    private static TotalTaxRepository totalTaxRepository;
+    private TotalTaxRepository totalTaxRepository;
+
+    private static final Logger log = (Logger) LoggerFactory
+	    .getLogger(TotalTaxPersistence.class);
 
     public TotalTaxPersistence(
 	    TotalTaxRepository totalTaxRepository) {
-	TotalTaxPersistence.totalTaxRepository = Objects
+	this.totalTaxRepository = Objects
 		.requireNonNull(totalTaxRepository);
     }
 
-    public static void deleteValueWhenFixedTaxIsDeleted(
+    public void deleteValueWhenFixedTaxIsDeleted(
 	    final String fixedTaxId) {
 	List<TotalTaxJpaEntity> fixedTax = totalTaxRepository
 		.findByFixedTaxId(fixedTaxId);
 	if (!fixedTax.isEmpty()) {
 	    TotalTaxJpaEntity entity = fixedTax.get(0);
-	    totalTaxRepository.save(
+	    totalTaxRepository.saveAndFlush(
 		    TotalTaxJpaEntity.with(entity.getTaxId(),
 			    null, entity.getVariableTaxId(),
 			    entity.getHourValueId(),
@@ -33,33 +39,36 @@ public class TotalTaxPersistence {
 	}
     }
 
-    public static void deleteValueWhenVariableTaxIsDeleted(
+    public void deleteValueWhenVariableTaxIsDeleted(
 	    final String variableTaxId) {
 	List<TotalTaxJpaEntity> variableTax = totalTaxRepository
 		.findByVariableTaxId(variableTaxId);
 	if (!variableTax.isEmpty()) {
 	    TotalTaxJpaEntity entity = variableTax.get(0);
-	    totalTaxRepository.save(TotalTaxJpaEntity.with(
-		    entity.getTaxId(), entity.getFixedTaxId(),
-		    null, entity.getHourValueId(),
-		    entity.getUserId()));
+	    totalTaxRepository.saveAndFlush(
+		    TotalTaxJpaEntity.with(entity.getTaxId(),
+			    entity.getFixedTaxId(), null,
+			    entity.getHourValueId(),
+			    entity.getUserId()));
 	}
     }
 
-    public static void deleteValueWhenHourValueIsDeleted(
+    public void deleteValueWhenHourValueIsDeleted(
 	    final String hourValueId) {
 	List<TotalTaxJpaEntity> hourValue = totalTaxRepository
 		.findByHourValueId(hourValueId);
 	if (!hourValue.isEmpty()) {
 	    TotalTaxJpaEntity entity = hourValue.get(0);
-	    totalTaxRepository.save(TotalTaxJpaEntity.with(
-		    entity.getTaxId(), entity.getFixedTaxId(),
-		    entity.getVariableTaxId(), null,
-		    entity.getUserId()));
+	    totalTaxRepository.saveAndFlush(
+		    TotalTaxJpaEntity.with(entity.getTaxId(),
+			    entity.getFixedTaxId(),
+			    entity.getVariableTaxId(), null,
+			    entity.getUserId()));
 	}
     }
 
-    public static TotalTaxJpaEntity checkIfExistsToCreateOrUpdate(
+    @Transactional
+    public TotalTaxJpaEntity checkIfExistsToCreateOrUpdate(
 	    final String fixedTaxId, final String variableTaxId,
 	    final String hourValueId, final String userId) {
 
@@ -73,16 +82,20 @@ public class TotalTaxPersistence {
 		&& Objects.equals(byUserId.get().getUserId(),
 			entity.getUserId())) {
 	    entity = byUserId.get();
+
+	    log.info("{} é a entidade no persistance",
+		    entity.toString());
+
 	    return saveEntityWith(entity, fixedTaxId,
 		    variableTaxId, hourValueId);
 	} else {
-	    return totalTaxRepository.save(entity);
+	    return totalTaxRepository.saveAndFlush(entity);
 	}
 
     }
 
     @Transactional
-    private static TotalTaxJpaEntity saveEntityWith(
+    private TotalTaxJpaEntity saveEntityWith(
 	    TotalTaxJpaEntity entity, String fixedTaxId,
 	    String variableTaxId, String hourValueId) {
 	if (entity.getVariableTaxId() == null
@@ -100,7 +113,7 @@ public class TotalTaxPersistence {
 	    entity.setHourValueId(hourValueId);
 	}
 
-	return totalTaxRepository.save(entity);
+	return totalTaxRepository.saveAndFlush(entity);
     }
 
 }

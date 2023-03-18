@@ -22,6 +22,7 @@ import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
 import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxPersistence;
+import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxRepository;
 import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxJpaEntity;
 import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxRepository;
@@ -34,10 +35,13 @@ public class VariableTaxMYSQLGateway
 	    .getLogger(VariableTaxMYSQLGateway.class);
 
     private final VariableTaxRepository repository;
+    private final TotalTaxPersistence totalTaxPersistence;
 
     public VariableTaxMYSQLGateway(
-	    final VariableTaxRepository repository) {
+	    VariableTaxRepository repository,
+	    TotalTaxPersistence totalTaxPersistence) {
 	this.repository = Objects.requireNonNull(repository);
+	this.totalTaxPersistence = Objects.requireNonNull(totalTaxPersistence);
     }
 
     @Override
@@ -91,7 +95,7 @@ public class VariableTaxMYSQLGateway
     public void deleteById(VariableTaxID anId) {
 	if (this.repository.existsById(anId.getValue())) {
 	    this.repository.deleteById(anId.getValue());
-	    TotalTaxPersistence
+	    totalTaxPersistence
 		    .deleteValueWhenVariableTaxIsDeleted(
 			    anId.getValue());
 	}
@@ -104,7 +108,7 @@ public class VariableTaxMYSQLGateway
 	if (this.repository.findByUserId(userId).isEmpty()) {
 	    this.repository.save(
 		    VariableTaxJpaEntity.from(aVariableTax));
-	    TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
+	    totalTaxPersistence.checkIfExistsToCreateOrUpdate(
 		    null, aVariableTax.getId().getValue(), null,
 		    userId);
 	    return aVariableTax;

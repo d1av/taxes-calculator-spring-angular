@@ -146,5 +146,11 @@
       <span class="input-group-text">,00</span>
     </div>
   </div>
+  <button class="button-5" *ngIf="variableTaxId == null" (click)="createVariableTax()">
+    Salvar
+  </button>
+  <button class="button-5" *ngIf="variableTaxId != null" (click)="updateVariableTax()">
+    Atualizar
+  </button>
 </form>
 <!-- Form END -->

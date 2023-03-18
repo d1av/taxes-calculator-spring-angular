@@ -26,9 +26,13 @@ import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 public class HourValueMySQLGateway implements HourValueGateway {
 
     private final HourValueRepository repository;
+    private final TotalTaxPersistence totalTaxPersistence;
 
     public HourValueMySQLGateway(
+	    final TotalTaxPersistence totalTaxPersistence,
 	    final HourValueRepository repository) {
+	this.totalTaxPersistence = Objects
+		.requireNonNull(totalTaxPersistence);
 	this.repository = Objects.requireNonNull(repository);
     }
 
@@ -81,7 +85,7 @@ public class HourValueMySQLGateway implements HourValueGateway {
     public void deleteById(HourValueID anId) {
 	if (this.repository.existsById(anId.getValue())) {
 	    this.repository.deleteById(anId.getValue());
-	    TotalTaxPersistence
+	    totalTaxPersistence
 		    .deleteValueWhenHourValueIsDeleted(
 			    anId.getValue());
 	}
@@ -93,7 +97,7 @@ public class HourValueMySQLGateway implements HourValueGateway {
 	if (this.repository.findByUserId(userId).isEmpty()) {
 	    this.repository
 		    .save(HourValueJpaEntity.from(aHourValue));
-	    TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
+	    totalTaxPersistence.checkIfExistsToCreateOrUpdate(
 		    null, null, aHourValue.getId().getValue(),
 		    userId);
 	    return aHourValue;
@@ -115,8 +119,8 @@ public class HourValueMySQLGateway implements HourValueGateway {
 			    aHourValue.getPersonalHourValue(),
 			    aHourValue.getDaysOfWork());
 
-	    this.repository
-		    .save(HourValueJpaEntity.from(updatedEntity));
+	    this.repository.save(
+		    HourValueJpaEntity.from(updatedEntity));
 
 	    return updatedEntity;
 	}

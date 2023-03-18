@@ -32,12 +32,14 @@ import com.taxes.calculator.infrastructure.utils.SpecificationUtils;
 public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     private final FixedTaxRepository fixedTaxRepository;
+    private final TotalTaxPersistence totalTaxPersistence;
 
     public FixedTaxMySQLGateway(
-	    final FixedTaxRepository fixedTaxRepository,
-	    final TotalTaxRepository totalTaxRepository) {
-	this.fixedTaxRepository = Objects
-		.requireNonNull(fixedTaxRepository);
+	    final TotalTaxPersistence totalTaxPersistence, 
+	    final FixedTaxRepository fixedTaxRepository) {
+	this.fixedTaxRepository = fixedTaxRepository;
+	this.totalTaxPersistence = Objects
+		.requireNonNull(totalTaxPersistence);
     }
 
     @Override
@@ -88,7 +90,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 	if (!this.fixedTaxRepository.findById(anId.getValue())
 		.isEmpty()) {
 	    this.fixedTaxRepository.deleteById(anId.getValue());
-	    TotalTaxPersistence.deleteValueWhenFixedTaxIsDeleted(
+	    totalTaxPersistence.deleteValueWhenFixedTaxIsDeleted(
 		    anId.getValue());
 	}
     }
@@ -100,7 +102,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 		.isEmpty()) {
 	    this.fixedTaxRepository
 		    .save(FixedTaxJpaEntity.from(aFixedTax));
-	    TotalTaxPersistence.checkIfExistsToCreateOrUpdate(
+	    totalTaxPersistence.checkIfExistsToCreateOrUpdate(
 		    aFixedTax.getId().getValue(), null, null,
 		    userId);
 	    return aFixedTax;

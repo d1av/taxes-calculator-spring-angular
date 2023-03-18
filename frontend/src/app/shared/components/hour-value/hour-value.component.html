@@ -58,5 +58,7 @@
       <span class="input-group-text">,00</span>
     </div>
   </div>
+  <button class="button-5" *ngIf="hourValueId == null" (click)="createHourValue()">Salvar</button>
+  <button class="button-5" *ngIf="hourValueId != null" (click)="updateHourValue()">Atualizar</button>
 </form>
 <!-- Form END -->
