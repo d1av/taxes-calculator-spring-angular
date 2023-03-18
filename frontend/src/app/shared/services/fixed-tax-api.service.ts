@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 import { ApiService } from './api.service';
 import { FixedTaxResponse } from './response/fixedtax-response.types';

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthModule } from './pages/auth/auth.module';
 import { HomeComponent } from './pages/home/home.component';
 import { PagesModule } from './pages/pages.module';
 import { AuthInterceptorService } from './shared/authentication/auth-interceptor.service';
@@ -24,7 +25,8 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AuthModule
   ],
   providers: [
     {

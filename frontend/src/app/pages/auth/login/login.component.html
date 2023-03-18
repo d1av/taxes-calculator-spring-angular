@@ -1,18 +1,11 @@
-<section style="border: 15px solid blue;margin: 20px;">
-<form [formGroup]="loginForm" (ngSubmit)="submit()">
-  <input
-  placeholder="Nome"
-  type="text"
-  formControlName="name"
-/>
+<app-navbar [isLogged]="false"></app-navbar>
+<section style="border: 15px solid blue; margin: 20px">
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <input placeholder="Nome" type="text" formControlName="name" />
 
-  <input
-    placeholder="Senha"
-    type="password"
-    formControlName="password"
-  />
+    <input placeholder="Senha" type="password" formControlName="password" />
 
-  <button type="submit">Enviar</button>
-  <br />
-</form>
+    <button type="submit">Enviar</button>
+    <br />
+  </form>
 </section>

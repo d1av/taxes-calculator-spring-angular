@@ -1,3 +1,4 @@
+<app-navbar [isLogged]="false"></app-navbar>
 <section style="border: 15px solid red;margin: 20px;">
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
     <input placeholder="Nome" type="text" formControlName="name" />

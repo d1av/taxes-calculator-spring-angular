@@ -52,7 +52,7 @@ export class AuthApiService {
     } as LoggedUser;
   }
 
-  public logout(): void {
+  public async logout(): Promise<void>  {
     localStorage.removeItem('token');
     localStorage.removeItem('name');
     localStorage.removeItem('userId');

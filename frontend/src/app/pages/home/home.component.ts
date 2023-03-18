@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { TotalTaxResponse } from 'src/app/shared/services/response/total-tax-response.type';
 import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
 
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   @Output() buttonClick = new EventEmitter();
 
-  constructor (private totalTaxService: TotalTaxApiService) { }
+  constructor (private totalTaxService: TotalTaxApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.callIdsFromApi().then((data) => {
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
 
   sendClick() {
     this.buttonClick.emit();
+    this.router.navigateByUrl('/hourvalue/monthly');
   }
 
   theButtonIsDisabled(status: boolean) {

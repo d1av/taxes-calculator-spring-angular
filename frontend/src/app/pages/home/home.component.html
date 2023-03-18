@@ -1,30 +1,35 @@
+<app-navbar [isLogged]="true"></app-navbar>
+<main class="container-main button-17">
+  <section class="container-fixed-tax">
+    <h1>Taxas Fixas</h1>
+    <app-fixed-tax
+      (isDisabled)="theButtonIsDisabled($event)"
+      [buttonClickFromHome]="buttonClick"
+      [fixedTaxId]="totalTaxResponse?.fixedTaxId"
+    ></app-fixed-tax>
+  </section>
 
-
-
-
-<p>home works!</p>
-<section style="display: flex; width: 100%; gap: 30px">
-  <app-fixed-tax
-  (isDisabled)="theButtonIsDisabled($event)"
-    [buttonClickFromHome]="buttonClick"
-    [fixedTaxId]="totalTaxResponse?.fixedTaxId"
-  ></app-fixed-tax>
-  <app-variable-tax
-    [buttonClickFromHome]="buttonClick"
-    [variableTaxId]="totalTaxResponse?.variableTaxId"
-  ></app-variable-tax>
-  <app-hour-value
-    [buttonClickFromHome]="buttonClick"
-    [hourValueId]="totalTaxResponse?.hourValueId"
-  ></app-hour-value>
-  <div>
-    <button
-      type="button"
-      [disabled]="isDisabled"
-      class="btn btn-primary"
-      (click)="sendClick()"
-    >
-      Salvar Alterações
-    </button>
+  <div class="container-variable-tax">
+    <section class="section-variable-tax">
+      <h1>Taxas Variáveis</h1>
+      <app-variable-tax
+        [buttonClickFromHome]="buttonClick"
+        [variableTaxId]="totalTaxResponse?.variableTaxId"
+      ></app-variable-tax>
+      <app-hour-value
+        [buttonClickFromHome]="buttonClick"
+        [hourValueId]="totalTaxResponse?.hourValueId"
+      ></app-hour-value>
+      <div>
+        <button
+          type="button"
+          [disabled]="isDisabled"
+          class="btn btn-primary"
+          (click)="sendClick()"
+        >
+          Salvar Alterações
+        </button>
+      </div>
+    </section>
   </div>
-</section>
+</main>

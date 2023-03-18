@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { FixedTaxComponent } from './components/fixed-tax/fixed-tax.component';
 import { HourValueComponent } from './components/hour-value/hour-value.component';
 import { VariableTaxComponent } from './components/variable-tax/variable-tax.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -15,17 +17,20 @@ import { VariableTaxComponent } from './components/variable-tax/variable-tax.com
   declarations: [
     FixedTaxComponent,
     VariableTaxComponent,
-    HourValueComponent
+    HourValueComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   exports: [
     FixedTaxComponent,
     VariableTaxComponent,
-    HourValueComponent
+    HourValueComponent,
+    NavbarComponent
   ]
 })
 export class SharedModule { }
