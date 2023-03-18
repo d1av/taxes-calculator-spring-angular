@@ -45,6 +45,7 @@ public class VariableTaxMYSQLGateway
 
     @Override
     public Optional<VariableTax> findById(VariableTaxID anId) {
+	
 	return Optional.ofNullable(
 		this.repository.findById(anId.getValue())
 			.map(VariableTaxJpaEntity::toAggregate)

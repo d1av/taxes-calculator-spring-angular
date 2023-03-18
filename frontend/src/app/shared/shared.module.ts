@@ -7,6 +7,7 @@ import { HourValueComponent } from './components/hour-value/hour-value.component
 import { VariableTaxComponent } from './components/variable-tax/variable-tax.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -18,7 +19,8 @@ import { RouterModule } from '@angular/router';
     FixedTaxComponent,
     VariableTaxComponent,
     HourValueComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { RouterModule } from '@angular/router';
     FixedTaxComponent,
     VariableTaxComponent,
     HourValueComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ]
 })
 export class SharedModule { }

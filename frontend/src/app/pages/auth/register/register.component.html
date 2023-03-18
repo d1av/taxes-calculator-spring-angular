@@ -1,11 +1,67 @@
 <app-navbar [isLogged]="false"></app-navbar>
-<section style="border: 15px solid red;margin: 20px;">
-  <form [formGroup]="registerForm" (ngSubmit)="submit()">
-    <input placeholder="Nome" type="text" formControlName="name" />
+<main class="container-main">
+  <section class="container-fixed-tax">
+    <h1>Register</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <!-- <div
+        *ngIf="
+          regionalCouncil?.invalid &&
+          (regionalCouncil?.dirty || regionalCouncil?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="regionalCouncil?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="regionalCouncil?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="regionalCouncil?.hasError('max')">Valor muito grande.</div>
+      </div> -->
 
-    <input placeholder="Senha" type="password" formControlName="password" />
+        <label for="name" class="form-label">Nome</label>
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="regionalCouncil"
+            formControlName="name"
+            placeholder="Digite o Nome"
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <!-- <div
+        *ngIf="
+          regionalCouncil?.invalid &&
+          (regionalCouncil?.dirty || regionalCouncil?.touched)
+        "
+        class="alert alert-danger mt-1"
+      >
+        <div *ngIf="regionalCouncil?.hasError('required')">
+          Preencha o valor, caso nenhum use zero.
+        </div>
+        <div *ngIf="regionalCouncil?.hasError('min')">
+          O menor valor aceito é zero.
+        </div>
+        <div *ngIf="regionalCouncil?.hasError('max')">Valor muito grande.</div>
+      </div> -->
 
-    <button type="submit">Enviar</button>
-    <br />
-  </form>
-</section>
+        <label for="password" class="form-label">Senha</label>
+        <div class="input-group mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="Digite a senha"
+          />
+        </div>
+      </div>
+      <button class="button-24" type="submit">Cadastrar</button>
+      <br />
+    </form>
+  </section>
+</main>
+<app-footer [isLogged]="false"></app-footer>
