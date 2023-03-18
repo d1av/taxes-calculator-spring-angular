@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   sendClick() {
     this.buttonClick.emit();
-    this.router.navigateByUrl('/hourvalue/monthly');
+   // this.router.navigateByUrl('/hourvalue/monthly');
   }
 
   theButtonIsDisabled(status: boolean) {

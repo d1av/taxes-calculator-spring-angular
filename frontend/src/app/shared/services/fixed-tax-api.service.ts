@@ -27,6 +27,7 @@ export class FixedTaxApiService {
   }
 
   public createFixedTax(requestObj: FixedTaxResponse) {
+    console.log(requestObj);
     return from(this.apiService.post('fixedtaxes/', requestObj));
   }
 

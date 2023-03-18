@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.taxes.calculator.domain.exceptions.DomainException;
+import com.taxes.calculator.domain.exceptions.NotFoundException;
 import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.domain.user.UserID;
@@ -45,11 +47,12 @@ public class VariableTaxMYSQLGateway
 
     @Override
     public Optional<VariableTax> findById(VariableTaxID anId) {
-	
-	return Optional.ofNullable(
-		this.repository.findById(anId.getValue())
-			.map(VariableTaxJpaEntity::toAggregate)
-			.orElse(null));
+	String idValue = anId != null ? anId.getValue() : " ";
+	return Optional.of(this.repository.findById(idValue)
+		.map(VariableTaxJpaEntity::toAggregate)
+		.orElseThrow(() -> NotFoundException.with(
+			new com.taxes.calculator.domain.validation.Error(
+				"Not Found"))));
     }
 
     @Override
