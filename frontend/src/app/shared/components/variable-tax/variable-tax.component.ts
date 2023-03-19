@@ -26,7 +26,6 @@ export class VariableTaxComponent implements OnChanges, OnInit {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (this.variableTaxId) {
       this.variableTaxService.getVariableTaxById(this.variableTaxId).subscribe(data => {
         this.variableTaxData = data;

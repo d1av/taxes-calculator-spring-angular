@@ -13,7 +13,7 @@ public class RedirectController {
     @GetMapping
     public RedirectView redirectWithUsingRedirectView(
 	    RedirectAttributes attributes) {
-	return new RedirectView("https://getcssscan.com/css-buttons-examples/");
+	return new RedirectView("https://taxes-calc.vercel.app/");
     }
 
 }

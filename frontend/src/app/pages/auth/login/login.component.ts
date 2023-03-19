@@ -27,8 +27,6 @@ export class LoginComponent {
   }
 
   public async submit(): Promise<void> {
-    console.log(this.loginForm.value.name);
-
     if (this.loginForm.invalid) {
       alert("Preecha os dados corretamente!")
       return;
@@ -38,8 +36,6 @@ export class LoginComponent {
       name: this.loginForm.value.name,
       password: this.loginForm.value.password
     }
-
-    console.log(bodyData);
 
     try {
       await this._authApiService.login(bodyData)

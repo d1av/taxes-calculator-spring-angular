@@ -18,7 +18,6 @@ export class MonthlyComponent implements OnInit {
     if (userId) {
       this.hourValueService.getMonthlyHourValue(userId).subscribe(data => {
         this.monthlyData = data;
-        console.log(data);
       });
     }
   }

@@ -26,7 +26,6 @@ export class RegisterComponent {
   }
 
   public async submit(): Promise<void> {
-    console.log(this.registerForm.value.name);
 
     if (this.registerForm.invalid) {
       alert("Preecha os dados corretamente!");
@@ -38,7 +37,6 @@ export class RegisterComponent {
       password: this.registerForm.value.password
     };
 
-    console.log(bodyData);
 
     try {
       await this._authApiService.register(bodyData);
