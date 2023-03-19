@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HourValueApiService } from '../../services/hour-value-api.service';
 import { HourValueResponse } from '../../services/response/hourvalue-response.types';
@@ -10,7 +10,7 @@ import { HourValueResponse } from '../../services/response/hourvalue-response.ty
 })
 export class HourValueComponent implements OnChanges, OnInit {
   @Input() hourValueId: string | undefined;
-  @Input() buttonClickFromHome: EventEmitter<any> = new EventEmitter();
+  @Output() localStorageHourValueId: EventEmitter<any> = new EventEmitter();
 
   hourValueData: HourValueResponse | undefined;
 
@@ -21,13 +21,6 @@ export class HourValueComponent implements OnChanges, OnInit {
   constructor (private hourValueService: HourValueApiService) { }
 
   ngOnInit(): void {
-    this.buttonClickFromHome.subscribe(() => {
-      if (this.hourValueId) {
-        this.updateHourValue();
-      } else {
-        this.createHourValue();
-      }
-    });
     this.initializeForm();
   }
 
@@ -72,6 +65,9 @@ export class HourValueComponent implements OnChanges, OnInit {
     this.hourValueService.createHourValue(requestObj).subscribe(data => {
       this.hourValueData = data;
       this.isDisabled = false;
+      this.hourValueId = data.id;
+      localStorage.setItem('hourValueId', data.id);
+      this.localStorageHourValueId.emit(data.id);
     });
   }
 

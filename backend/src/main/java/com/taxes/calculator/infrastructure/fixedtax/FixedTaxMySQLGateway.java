@@ -35,7 +35,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
     private final TotalTaxPersistence totalTaxPersistence;
 
     public FixedTaxMySQLGateway(
-	    final TotalTaxPersistence totalTaxPersistence, 
+	    final TotalTaxPersistence totalTaxPersistence,
 	    final FixedTaxRepository fixedTaxRepository) {
 	this.fixedTaxRepository = fixedTaxRepository;
 	this.totalTaxPersistence = Objects
@@ -114,7 +114,7 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
     @Transactional
     private FixedTax updateEntity(FixedTax aFixedTax) {
 	FixedTax existingEntity = this.fixedTaxRepository
-		.findAll().get(0).toAggregate();
+		.findByUserId(aFixedTax.getUser().getValue()).get(0).toAggregate();
 	existingEntity.update(aFixedTax.getRegionalCouncil(),
 		aFixedTax.getTaxOverWork(),
 		aFixedTax.getIncomeTax(),

@@ -10,7 +10,7 @@ import { FixedTaxResponse } from '../../services/response/fixedtax-response.type
 })
 export class FixedTaxComponent implements OnChanges, OnInit {
   @Input() fixedTaxId: string | undefined;
-  @Input() buttonClickFromHome: EventEmitter<any> = new EventEmitter;
+  @Output() localStorageFixedTaxId: EventEmitter<any> = new EventEmitter;
 
 
   public fixedTaxData: FixedTaxResponse | undefined;
@@ -22,13 +22,6 @@ export class FixedTaxComponent implements OnChanges, OnInit {
   constructor (private fixedTaxService: FixedTaxApiService) {
   }
   ngOnInit(): void {
-    this.buttonClickFromHome.subscribe(() => {
-      if (this.fixedTaxId == null) {
-        this.createFixedTax();
-      } else {
-        this.updateFixedTax();
-      }
-    });
     this.initializeForm();
   }
 
@@ -57,32 +50,29 @@ export class FixedTaxComponent implements OnChanges, OnInit {
     });
   }
 
-  stringify(): string {
-    return JSON.stringify(this.fixedTaxData);
-  }
-
   updateFixedTax() {
     const requestObj: FixedTaxResponse = {
       ...this.fixedTaxForm.value,
       userId: localStorage.getItem('userId'),
       id: this.fixedTaxId
     };
-    this.isDisabled.emit(true);
+
     this.fixedTaxService.updateFixedTax(requestObj).subscribe(data => {
       this.fixedTaxData = data;
-      this.isDisabled.emit(false);
     });
   }
 
   createFixedTax() {
     const requestObj: FixedTaxResponse = {
       ...this.fixedTaxForm.value,
-      userId: localStorage.getItem('userId')
+      userId: localStorage.getItem('userId'),
     };
-    this.isDisabled.emit(true);
     this.fixedTaxService.createFixedTax(requestObj).subscribe(data => {
       this.fixedTaxData = data;
-      this.isDisabled.emit(false);
+      this.fixedTaxId = data.id;
+      localStorage.setItem('fixedTaxId', data.id);
+      localStorage.setItem('userId', data.userId);
+      this.localStorageFixedTaxId.emit(data.id);
     });
   }
 

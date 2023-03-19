@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VariableTaxResponse } from '../../services/response/variabletax-response.type';
 import { VariableTaxApiService } from '../../services/variable-tax-api.service';
@@ -10,7 +10,7 @@ import { VariableTaxApiService } from '../../services/variable-tax-api.service';
 })
 export class VariableTaxComponent implements OnChanges, OnInit {
   @Input() variableTaxId: string | undefined;
-  @Input() buttonClickFromHome: EventEmitter<any> = new EventEmitter();
+  @Output() localStorageVariableTaxId: EventEmitter<any> = new EventEmitter();
 
   variableTaxData: VariableTaxResponse | undefined;
   variableTaxForm: FormGroup = new FormGroup({});
@@ -21,13 +21,6 @@ export class VariableTaxComponent implements OnChanges, OnInit {
 
 
   ngOnInit(): void {
-    this.buttonClickFromHome.subscribe(() => {
-      if (this.variableTaxId) {
-        this.updateVariableTax();
-      } else {
-        this.createVariableTax();
-      }
-    });
     this.initializeForm();
   }
 
@@ -75,6 +68,9 @@ export class VariableTaxComponent implements OnChanges, OnInit {
     this.variableTaxService.createVariableTax(requestObj).subscribe(data => {
       this.variableTaxData = data;
       this.isDisabled = false;
+      this.variableTaxId = data.id;
+      localStorage.setItem('variableTaxId', data.id);
+      this.localStorageVariableTaxId.emit(data.id);
     });
   }
 

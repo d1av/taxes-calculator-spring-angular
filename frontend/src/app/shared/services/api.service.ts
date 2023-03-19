@@ -30,7 +30,6 @@ export class ApiService {
   }
 
   private getUrl(url: string): string {
-    console.log(`${this.apiUrl}/${url}`);
     return `${this.apiUrl}/${url}`;
   }
 

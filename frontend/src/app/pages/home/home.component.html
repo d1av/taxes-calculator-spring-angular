@@ -3,8 +3,8 @@
   <section class="container-fixed-tax">
     <h1>Taxas Fixas</h1>
     <app-fixed-tax
-      (isDisabled)="theButtonIsDisabled($event)"
       [fixedTaxId]="totalTaxResponse?.fixedTaxId"
+      (localStorageFixedTaxId)="getFixedTaxId($event)"
     ></app-fixed-tax>
   </section>
 
@@ -13,19 +13,17 @@
       <h1>Taxas Variáveis</h1>
       <app-variable-tax
         [variableTaxId]="totalTaxResponse?.variableTaxId"
+        (localStorageVariableTaxId)="getVariableTaxId($event)"
       ></app-variable-tax>
       <app-hour-value
+        (localStorageHourValueId)="getVariableTaxId($event)"
         [hourValueId]="totalTaxResponse?.hourValueId"
       ></app-hour-value>
       <div>
         <button
-          *ngIf="
-            totalTaxResponse?.variableTaxId != null &&
-            totalTaxResponse?.hourValueId != null &&
-            totalTaxResponse?.fixedTaxId != null
-          "
-          type="button"
+          *ngIf="isDisabled != true"
           [disabled]="isDisabled"
+          type="button"
           class="btn btn-primary"
           (click)="sendClick()"
         >

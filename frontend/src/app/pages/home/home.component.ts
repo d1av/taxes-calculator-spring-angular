@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TotalTaxResponse } from 'src/app/shared/services/response/total-tax-response.type';
 import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
@@ -10,18 +10,23 @@ import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.servic
 })
 export class HomeComponent implements OnInit {
 
-  isDisabled: boolean = false;
+
+  isDisabled: boolean = true;
 
   totalTaxResponse: TotalTaxResponse | undefined;
 
-  @Output() buttonClick = new EventEmitter();
+  localStorageHourValueId: string | undefined | null;
+  localStorageFixedTaxId: string | null | undefined;
+  localStorageVariableTaxId: string | undefined | null;
 
   constructor (private totalTaxService: TotalTaxApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.callIdsFromApi().then((data) => {
       this.totalTaxResponse = data;
+      this.checkLocalStorage();
     });
+    this.showMonthlyValueOrNot();
   }
 
   async callIdsFromApi(): Promise<any> {
@@ -29,19 +34,32 @@ export class HomeComponent implements OnInit {
   }
 
   sendClick() {
-   this.router.navigateByUrl('/hourvalue/monthly');
+    this.router.navigateByUrl('/hourvalue/monthly');
   }
 
-  theButtonIsDisabled(status: boolean) {
-    this.waitMiliseconds(1000);
-    this.isDisabled = status;
-    return status;
+  getFixedTaxId($event: any) {
+    this.localStorageFixedTaxId = $event;
+    this.showMonthlyValueOrNot();
+  }
+  getHourValueId($event: any) {
+    this.localStorageHourValueId = $event;
+    this.showMonthlyValueOrNot();
+  }
+  getVariableTaxId($event: any) {
+    this.localStorageVariableTaxId = $event;
+    this.showMonthlyValueOrNot();
   }
 
-  waitMiliseconds(millisec: number) {
-    return new Promise(resolve => {
-      setTimeout(() => { resolve(''); }, millisec);
-    });
+  showMonthlyValueOrNot() {
+    this.checkLocalStorage();
+    if (this.localStorageFixedTaxId != null && this.localStorageHourValueId != null && this.localStorageVariableTaxId != null) {
+      this.isDisabled = false;
+    }
   }
 
+  checkLocalStorage() {
+    this.localStorageFixedTaxId = localStorage.getItem('fixedTaxId');
+    this.localStorageHourValueId = localStorage.getItem('hourValueId');
+    this.localStorageVariableTaxId = localStorage.getItem('variableTaxId');
+  }
 }

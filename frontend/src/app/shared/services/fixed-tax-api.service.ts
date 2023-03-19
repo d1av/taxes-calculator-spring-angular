@@ -18,7 +18,6 @@ export class FixedTaxApiService {
 
   public getFixedTax(fixedTaxId: string) {
     this.getFixedTaxById(fixedTaxId);
-    console.log(this.fixedTaxResponse);
     return this.fixedTaxResponse;
   }
 
@@ -27,7 +26,6 @@ export class FixedTaxApiService {
   }
 
   public createFixedTax(requestObj: FixedTaxResponse) {
-    console.log(requestObj);
     return from(this.apiService.post('fixedtaxes/', requestObj));
   }
 
