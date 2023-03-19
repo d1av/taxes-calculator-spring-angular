@@ -6,6 +6,10 @@ Esse projeto é uma calculadora para saber o valor pessoal da sua hora de trabal
 
 ### [Link here.](https://taxes-calculator.herokuapp.com/)
 
+# Video do aplicativo
+
+https://user-images.githubusercontent.com/107776531/226207960-e5583935-b171-4127-8359-4621e627b42f.mp4
+
 # API Endpoints
 
 ### [Link here.](https://taxes-calculator.herokuapp.com/swagger-ui/index.html)
