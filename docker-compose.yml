@@ -20,7 +20,7 @@ services:
       - backend
     command: ng serve --host 0.0.0.0
   db:
-    image: mysql
+    image: mysql:8
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
