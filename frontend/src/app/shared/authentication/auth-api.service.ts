@@ -19,10 +19,11 @@ export class AuthApiService {
     const registerResponse = await this._apiService.post('auth/register', credentials);
     if (registerResponse.status === 201) {
       alert('Usuário registrado com sucesso.');
-      this.router.navigateByUrl('/');
-      return;
+      alert(registerResponse.message);
     }
-    alert(registerResponse.message);
+    this.login(credentials).then(() => {
+      this.router.navigateByUrl('/');
+    });
   }
 
   async login(credentials: AuthRequest): Promise<void> {
@@ -52,7 +53,7 @@ export class AuthApiService {
     } as LoggedUser;
   }
 
-  public async logout(): Promise<void>  {
+  public async logout(): Promise<void> {
     localStorage.removeItem('token');
     localStorage.removeItem('name');
     localStorage.removeItem('userId');
