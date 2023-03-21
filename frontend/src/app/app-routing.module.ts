@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from './pages/about/about.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AuthGuard } from './shared/authentication/auth.guard';
 
 const routes: Routes = [
@@ -11,6 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'hourvalue',
+    canActivate: [ AuthGuard ],
     loadChildren: () =>
       import('./pages/monthly/monthly.module').then((m) => m.MonthlyModule),
   },
@@ -18,6 +21,15 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./pages/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'about',
+    canActivate: [ AuthGuard ],
+    component: AboutComponent
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 
