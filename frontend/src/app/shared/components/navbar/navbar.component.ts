@@ -16,7 +16,6 @@ export class NavbarComponent {
   logOut(): void {
     this.authApi.logout();
     this.isLogged = false;
-    alert('Deslogado com sucesso.');
   }
 
 }

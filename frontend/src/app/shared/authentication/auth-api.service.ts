@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../services/api.service';
 import AuthRequest from './models/auth-request.types';
 import LoggedUser from './models/logged-user.interface';
@@ -12,7 +13,8 @@ export class AuthApiService {
 
   constructor (
     private router: Router,
-    private _apiService: ApiService
+    private _apiService: ApiService,
+    private toastr: ToastrService
   ) { }
 
   async register(credentials: RegisterRequest): Promise<void> {
@@ -60,6 +62,8 @@ export class AuthApiService {
     localStorage.removeItem('fixedTaxId');
     localStorage.removeItem('variableTaxId');
     localStorage.removeItem('hourValueId');
+
+    this.toastr.success("Você deslogou com sucesso.","Deslogado!", { timeOut: 5000 });
 
     this.router.navigateByUrl('auth/login');
   }

@@ -1,6 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { HomeModalComponent } from 'src/app/shared/components/home-modal/home-modal.component';
 import { TotalTaxResponse } from 'src/app/shared/services/response/total-tax-response.type';
 import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit, OnChanges {
   localStorageFixedTaxId: string | null | undefined;
   localStorageVariableTaxId: string | undefined | null;
 
-  constructor (private totalTaxService: TotalTaxApiService, private router: Router, private modalService: NgbModal) { }
+  constructor (private totalTaxService: TotalTaxApiService, private router: Router,
+    private modalService: NgbModal, private toastr: ToastrService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.showMonthlyValueOrNot();
@@ -50,14 +52,17 @@ export class HomeComponent implements OnInit, OnChanges {
   getFixedTaxId($event: string) {
     this.localStorageFixedTaxId = $event;
     this.showMonthlyValueOrNot();
+    this.toastr.success("Atualizado!", "A Taxa fixa foi atualizada com sucesso.",{timeOut:2000});
   }
   getHourValueId($event: string) {
     this.localStorageHourValueId = $event;
     this.showMonthlyValueOrNot();
+    this.toastr.success("Atualizado!", "Os dias trabalhados e o salário esperado foram atualizados com sucesso.", { timeOut: 2000 });
   }
   getVariableTaxId($event: string) {
     this.localStorageVariableTaxId = $event;
     this.showMonthlyValueOrNot();
+    this.toastr.success("Atualizado!", "A Taxa Variavel foi atualizada com sucesso.", { timeOut: 2000 });
   }
 
   showMonthlyValueOrNot() {

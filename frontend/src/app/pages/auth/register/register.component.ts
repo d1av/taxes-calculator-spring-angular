@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AuthApiService } from 'src/app/shared/authentication/auth-api.service';
 import RegisterRequest from 'src/app/shared/authentication/models/register-request.interface';
 
@@ -13,7 +14,8 @@ export class RegisterComponent {
 
   constructor (
     private fb: FormBuilder,
-    private _authApiService: AuthApiService
+    private _authApiService: AuthApiService,
+    private toastr: ToastrService
   ) {
     this.registerForm = this.fb.group({
       name: [ '', Validators.required ],
@@ -28,7 +30,7 @@ export class RegisterComponent {
   public async submit(): Promise<void> {
 
     if (this.registerForm.invalid) {
-      alert("Preecha os dados corretamente!");
+      this.toastr.error("Preecha os dados corretamente!");
       return;
     }
 
@@ -42,7 +44,7 @@ export class RegisterComponent {
       await this._authApiService.register(bodyData);
     } catch (error: any) {
       const errorMessage = error?.error?.error || 'Error ao realizar Cadastro';
-      alert(errorMessage);
+      this.toastr.error(errorMessage);
     }
 
   }

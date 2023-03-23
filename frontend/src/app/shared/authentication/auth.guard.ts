@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 
@@ -8,17 +9,19 @@ import { AuthApiService } from './auth-api.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(
+  constructor (
     private authenticationService: AuthApiService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authenticationService.isLogged()) {
-      return true
+      return true;
     } else {
+      this.toastr.error('Você precisa estar logado para acessar.');
       return this.router.parseUrl('auth/login');
     }
   }
