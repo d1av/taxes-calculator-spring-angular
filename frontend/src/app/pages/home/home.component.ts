@@ -10,7 +10,7 @@ import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.servic
   templateUrl: './home.component.html',
   styleUrls: [ './home.component.scss' ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnChanges {
 
 
   isDisabled: boolean = true;
@@ -23,18 +23,24 @@ export class HomeComponent implements OnInit {
 
   constructor (private totalTaxService: TotalTaxApiService, private router: Router, private modalService: NgbModal) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.showMonthlyValueOrNot();
+  }
+
   ngOnInit(): void {
     this.callIdsFromApi().then((data) => {
       this.totalTaxResponse = data;
       this.checkLocalStorage();
     });
     this.showMonthlyValueOrNot();
-    
+
     if (!localStorage.getItem("tutorialDone")) {
       this.openHelpModal();
       localStorage.setItem("tutorialDone", "true");
     }
   }
+
+
 
   async callIdsFromApi(): Promise<any> {
     return await this.totalTaxService.getTotalTax();
