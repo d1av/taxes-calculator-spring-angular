@@ -1,10 +1,24 @@
-	<div class="modal-header">
-			<h4 class="modal-title">Hi there!</h4>
-			<button type="button" class="btn-close" aria-label="Close" (click)="dismissModal()"></button>
-		</div>
-		<div class="modal-body">
-			<p>Hello, {{ name }}!</p>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
-		</div>
+<div class="modal-header">
+  <h4 class="modal-title">Seja bem-vindo!</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="dismissModal()"
+  ></button>
+</div>
+<div class="modal-body">
+  <p>Olá,</p>
+  <p>
+    Esse site <b>calcula o valor</b> do seu trabalho por hora, as informaçõs são
+    baseadas em <b>1 (um) mês de trabalho</b>, contando que o dia de trabalho tem 8
+    oito horas, entre com os dados e clique em salvar, após tudo preencido e
+    salvo, clique no botão <b>"Ver Valor Mês"</b> e sera levado para a página com o
+    cálculo completo.
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="closeModal()">
+    Fechar
+  </button>
+</div>

@@ -1,4 +1,9 @@
 <app-navbar [isLogged]="true"></app-navbar>
+<div class="button-help-container">
+  <button class="btn btn-lg btn-outline-primary" (click)="openHelpModal()">
+    Como Usar?
+  </button>
+</div>
 <main class="card container-main">
   <section class="container-fixed-tax">
     <h1>Taxas Fixas</h1>
@@ -33,5 +38,4 @@
     </section>
   </div>
 </main>
-<button class="btn btn-lg btn-outline-primary" (click)="open()">Launch demo modal</button>
 <app-footer></app-footer>

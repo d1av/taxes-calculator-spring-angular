@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModalComponent } from 'src/app/shared/components/home-modal/home-modal.component';
@@ -29,6 +29,11 @@ export class HomeComponent implements OnInit {
       this.checkLocalStorage();
     });
     this.showMonthlyValueOrNot();
+    
+    if (!localStorage.getItem("tutorialDone")) {
+      this.openHelpModal();
+      localStorage.setItem("tutorialDone", "true");
+    }
   }
 
   async callIdsFromApi(): Promise<any> {
@@ -65,9 +70,7 @@ export class HomeComponent implements OnInit {
     this.localStorageVariableTaxId = localStorage.getItem('variableTaxId');
   }
 
-
-  open() {
-    const modalRef = this.modalService.open(HomeModalComponent);
-    modalRef.componentInstance.name = 'World';
+  openHelpModal() {
+    this.modalService.open(HomeModalComponent);
   }
 }
