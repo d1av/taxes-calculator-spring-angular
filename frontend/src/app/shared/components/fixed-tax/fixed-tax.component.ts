@@ -17,8 +17,6 @@ export class FixedTaxComponent implements OnChanges, OnInit {
 
   fixedTaxForm: FormGroup = new FormGroup({});
 
-  @Output() isDisabled = new EventEmitter<boolean>();
-
   constructor (private fixedTaxService: FixedTaxApiService) {
   }
   ngOnInit(): void {
@@ -59,6 +57,7 @@ export class FixedTaxComponent implements OnChanges, OnInit {
 
     this.fixedTaxService.updateFixedTax(requestObj).subscribe(data => {
       this.fixedTaxData = data;
+      this.localStorageFixedTaxId.emit(data.id);
     });
   }
 

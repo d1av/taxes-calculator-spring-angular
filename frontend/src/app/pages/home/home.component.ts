@@ -11,8 +11,6 @@ import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.servic
   styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit, OnChanges {
-
-
   isDisabled: boolean = true;
 
   totalTaxResponse: TotalTaxResponse | undefined;
@@ -31,16 +29,15 @@ export class HomeComponent implements OnInit, OnChanges {
     this.callIdsFromApi().then((data) => {
       this.totalTaxResponse = data;
       this.checkLocalStorage();
+      this.showMonthlyValueOrNot();
     });
-    this.showMonthlyValueOrNot();
 
     if (!localStorage.getItem("tutorialDone")) {
       this.openHelpModal();
       localStorage.setItem("tutorialDone", "true");
     }
+    this.showMonthlyValueOrNot();
   }
-
-
 
   async callIdsFromApi(): Promise<any> {
     return await this.totalTaxService.getTotalTax();
@@ -50,15 +47,15 @@ export class HomeComponent implements OnInit, OnChanges {
     this.router.navigateByUrl('/hourvalue/monthly');
   }
 
-  getFixedTaxId($event: any) {
+  getFixedTaxId($event: string) {
     this.localStorageFixedTaxId = $event;
     this.showMonthlyValueOrNot();
   }
-  getHourValueId($event: any) {
+  getHourValueId($event: string) {
     this.localStorageHourValueId = $event;
     this.showMonthlyValueOrNot();
   }
-  getVariableTaxId($event: any) {
+  getVariableTaxId($event: string) {
     this.localStorageVariableTaxId = $event;
     this.showMonthlyValueOrNot();
   }
@@ -68,6 +65,8 @@ export class HomeComponent implements OnInit, OnChanges {
     if (this.localStorageFixedTaxId != null && this.localStorageHourValueId != null && this.localStorageVariableTaxId != null) {
       this.isDisabled = false;
     }
+
+
   }
 
   checkLocalStorage() {

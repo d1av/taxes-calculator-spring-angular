@@ -10,7 +10,7 @@ import { VariableTaxApiService } from '../../services/variable-tax-api.service';
 })
 export class VariableTaxComponent implements OnChanges, OnInit {
   @Input() variableTaxId: string | undefined;
-  @Output() localStorageVariableTaxId: EventEmitter<any> = new EventEmitter();
+  @Output() localStorageVariableTaxId: EventEmitter<string> = new EventEmitter();
 
   variableTaxData: VariableTaxResponse | undefined;
   variableTaxForm: FormGroup = new FormGroup({});
@@ -55,6 +55,7 @@ export class VariableTaxComponent implements OnChanges, OnInit {
     this.variableTaxService.updateVariableTax(requestObj).subscribe(data => {
       this.variableTaxData = data;
       this.isDisabled = false;
+      this.localStorageVariableTaxId.emit(data.id);
     });
   }
 

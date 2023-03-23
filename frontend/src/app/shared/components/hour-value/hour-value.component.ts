@@ -10,7 +10,7 @@ import { HourValueResponse } from '../../services/response/hourvalue-response.ty
 })
 export class HourValueComponent implements OnChanges, OnInit {
   @Input() hourValueId: string | undefined;
-  @Output() localStorageHourValueId: EventEmitter<any> = new EventEmitter();
+  @Output() localStorageHourValueId: EventEmitter<string> = new EventEmitter();
 
   hourValueData: HourValueResponse | undefined;
 
@@ -52,6 +52,7 @@ export class HourValueComponent implements OnChanges, OnInit {
     this.hourValueService.updateHourValue(requestObj).subscribe(data => {
       this.hourValueData = data;
       this.isDisabled = false;
+      this.localStorageHourValueId.emit(data.id);
     });
   }
 
