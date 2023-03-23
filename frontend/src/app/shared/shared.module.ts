@@ -8,6 +8,7 @@ import { VariableTaxComponent } from './components/variable-tax/variable-tax.com
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
+import { HomeModalComponent } from './components/home-modal/home-modal.component';
 
 
 
@@ -20,7 +21,8 @@ import { FooterComponent } from './components/footer/footer.component';
     VariableTaxComponent,
     HourValueComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    HomeModalComponent
   ],
   imports: [
     CommonModule,
