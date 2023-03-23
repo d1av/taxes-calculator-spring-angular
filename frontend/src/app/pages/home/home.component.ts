@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HomeModalComponent } from 'src/app/shared/components/home-modal/home-modal.component';
 import { TotalTaxResponse } from 'src/app/shared/services/response/total-tax-response.type';
 import { TotalTaxApiService } from 'src/app/shared/services/total-tax-api.service';
 
@@ -19,7 +21,7 @@ export class HomeComponent implements OnInit {
   localStorageFixedTaxId: string | null | undefined;
   localStorageVariableTaxId: string | undefined | null;
 
-  constructor (private totalTaxService: TotalTaxApiService, private router: Router) { }
+  constructor (private totalTaxService: TotalTaxApiService, private router: Router, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.callIdsFromApi().then((data) => {
@@ -61,5 +63,11 @@ export class HomeComponent implements OnInit {
     this.localStorageFixedTaxId = localStorage.getItem('fixedTaxId');
     this.localStorageHourValueId = localStorage.getItem('hourValueId');
     this.localStorageVariableTaxId = localStorage.getItem('variableTaxId');
+  }
+
+
+  open() {
+    const modalRef = this.modalService.open(HomeModalComponent);
+    modalRef.componentInstance.name = 'World';
   }
 }

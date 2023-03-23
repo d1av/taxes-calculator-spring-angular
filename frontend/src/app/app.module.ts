@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './pages/auth/auth.module';
 import { HomeComponent } from './pages/home/home.component';
-import { MonthlyComponent } from './pages/monthly/monthly.component';
 import { PagesModule } from './pages/pages.module';
 import { AuthInterceptorService } from './shared/authentication/auth-interceptor.service';
 import { SharedModule } from './shared/shared.module';
@@ -29,7 +29,8 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     AuthModule,
-    NgbModule
+    NgbModule,
+    NgHttpLoaderModule.forRoot(),
   ],
   providers: [
     {
