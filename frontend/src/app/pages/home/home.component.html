@@ -1,12 +1,14 @@
+<main class="main-container">
 <app-navbar [isLogged]="true"></app-navbar>
 <div class="button-help-container">
   <button class="btn btn-lg btn-outline-primary" (click)="openHelpModal()">
     Como Usar?
   </button>
 </div>
-<main class="card container-main">
+<section class="card container-main">
   <section class="container-fixed-tax">
     <h1>Taxas Fixas</h1>
+    <br />
     <app-fixed-tax
       [fixedTaxId]="totalTaxResponse?.fixedTaxId"
       (localStorageFixedTaxId)="getFixedTaxId($event)"
@@ -16,6 +18,7 @@
   <div class="container-variable-tax">
     <section class="section-variable-tax">
       <h1>Taxas Variáveis</h1>
+      <br />
       <app-variable-tax
         [variableTaxId]="totalTaxResponse?.variableTaxId"
         (localStorageVariableTaxId)="getVariableTaxId($event)"
@@ -26,7 +29,6 @@
       ></app-hour-value>
       <div>
         <button
-          *ngIf="isDisabled != true"
           [disabled]="isDisabled"
           type="button"
           class="button-27"
@@ -37,5 +39,6 @@
       </div>
     </section>
   </div>
+</section>
 </main>
 <app-footer></app-footer>

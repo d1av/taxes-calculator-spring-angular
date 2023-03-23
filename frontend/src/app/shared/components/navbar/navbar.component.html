@@ -23,6 +23,10 @@
           <a class="nav-link" [routerLink]="['/hourvalue/monthly']"
             >Valor/Hora por Mês</a
           >
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/about']"
+            >Sobre</a
+          >
         </li>
       </ul>
       <span *ngIf="isLogged == true" class="button-11" (click)="logOut()"> Logout </span>

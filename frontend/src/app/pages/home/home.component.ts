@@ -52,17 +52,17 @@ export class HomeComponent implements OnInit, OnChanges {
   getFixedTaxId($event: string) {
     this.localStorageFixedTaxId = $event;
     this.showMonthlyValueOrNot();
-    this.toastr.success("Atualizado!", "A Taxa fixa foi atualizada com sucesso.",{timeOut:2000});
+    this.toastr.success("A Taxa fixa foi atualizada com sucesso.", "Atualizado!", { timeOut: 2000 });
   }
   getHourValueId($event: string) {
     this.localStorageHourValueId = $event;
     this.showMonthlyValueOrNot();
-    this.toastr.success("Atualizado!", "Os dias trabalhados e o salário esperado foram atualizados com sucesso.", { timeOut: 2000 });
+    this.toastr.success("Os dias trabalhados e o salário esperado foram atualizados com sucesso.", "Atualizado!", { timeOut: 2000 });
   }
   getVariableTaxId($event: string) {
     this.localStorageVariableTaxId = $event;
     this.showMonthlyValueOrNot();
-    this.toastr.success("Atualizado!", "A Taxa Variavel foi atualizada com sucesso.", { timeOut: 2000 });
+    this.toastr.success("A Taxa Variavel foi atualizada com sucesso.", "Atualizado!", { timeOut: 2000 });
   }
 
   showMonthlyValueOrNot() {

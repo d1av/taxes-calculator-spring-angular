@@ -1,25 +1,10 @@
 <app-navbar [isLogged]="false"></app-navbar>
 <main class="container-main">
   <section class="container-fixed-tax">
-    <h1>Register</h1>
+    <h1>Cadastrar</h1>
+    <br />
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
       <div class="mb-3">
-        <!-- <div
-        *ngIf="
-          regionalCouncil?.invalid &&
-          (regionalCouncil?.dirty || regionalCouncil?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="regionalCouncil?.hasError('required')">
-          Preencha o valor, caso nenhum use zero.
-        </div>
-        <div *ngIf="regionalCouncil?.hasError('min')">
-          O menor valor aceito é zero.
-        </div>
-        <div *ngIf="regionalCouncil?.hasError('max')">Valor muito grande.</div>
-      </div> -->
-
         <label for="name" class="form-label">Nome</label>
         <div class="input-group mb-3">
           <input
@@ -32,21 +17,6 @@
         </div>
       </div>
       <div class="mb-3">
-        <!-- <div
-        *ngIf="
-          regionalCouncil?.invalid &&
-          (regionalCouncil?.dirty || regionalCouncil?.touched)
-        "
-        class="alert alert-danger mt-1"
-      >
-        <div *ngIf="regionalCouncil?.hasError('required')">
-          Preencha o valor, caso nenhum use zero.
-        </div>
-        <div *ngIf="regionalCouncil?.hasError('min')">
-          O menor valor aceito é zero.
-        </div>
-        <div *ngIf="regionalCouncil?.hasError('max')">Valor muito grande.</div>
-      </div> -->
 
         <label for="password" class="form-label">Senha</label>
         <div class="input-group mb-3">
@@ -60,8 +30,6 @@
         </div>
       </div>
       <button class="button-24" type="submit">Cadastrar</button>
-      <br />
-      <br />
       <p class="button-3" [routerLink]="['/auth/login']" >Ja é cadastrado? Logue aqui</p>
     </form>
   </section>

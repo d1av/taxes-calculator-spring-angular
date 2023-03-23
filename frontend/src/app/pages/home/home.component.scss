@@ -1,3 +1,7 @@
+.main-container{
+  background-image: linear-gradient(180deg, #dfdcdc, white);
+}
+
 .container-main{
   display: flex;
   flex-wrap: wrap;
@@ -96,6 +100,7 @@
 
 .button-27:disabled {
   pointer-events: none;
+  background-color: #b6b1b1;
 }
 
 .button-27:hover {
