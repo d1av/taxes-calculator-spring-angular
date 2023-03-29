@@ -13,6 +13,18 @@ Antes de executar o contêiner Docker, certifique-se de ter os seguintes requisi
 
 Além disso, é necessário ter um servidor MySQL configurado para utilizar como banco de dados da aplicação.
 
+## Configurando o MySQL
+
+Antes de executar a aplicação, é necessário configurar o banco de dados MySQL. Para isso, abra o arquivo `src/main/resources/application.properties` e edite as seguintes propriedades:
+
+```
+spring.datasource.url=jdbc:mysql://<endereco-do-servidor>:3306/meu-banco-de-dados
+spring.datasource.username=<usuario>
+spring.datasource.password=<senha>
+```
+
+Substitua `<endereco-do-servidor>` pelo endereço do servidor MySQL, `<usuario>` pelo nome de usuário e `<senha>` pela senha do usuário.
+
 ## Executando o projeto com Docker
 
 O primeiro passo para executar o projeto com Docker é clonar este repositório em sua máquina. Para isso, execute o seguinte comando no terminal:
@@ -43,17 +55,6 @@ docker run -p 8080:8080 valor-hora
 
 Este comando irá iniciar o contêiner Docker e mapear a porta 8080 do contêiner para a porta 8080 do host. Com isso, você poderá acessar a API através do endereço `http://localhost:8080`.
 
-## Configurando o MySQL
-
-Antes de executar a aplicação, é necessário configurar o banco de dados MySQL. Para isso, abra o arquivo `src/main/resources/application.properties` e edite as seguintes propriedades:
-
-```
-spring.datasource.url=jdbc:mysql://<endereco-do-servidor>:3306/meu-banco-de-dados
-spring.datasource.username=<usuario>
-spring.datasource.password=<senha>
-```
-
-Substitua `<endereco-do-servidor>` pelo endereço do servidor MySQL, `<usuario>` pelo nome de usuário e `<senha>` pela senha do usuário.
 
 ## Executando o frontend
 
@@ -100,8 +101,3 @@ Content-Type: application/json
     "fixedTaxId": "b403f1d288d64696af0c3b4180479ad3"
 }
 ```
-
-Exemplo de requisição:
-
-```
-GET http://localhost:8080/
