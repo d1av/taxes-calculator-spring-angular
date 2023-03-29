@@ -75,10 +75,7 @@ Com a API e o frontend em execução, você pode utilizar a aplicação para cal
 GET /api/hourvalues/monthly/{id}
 ```
 
-Este endpoint permite calcular o valor/hora trabalhado com base nas informações fornecidas pelo usuário. O corpo da requisição deve conter um objeto JSON com os seguintes campos:
-
-- `salario`: número decimal que representa o salário mensal do funcionário.
-- `horasTrabalhadas`: número decimal que representa a quantidade de horas trabalhadas no mês.
+Este endpoint permite calcular o valor/hora trabalhado com base nas informações fornecidas pelo usuário. A url da requisição deve conter o id do usuário.
 
 Exemplo de requisição:
 
