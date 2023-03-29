@@ -22,7 +22,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="regionalCouncil"
           [class.is-invalid]="
@@ -57,7 +61,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="taxOverWork"
           [class.is-invalid]="
@@ -88,7 +96,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="incomeTax"
           [class.is-invalid]="
@@ -121,7 +133,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="accountant"
           [class.is-invalid]="
@@ -154,7 +170,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="dentalShop"
           [class.is-invalid]="
@@ -185,7 +205,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           formControlName="transport"
           [class.is-invalid]="
@@ -214,7 +238,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           formControlName="food"
           [class.is-invalid]="fixedTaxForm.get('food')?.errors && food?.touched"
@@ -243,7 +271,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="education"
           [class.is-invalid]="
@@ -277,7 +309,11 @@
       <div class="input-group mb-3">
         <span class="input-group-text">R$</span>
         <input
-          type="number"
+          type="text"
+          mask="separator.2"
+          [allowNegativeNumbers]="false"
+          thousandSeparator="."
+          separatorLimit="100000"
           class="form-control"
           id="otherFixedCosts"
           [class.is-invalid]="
@@ -290,8 +326,22 @@
         <span class="input-group-text">,00</span>
       </div>
     </div>
-    <button class="button-5" *ngIf="fixedTaxId==null" (click)="createFixedTax()" >Salvar</button>
-    <button class="button-5" *ngIf="fixedTaxId!=null" (click)="updateFixedTax()" >Atualizar</button>
+    <button
+      class="button-5"
+      *ngIf="fixedTaxId == null && fixedTaxForm.valid"
+      [disabled]="!fixedTaxForm.valid"
+      (click)="createFixedTax()"
+    >
+      Salvar
+    </button>
+    <button
+      class="button-5"
+      *ngIf="fixedTaxId != null"
+      (click)="updateFixedTax()"
+      [disabled]="!fixedTaxForm.valid"
+    >
+      Atualizar
+    </button>
   </form>
   <!-- Form END -->
 </div>

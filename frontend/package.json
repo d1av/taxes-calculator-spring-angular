@@ -21,6 +21,7 @@
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "@popperjs/core": "^2.11.6",
     "ng-http-loader": "^13.0.0",
+    "ngx-mask": "^15.1.0",
     "ngx-toastr": "^16.1.0",
     "rxjs": "~7.5.0",
     "zone.js": "~0.12.0"

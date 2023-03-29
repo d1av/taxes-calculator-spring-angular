@@ -16,7 +16,11 @@
     <div class="input-group mb-3">
       <span class="input-group-text">R$</span>
       <input
-        type="number"
+        type="text"
+        mask="separator.2"
+        [allowNegativeNumbers]="false"
+        thousandSeparator="."
+        separatorLimit="100000"
         class="form-control"
         id="creditCard"
         [class.is-invalid]="
@@ -45,7 +49,11 @@
     <div class="input-group mb-3">
       <span class="input-group-text">R$</span>
       <input
-        type="number"
+        type="text"
+        mask="separator.2"
+        [allowNegativeNumbers]="false"
+        thousandSeparator="."
+        separatorLimit="100000"
         class="form-control"
         id="dentalShop"
         [class.is-invalid]="
@@ -76,7 +84,11 @@
     <div class="input-group mb-3">
       <span class="input-group-text">R$</span>
       <input
-        type="number"
+        type="text"
+        mask="separator.2"
+        [allowNegativeNumbers]="false"
+        thousandSeparator="."
+        separatorLimit="100000"
         class="form-control"
         id="prosthetist"
         [class.is-invalid]="
@@ -105,7 +117,11 @@
     <div class="input-group mb-3">
       <span class="input-group-text">R$</span>
       <input
-        type="number"
+        type="text"
+        mask="separator.2"
+        [allowNegativeNumbers]="false"
+        thousandSeparator="."
+        separatorLimit="100000"
         class="form-control"
         id="weekend"
         [class.is-invalid]="
@@ -134,7 +150,11 @@
     <div class="input-group mb-3">
       <span class="input-group-text">R$</span>
       <input
-        type="number"
+        type="text"
+        mask="separator.2"
+        [allowNegativeNumbers]="false"
+        thousandSeparator="."
+        separatorLimit="100000"
         class="form-control"
         id="travel"
         [class.is-invalid]="
@@ -146,10 +166,20 @@
       <span class="input-group-text">,00</span>
     </div>
   </div>
-  <button class="button-5" *ngIf="variableTaxId == null" (click)="createVariableTax()">
+  <button
+    class="button-5"
+    *ngIf="variableTaxId == null"
+     [disabled]="!variableTaxForm.valid"
+    (click)="createVariableTax()"
+  >
     Salvar
   </button>
-  <button class="button-5" *ngIf="variableTaxId != null" (click)="updateVariableTax()">
+  <button
+    class="button-5"
+    *ngIf="variableTaxId != null"
+    [disabled]="!variableTaxForm.valid"
+    (click)="updateVariableTax()"
+  >
     Atualizar
   </button>
 </form>

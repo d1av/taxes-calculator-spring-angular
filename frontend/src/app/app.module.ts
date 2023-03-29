@@ -15,6 +15,12 @@ import { PagesModule } from './pages/pages.module';
 import { AuthInterceptorService } from './shared/authentication/auth-interceptor.service';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IConfig, provideEnvironmentNgxMask } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
+
 
 @NgModule({
   declarations: [
@@ -37,6 +43,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule
   ],
   providers: [
+    provideEnvironmentNgxMask(maskConfig),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

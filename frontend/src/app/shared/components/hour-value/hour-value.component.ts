@@ -41,6 +41,14 @@ export class HourValueComponent implements OnChanges, OnInit {
     });
   }
 
+  allowedDaysOfWork(): number[] {
+    const days = [];
+    for (let i = 1; i <= 31; i++) {
+      days[ i-1 ] = i;
+    }
+    return days;
+  }
+
   updateHourValue() {
     const requestObj: HourValueResponse = {
       ...this.hourValueForm.value,
