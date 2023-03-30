@@ -134,8 +134,9 @@ public class CreateCaseVariableTaxUseCaseIT {
 	final User expectedUser = Fixture.Users.asa();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'prosthetist' should not be null";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMessage1 = "'prosthetist' should not be null";
+	final var expectedErrorMessage2 = "'userId' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
@@ -152,8 +153,10 @@ public class CreateCaseVariableTaxUseCaseIT {
 	// then
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.getErrors().get(0).message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 	
 	Mockito.verify(gateway,times(0)).create(any());
     }
@@ -169,8 +172,9 @@ public class CreateCaseVariableTaxUseCaseIT {
 	final User expectedUser = Fixture.Users.asa();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'travel' should not be null";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMessage1 = "'travel' should not be null";
+	final var expectedErrorMessage2 = "'userId' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
@@ -187,8 +191,10 @@ public class CreateCaseVariableTaxUseCaseIT {
 	// then
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.getErrors().get(0).message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 	
 	Mockito.verify(gateway,times(0)).create(any());
     }
@@ -204,8 +210,9 @@ public class CreateCaseVariableTaxUseCaseIT {
 	final User expectedUser = Fixture.Users.asa();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'creditCard' should not be null";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMessage1 = "'creditCard' should not be null";
+	final var expectedErrorMessage2 = "'creditCard' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
@@ -222,8 +229,10 @@ public class CreateCaseVariableTaxUseCaseIT {
 	// then
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.getErrors().get(0).message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 	
 	Mockito.verify(gateway,times(0)).create(any());
     }
@@ -240,8 +249,9 @@ public class CreateCaseVariableTaxUseCaseIT {
 	final User expectedUser = Fixture.Users.asa();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'weekend' should not be null";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMessage1 = "'weekend' should not be null";
+	final var expectedErrorMessage2 = "'weekend' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
@@ -258,8 +268,10 @@ public class CreateCaseVariableTaxUseCaseIT {
 	// then
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.getErrors().get(0).message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 	
 	Mockito.verify(gateway,times(0)).create(any());
     }
@@ -277,7 +289,7 @@ public class CreateCaseVariableTaxUseCaseIT {
 	final String expectedUserId = null;
 	
 	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'weekend' should not be null";
+	final var expectedErrorMessage = "'userId' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	

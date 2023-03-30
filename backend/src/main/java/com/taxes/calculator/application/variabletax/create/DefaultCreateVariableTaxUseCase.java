@@ -34,13 +34,14 @@ public class DefaultCreateVariableTaxUseCase
 	final var travel = anIn.travel();
 	final var creditCard = anIn.creditCard();
 	final var weekend = anIn.weekend();
-	final UserID userID = UserID.from(anIn.userId());
+	final UserID userID = anIn != null
+		? UserID.from(anIn.userId())
+		: null;
 
 	final var notification = Notification.create();
 
 	final var aVariableTax = VariableTax.newVariableTax(
-		dentalShop, prosthetist, travel, creditCard,
-		weekend);
+		dentalShop, prosthetist, travel, creditCard, weekend);
 
 	notification.validate(() -> aVariableTax);
 
@@ -50,8 +51,7 @@ public class DefaultCreateVariableTaxUseCase
 		    notification);
 	}
 
-	final Optional<User> aUser = userGateway
-		.findById(userID);
+	final Optional<User> aUser = userGateway.findById(userID);
 
 	if (!aUser.isEmpty()) {
 	    aVariableTax.addUser(aUser.get().getId());

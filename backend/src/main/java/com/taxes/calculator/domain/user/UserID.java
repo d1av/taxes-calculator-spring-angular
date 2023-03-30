@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class UserID extends Identifier implements Serializable {
+    
+    private static final long serialVersionUID = 9123760973010940984L;
+    
     private final String value;
 
     public UserID(final String value) {

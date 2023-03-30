@@ -27,20 +27,20 @@ public class VariableTaxValidator extends Validator {
 	checkUserValueConstraints(tax.getUserId());
     }
 
- 
     private void checkUserValueConstraints(UserID userId) {
+	String message = "'userId'";
 	if (Objects.isNull(userId)) {
-	    this.validationHandler().append(
-		    new Error("%s should not be null".formatted("userId")));
+	    this.validationHandler().append(new Error(
+		    "%s should not be null".formatted(message)));
 	}
     }
 
-    private <T extends Number> void checkValueConstraints(final T getField,
-	    final String field) {
+    private <T extends Number> void checkValueConstraints(
+	    final T getField, final String field) {
 	final var fieldToValidate = getField;
 	if (Objects.isNull(fieldToValidate)) {
-	    this.validationHandler().append(
-		    new Error("%s should not be null".formatted(field)));
+	    this.validationHandler().append(new Error(
+		    "%s should not be null".formatted(field)));
 	}
 	if (Objects.nonNull(fieldToValidate)) {
 	    if (fieldToValidate.intValue() < 0) {

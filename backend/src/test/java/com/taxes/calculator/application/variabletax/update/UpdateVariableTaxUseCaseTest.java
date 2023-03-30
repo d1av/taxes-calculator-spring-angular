@@ -44,7 +44,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAValidCommand_whenCallsUpdateVariableTax_shouldReturnVariableTaxId() {
 	// given
-	final var aVariableTax = Fixture.Tax.variableNullUser();
+	final var aVariableTax = Fixture.Tax.variable();
 	final var expectedId = aVariableTax.getId().getValue();
 
 	final var expectedDentalShop = BigDecimal.valueOf(1);
@@ -57,7 +57,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 	final var aCommand = UpdateVariableTaxCommand.with(expectedId,
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUser.getId().getValue());
+		aVariableTax.getUserId().getValue());
 
 	when(variableTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aVariableTax));
@@ -95,7 +95,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAValidCommandWithNullUser_whenCallsUpdateVariableTax_shouldReturnNotification() {
 	// given
-	final var aVariableTax = Fixture.Tax.variableNullUser();
+	final var aVariableTax = Fixture.Tax.variable();
 	final var expectedId = aVariableTax.getId().getValue();
 
 	final var expectedDentalShop = BigDecimal.valueOf(1);

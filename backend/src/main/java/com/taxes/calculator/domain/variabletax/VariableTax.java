@@ -60,6 +60,17 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 		aTravel, aCreditCard, aWeekend, null, now, now);
     }
 
+    public static VariableTax create(final BigDecimal anDentalShop,
+	    final BigDecimal aProsthetist, final BigDecimal aTravel,
+	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
+	    String userId) {
+	final var anId = VariableTaxID.unique();
+	final var now = InstantUtils.now();
+	UserID userIdTreated = userId != null ? UserID.from(userId) : null;
+	return new VariableTax(anId, anDentalShop, aProsthetist,
+		aTravel, aCreditCard, aWeekend, userIdTreated, now, now);
+    }
+
     public static VariableTax with(VariableTax aTax) {
 	return new VariableTax(aTax.id, aTax.dentalShop,
 		aTax.prosthetist, aTax.travel, aTax.creditCard,
@@ -67,15 +78,11 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 		aTax.updatedAt);
     }
 
-    public static VariableTax with(
-	    final VariableTaxID anId,
+    public static VariableTax with(final VariableTaxID anId,
 	    final BigDecimal anDentalShop,
-	    final BigDecimal aProsthetist, 
-	    final BigDecimal aTravel,
-	    final BigDecimal aCreditCard, 
-	    final BigDecimal aWeekend,
-	    final UserID aUserId, 
-	    final Instant createdAt,
+	    final BigDecimal aProsthetist, final BigDecimal aTravel,
+	    final BigDecimal aCreditCard, final BigDecimal aWeekend,
+	    final UserID aUserId, final Instant createdAt,
 	    final Instant updatedAt) {
 	return new VariableTax(anId, anDentalShop, aProsthetist,
 		aTravel, aCreditCard, aWeekend, aUserId, createdAt,
@@ -102,7 +109,7 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	    this.user = aUser;
 	    this.updatedAt = InstantUtils.now();
 	}
-
+	selfValidate();
 	return this;
     }
 
