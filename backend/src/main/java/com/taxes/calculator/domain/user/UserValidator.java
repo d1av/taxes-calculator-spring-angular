@@ -9,7 +9,7 @@ import com.taxes.calculator.domain.validation.Validator;
 public class UserValidator extends Validator {
 
     private static final int NAME_MAX_LENGTH = 200;
-    private static final int NAME_MIN_LENGTH = 1;
+    private static final int NAME_MIN_LENGTH = 6;
     private static final int PASSWORD_MIN_LENGTH = 6;
     private static final int PASSWORD_MAX_LENGTH = 255;
     private final User user;
@@ -39,6 +39,7 @@ public class UserValidator extends Validator {
 		    .append(new Error("'name' should not be empty"));
 
 	}
+
 
 	if (length > NAME_MAX_LENGTH || length < NAME_MIN_LENGTH) {
 	    this.validationHandler().append(new Error(

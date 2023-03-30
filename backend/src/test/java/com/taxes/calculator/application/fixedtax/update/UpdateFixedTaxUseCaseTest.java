@@ -693,7 +693,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(4);
 	final var invalidUser = User
-		.newUser(UserID.from("INVALID_USER"), "Mia",
+		.newUser(UserID.from("INVALID_USER"), "MiaAliphense",
 			"MiaMiaMia", true)
 		.getId();
 

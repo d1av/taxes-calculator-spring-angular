@@ -127,7 +127,7 @@ class CreateUserUseCaseTest extends UseCaseTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'name' should not be null";
-	final var expectedErrorMessage2 = "'name' must be between 1 and 200 characters";
+	final var expectedErrorMessage2 = "'name' must be between 6 and 200 characters";
 
 	final var aCommand = CreateUserCommand.with(expectedName,
 		expectedPassword, expectedIsActive, expectedItems);

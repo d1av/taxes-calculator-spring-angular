@@ -595,7 +595,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(4);
 	final var invalidUser = User.newUser(
-		UserID.from("INVALID_USER"), "Mia", "MiaMiaMia",
+		UserID.from("INVALID_USER"), "AlipheeseFateburn", "MiaMiaMia",
 		true);
 	final var expectedUserId = invalidUser.getId();
 

@@ -13,13 +13,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.infrastructure.auth.models.AuthOutput;
 import com.taxes.calculator.infrastructure.auth.models.AuthRequest;
 import com.taxes.calculator.infrastructure.auth.models.RegisterOutput;
 import com.taxes.calculator.infrastructure.auth.models.RegisterRequest;
-import com.taxes.calculator.infrastructure.auth.models.RegisterResponse;
 import com.taxes.calculator.infrastructure.configuration.security.JwtTokenProvider;
 import com.taxes.calculator.infrastructure.role.persistence.RoleRepository;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
@@ -41,37 +41,31 @@ public class AuthMySQLGateway {
 	    final JwtTokenProvider jwtTokenProvider) {
 	this.authenticationManager = Objects
 		.requireNonNull(authenticationManager);
-	this.userRepository = Objects
-		.requireNonNull(userRepository);
-	this.roleRepository = Objects
-		.requireNonNull(roleRepository);
+	this.userRepository = Objects.requireNonNull(userRepository);
+	this.roleRepository = Objects.requireNonNull(roleRepository);
 	this.jwtTokenProvider = Objects
 		.requireNonNull(jwtTokenProvider);
     }
 
     public AuthOutput login(AuthRequest authRequest) {
 	Authentication authentication = authenticationManager
-		.authenticate(
-			new UsernamePasswordAuthenticationToken(
-				authRequest.name(),
-				authRequest.password()));
+		.authenticate(new UsernamePasswordAuthenticationToken(
+			authRequest.name(), authRequest.password()));
 
 	SecurityContextHolder.getContext()
 		.setAuthentication(authentication);
 
-	String token = jwtTokenProvider
-		.generateToken(authentication);
+	String token = jwtTokenProvider.generateToken(authentication);
 
-	List<String> roles = authentication.getAuthorities()
-		.stream().map(x -> x.getAuthority())
+	List<String> roles = authentication.getAuthorities().stream()
+		.map(x -> x.getAuthority())
 		.collect(Collectors.toList());
 
 	Optional<UserJpaEntity> user = userRepository
 		.findByName(authRequest.name());
-	
+
 	if (user.isPresent()) {
-	    return AuthOutput.with(token, roles,
-		    user.get().getId());
+	    return AuthOutput.with(token, roles, user.get().getId());
 	}
 
 	return AuthOutput.with(token, roles, null);
@@ -83,12 +77,11 @@ public class AuthMySQLGateway {
 
 	final var encodedPassword = EncoderUtils
 		.encode(input.password());
-	final var user = User.newUser(input.name(),
-		encodedPassword, true);
+	final var user = User.newUser(input.name(), encodedPassword,
+		true);
 
 	if (memberRole.isPresent()) {
-	    user.addRoleID(
-		    RoleID.from(memberRole.get().getId()));
+	    user.addRoleID(RoleID.from(memberRole.get().getId()));
 	}
 
 	final UserJpaEntity savedUser = userRepository
@@ -108,6 +101,16 @@ public class AuthMySQLGateway {
 	    throw new Error("Invalid user");
 	}
 
+    }
+
+    public void checkIfUserExists(String name) {
+	Optional<UserJpaEntity> foundUser = userRepository
+		.findByName(name);
+	if (foundUser.isPresent()) {
+	    throw new DomainException("Error creating the user.", List.of(
+		    new com.taxes.calculator.domain.validation.Error(
+			    "Please select another username.")));
+	}
     }
 
 //    public void validateSelfOrAdmin(String userId) {

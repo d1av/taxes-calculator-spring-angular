@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.taxes.calculator.domain.exceptions.DomainException;
+import com.taxes.calculator.domain.exceptions.ServletCustomNotification;
 import com.taxes.calculator.domain.validation.Error;
 
 import springfox.documentation.annotations.ApiIgnore;
@@ -29,17 +29,24 @@ public class CustomErrorController implements ErrorController {
 	    final HttpServletResponse response) throws Throwable {
 	if (request.getAttribute(
 		"javax.servlet.error.exception") != null) {
-	    throw new DomainException(
-		    "There was an error, if see this message ofter, contact an admin.",
-		    List.of(new Error((String) request
-			    .getAttribute(
-				    "javax.servlet.error.exception")
-			    .toString())));
+
+	    String[] errorMessageSplit = (String[]) request
+		    .getAttribute("javax.servlet.error.exception")
+		    .toString().split(":");
+
+	    String errorMessage = errorMessageSplit != null
+		    ? errorMessageSplit[1]
+		    : "Error on the authentication.";
+
+	    throw new ServletCustomNotification(
+		    "There was an error, try reloging.",
+		    List.of(new Error(errorMessage)));
 //	    throw (Throwable) request
 //		    .getAttribute("javax.servlet.error.exception");
 	}
-	return new ResponseEntity<>(CustomErrorResponse.create("Somenthing is wrong with your authentication, please login again", "Authentication Error"),
-		HttpStatus.FORBIDDEN);
+	return new ResponseEntity<>(CustomErrorResponse.create(
+		"Somenthing is wrong with your authentication, please login again",
+		"Authentication Error"), HttpStatus.FORBIDDEN);
     }
 
     public String getErrorPath() {

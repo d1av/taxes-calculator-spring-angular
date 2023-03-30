@@ -52,7 +52,7 @@ public class UserTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'name' should not be null";
-	final var expectedErrorMessage2 = "'name' must be between 1 and 200 characters";
+	final var expectedErrorMessage2 = "'name' must be between 6 and 200 characters";
 
 	// when
 	final var actualException = Assertions
@@ -81,7 +81,7 @@ public class UserTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'name' should not be empty";
-	final var expectedErrorMessage2 = "'name' must be between 1 and 200 characters";
+	final var expectedErrorMessage2 = "'name' must be between 6 and 200 characters";
 
 	// when
 	final var actualException = Assertions
@@ -108,8 +108,9 @@ public class UserTest {
 		.of(Fixture.Roles.member().getId());
 	final boolean expectedActive = true;
 
-	final var expectedErrorCount = 1;
-	final var expectedErrorMesage = "'name' should not be empty";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMesage1 = "'name' should not be empty";
+	final var expectedErrorMesage2 = "'name' must be between 6 and 200 characters";
 
 	// when
 	final var actualException = Assertions
@@ -121,8 +122,10 @@ public class UserTest {
 	// then
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMesage,
+	Assertions.assertEquals(expectedErrorMesage1,
 		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMesage2,
+		actualException.getErrors().get(1).message());
     }
 
     @Test

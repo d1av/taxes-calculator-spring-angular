@@ -48,7 +48,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var aUser = Fixture.Users.asa();
 
 	final var expectedId = aUser.getId();
-	final var expectedName = "Mia";
+	final var expectedName = "MiaAliphense";
 	final var expectedPassword = "miamiamia";
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
@@ -92,7 +92,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var aUser = Fixture.Users.asa();
 
 	final var expectedId = aUser.getId();
-	final var expectedName = "Mia";
+	final var expectedName = "MiaAliphense";
 	final var expectedPassword = "miamiamia";
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of(
@@ -148,7 +148,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 
 	final var expectedErrorCount = 2;
 	final var expectedErrorMessage = "'name' should not be null";
-	final var expectedErrorMessage2 = "'name' must be between 1 and 200 characters";
+	final var expectedErrorMessage2 = "'name' must be between 6 and 200 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -188,8 +188,10 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
 
-	final var expectedErrorCount = 2;
-	final var expectedErrorMessage = "'password' should not be null";
+	final var expectedErrorCount = 3;
+	final var expectedErrorMessage1 = "'name' must be between 6 and 200 characters";
+	final var expectedErrorMessage2 = "'password' should not be null";
+	final var expectedErrorMessage3 = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -206,8 +208,12 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	// then
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
+	Assertions.assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
+	Assertions.assertEquals(expectedErrorMessage3,
+		actualException.getErrors().get(2).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedId));
@@ -226,8 +232,9 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
 
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'password' must be between 6 and 255 characters";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMessage1 = "'name' must be between 6 and 200 characters";
+	final var expectedErrorMessage2 = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -244,8 +251,10 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	// then
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
+	Assertions.assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedId));
@@ -264,8 +273,9 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var expectedIsActive = true;
 	final var expectedRoles = Set.<RoleID>of();
 
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'password' must be between 6 and 255 characters";
+	final var expectedErrorCount = 2;
+	final var expectedErrorMessage1 = "'name' must be between 6 and 200 characters";
+	final var expectedErrorMessage2 = "'password' must be between 6 and 255 characters";
 
 	final var aCommand = UpdateUserCommand.with(
 		expectedId.getValue(), expectedName, expectedPassword,
@@ -282,8 +292,10 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	// then
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
+	Assertions.assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedId));
@@ -297,7 +309,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	final var aUser = Fixture.Users.asa();
 
 	final var expectedId = aUser.getId();
-	final String expectedName = "Mia";
+	final String expectedName = "MiaAliphense";
 	final String expectedPassword = Fixture.password(10);
 	final Boolean initialIsActive = null;
 	final Boolean expectedIsActive = true;

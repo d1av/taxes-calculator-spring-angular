@@ -21,6 +21,7 @@ import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.infrastructure.api.UserAPI;
+import com.taxes.calculator.infrastructure.auth.AuthMySQLGateway;
 import com.taxes.calculator.infrastructure.user.models.CreateUserRequest;
 import com.taxes.calculator.infrastructure.user.models.UpdateUserRequest;
 import com.taxes.calculator.infrastructure.user.models.UserListResponse;
@@ -34,12 +35,17 @@ public class UserController implements UserAPI {
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final ListUserUseCase listUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
+    private final AuthMySQLGateway authMySQLGateway;
 
-    public UserController(final CreateUserUseCase createUserUseCase,
+    public UserController(
+	    final AuthMySQLGateway authMySQLGateway,
+	    final CreateUserUseCase createUserUseCase,
 	    final UpdateUserUseCase updateUserUseCase,
 	    final GetUserByIdUseCase getUserByIdUseCase,
 	    final ListUserUseCase listUserUseCase,
 	    final DeleteUserUseCase deleteUserUseCase) {
+	this.authMySQLGateway = Objects
+		.requireNonNull(authMySQLGateway);
 	this.createUserUseCase = Objects
 		.requireNonNull(createUserUseCase);
 	this.updateUserUseCase = Objects
@@ -57,12 +63,13 @@ public class UserController implements UserAPI {
 	    @Valid CreateUserRequest input)
 	    throws URISyntaxException {
 	
-	//TODO: Bycrypt na senha	
+	authMySQLGateway.checkIfUserExists(input.name());
 	
 	final var aCommand = CreateUserCommand.with(input.name(),
 		input.password(), input.active(), input.roles());
-
+	
 	final var output = this.createUserUseCase.execute(aCommand);
+
 
 	return ResponseEntity
 		.created(new URI("/api/users" + output.id()))

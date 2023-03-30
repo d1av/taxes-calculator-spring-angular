@@ -5,7 +5,7 @@
       *ngIf="creditCard?.invalid && (creditCard?.dirty || creditCard?.touched)"
       class="alert alert-danger mt-1"
     >
-      <div *ngIf="creditCard?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="creditCard?.hasError('required')">Preencha o com um valor.</div>
       <div *ngIf="creditCard?.hasError('min')">
         O valor tem maior ou igual a zero.
       </div>
@@ -38,7 +38,7 @@
       *ngIf="dentalShop?.invalid && (dentalShop?.dirty || dentalShop?.touched)"
       class="alert alert-danger mt-1"
     >
-      <div *ngIf="dentalShop?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="dentalShop?.hasError('required')">Preencha o com um valor.</div>
       <div *ngIf="dentalShop?.hasError('min')">
         Caso nenhum valor, coloque zero.
       </div>
@@ -73,7 +73,7 @@
       "
       class="alert alert-danger mt-1"
     >
-      <div *ngIf="prosthetist?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="prosthetist?.hasError('required')">Preencha o com um valor.</div>
       <div *ngIf="prosthetist?.hasError('min')">
         Caso nenhum valor, coloque zero.
       </div>
@@ -106,7 +106,7 @@
       *ngIf="weekend?.invalid && (weekend?.dirty || weekend?.touched)"
       class="alert alert-danger mt-1"
     >
-      <div *ngIf="weekend?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="weekend?.hasError('required')">Preencha o com um valor.</div>
       <div *ngIf="weekend?.hasError('min')">
         Caso nenhum valor, coloque zero.
       </div>
@@ -139,7 +139,7 @@
       *ngIf="travel?.invalid && (travel?.dirty || travel?.touched)"
       class="alert alert-danger mt-1"
     >
-      <div *ngIf="travel?.hasError('required')">Preencha o valor.</div>
+      <div *ngIf="travel?.hasError('required')">Preencha o com um valor.</div>
       <div *ngIf="travel?.hasError('min')">
         Caso nenhum valor, coloque zero.
       </div>

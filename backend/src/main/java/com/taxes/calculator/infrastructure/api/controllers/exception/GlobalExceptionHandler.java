@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotFoundException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
+import com.taxes.calculator.domain.exceptions.ServletCustomNotification;
 import com.taxes.calculator.domain.validation.Error;
 
 @RestControllerAdvice
@@ -53,6 +54,14 @@ public class GlobalExceptionHandler {
 		.body(ApiError.from(ex));
     }
     
+    @ExceptionHandler(value = {
+	    ServletCustomNotification.class })
+    public ResponseEntity<?> handleNotFoundException(
+	    final ServletCustomNotification ex) {
+	return ResponseEntity.status(HttpStatus.FORBIDDEN)
+		.body(ApiError.from(ex));
+    }
+    
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<?> deserializationError(
 	    final HttpMessageNotReadableException ex) {
@@ -72,8 +81,8 @@ public class GlobalExceptionHandler {
 	}
 	static ApiError from(
 		final HttpMessageNotReadableException ex) {
-	    return new ApiError("Erro encontrado nos valores inseridos",
-		    List.of(new Error("Avaliar todos os campos da requisição")));
+	    return new ApiError("Error on the inputed requested data",
+		    List.of(new Error("Check all fields and look for errors.")));
 	}
     }
 }

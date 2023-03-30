@@ -42,7 +42,7 @@ public class Fixture {
 
 	public static User nonVariableUser() {
 	    final var now = InstantUtils.now();
-	    return User.with(UserID.from("123"), "Mia", "miamiamia",
+	    return User.with(UserID.from("123"), "Alipheese Fateburn", "miamiamia",
 		    true, Set.of(), now, now, null);
 	}
     }
@@ -81,7 +81,8 @@ public class Fixture {
     }
 
     public static BigDecimal negativeBigDecimal(int houses) {
-	return BigDecimal.valueOf(-FAKER.random().nextDouble(Math.pow(10, houses),
+	return BigDecimal.valueOf(
+		-FAKER.random().nextDouble(Math.pow(10, houses),
 			Math.pow(10, houses)) - 100);
     }
 
@@ -90,7 +91,11 @@ public class Fixture {
     }
 
     public static String name() {
-	return FAKER.massEffect().character();
+	StringBuilder builder = new StringBuilder();
+	while (builder.length() < 20) {
+	    builder.append(FAKER.massEffect().character());
+	}
+	return builder.toString();
     }
 
     public static String password(int passwordLength) {

@@ -32,12 +32,17 @@ public class AuthController implements AuthAPI {
     }
 
     @Override
-    public ResponseEntity<RegisterResponse> register(RegisterRequest request) {
-	final RegisterOutput output = authService.register(request);
-	
-	final URI uri = URI.create("/api/users/"+output.id());
+    public ResponseEntity<RegisterResponse> register(
+	    RegisterRequest request) {
 
-	return ResponseEntity.created(uri).body(RegisterResponse.from(output));
+	authService.checkIfUserExists(request.name());
+
+	final RegisterOutput output = authService.register(request);
+
+	final URI uri = URI.create("/api/users/" + output.id());
+
+	return ResponseEntity.created(uri)
+		.body(RegisterResponse.from(output));
     }
 
 }
