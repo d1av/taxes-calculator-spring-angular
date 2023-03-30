@@ -14,22 +14,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
-
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
     private JwtAuthenticationFilter authenticationFilter;
 
-    public SecurityConfig(UserDetailsService userDetailsService,
+    public SecurityConfig(
 	    JwtAuthenticationEntryPoint authenticationEntryPoint,
 	    JwtAuthenticationFilter authenticationFilter) {
-	this.userDetailsService = userDetailsService;
 	this.authenticationEntryPoint = authenticationEntryPoint;
 	this.authenticationFilter = authenticationFilter;
     }
@@ -41,7 +39,8 @@ public class SecurityConfig {
 
     @Bean
     AuthenticationManager authenticationManager(
-	    AuthenticationConfiguration configuration) throws Exception {
+	    AuthenticationConfiguration configuration)
+	    throws Exception {
 	return configuration.getAuthenticationManager();
     }
 
@@ -49,21 +48,18 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http)
 	    throws Exception {
 
-	http
-	.csrf().disable()
-	.cors().and()
-	.authorizeHttpRequests((authorize) ->
-	authorize
-		.antMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN")
-		.antMatchers("/api/users/**").hasRole("ADMIN")
-		.antMatchers("/api/roles/**").hasRole("ADMIN")
-		.antMatchers("/api/fixedtaxes/**").hasRole("MEMBER")
-		.antMatchers("/api/variabletaxes/**").hasRole("MEMBER")
-		.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
-		.antMatchers("/api/totaltaxes/**").hasRole("MEMBER")
-		.antMatchers("/api/auth/**").permitAll()
-		.antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
-		)
+	http.csrf().disable().cors().and()
+		.authorizeHttpRequests((authorize) -> authorize
+			.antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
+			.antMatchers("/api/users/**").hasRole("ADMIN")
+			.antMatchers("/api/roles/**").hasRole("ADMIN")
+			.antMatchers("/api/fixedtaxes/**").hasRole("MEMBER")
+			.antMatchers("/api/variabletaxes/**").hasRole("MEMBER")
+			.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
+			.antMatchers("/api/totaltaxes/**").hasRole("MEMBER")
+			.antMatchers("/api/auth/**").permitAll()
+			.antMatchers(HttpMethod.OPTIONS, "/api/**")
+			.permitAll())
 		.exceptionHandling(exception -> exception
 			.authenticationEntryPoint(
 				authenticationEntryPoint))

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -51,6 +52,13 @@ public class GlobalExceptionHandler {
 	return ResponseEntity.status(HttpStatus.NOT_FOUND)
 		.body(ApiError.from(ex));
     }
+    
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> deserializationError(
+	    final HttpMessageNotReadableException ex) {
+	return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+		.body(ApiError.from(ex));
+    }
 
     record ApiError(String message, List<Error> errors) {
 	static ApiError from(final DomainException ex) {
@@ -61,6 +69,11 @@ public class GlobalExceptionHandler {
 		final SQLIntegrityConstraintViolationException ex) {
 	    return new ApiError(ex.getMessage(),
 		    List.of(new Error(ex.getLocalizedMessage()),new Error(ex.getSQLState())));
+	}
+	static ApiError from(
+		final HttpMessageNotReadableException ex) {
+	    return new ApiError("Erro encontrado nos valores inseridos",
+		    List.of(new Error("Avaliar todos os campos da requisição")));
 	}
     }
 }

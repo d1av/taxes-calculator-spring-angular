@@ -46,8 +46,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAValidCommand_whenCallsCreateFixedTax_shouldReturnFixedTaxId() {
 	// given
-	final var expectedRegionalCouncil = BigDecimal
-		.valueOf(1);
+	final var expectedRegionalCouncil = BigDecimal.valueOf(1);
 	final var expectedTaxOverWork = BigDecimal.valueOf(2);
 	final var expectedIncomeTax = BigDecimal.valueOf(3);
 	final var expectedAccountant = BigDecimal.valueOf(4);
@@ -55,17 +54,16 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedTransport = BigDecimal.valueOf(6);
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal
-		.valueOf(9);
+	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	when(fixedTaxGateway.create(any()))
 		.thenAnswer(returnsFirstArg());
@@ -80,28 +78,21 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	assertNotNull(actualOutput.id());
 	assertEquals(expectedRegionalCouncil,
 		actualOutput.regionalCouncil());
-	assertEquals(expectedTaxOverWork,
-		actualOutput.taxOverWork());
-	assertEquals(expectedIncomeTax,
-		actualOutput.incomeTax());
-	assertEquals(expectedAccountant,
-		actualOutput.accountant());
-	assertEquals(expectedDentalShop,
-		actualOutput.dentalShop());
-	assertEquals(expectedTransport,
-		actualOutput.transport());
+	assertEquals(expectedTaxOverWork, actualOutput.taxOverWork());
+	assertEquals(expectedIncomeTax, actualOutput.incomeTax());
+	assertEquals(expectedAccountant, actualOutput.accountant());
+	assertEquals(expectedDentalShop, actualOutput.dentalShop());
+	assertEquals(expectedTransport, actualOutput.transport());
 	assertEquals(expectedFood, actualOutput.food());
-	assertEquals(expectedEducation,
-		actualOutput.education());
+	assertEquals(expectedEducation, actualOutput.education());
 	assertEquals(expectedOtherFixedCosts,
 		actualOutput.otherFixedCosts());
 	assertEquals(expectedUser.getId().getValue(),
 		actualOutput.userId());
 
-	Mockito.verify(fixedTaxGateway, times(1)).create(
-		argThat(aTax -> Objects.nonNull(aTax.getId())
-			&& Objects.equals(
-				expectedRegionalCouncil,
+	Mockito.verify(fixedTaxGateway, times(1))
+		.create(argThat(aTax -> Objects.nonNull(aTax.getId())
+			&& Objects.equals(expectedRegionalCouncil,
 				aTax.getRegionalCouncil())
 			&& Objects.equals(expectedTaxOverWork,
 				aTax.getTaxOverWork())
@@ -117,8 +108,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 				aTax.getFood())
 			&& Objects.equals(expectedEducation,
 				aTax.getEducation())
-			&& Objects.equals(
-				expectedOtherFixedCosts,
+			&& Objects.equals(expectedOtherFixedCosts,
 				aTax.getOtherFixedCosts())
 			&& Objects.equals(expectedUserId,
 				aTax.getUser())));
@@ -127,8 +117,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAValidCommandWithNullUser_whenCallsCreateFixedTax_shouldReturnFixedTaxId() {
 	// given
-	final var expectedRegionalCouncil = BigDecimal
-		.valueOf(1);
+	final var expectedRegionalCouncil = BigDecimal.valueOf(1);
 	final var expectedTaxOverWork = BigDecimal.valueOf(2);
 	final var expectedIncomeTax = BigDecimal.valueOf(3);
 	final var expectedAccountant = BigDecimal.valueOf(4);
@@ -136,16 +125,15 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedTransport = BigDecimal.valueOf(6);
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal
-		.valueOf(9);
+	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final UserID expectedUser = null;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUser);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUser);
 
 	when(fixedTaxGateway.create(any()))
 		.thenAnswer(returnsFirstArg());
@@ -158,28 +146,20 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	assertNotNull(actualOutput.id());
 	assertEquals(expectedRegionalCouncil,
 		actualOutput.regionalCouncil());
-	assertEquals(expectedTaxOverWork,
-		actualOutput.taxOverWork());
-	assertEquals(expectedIncomeTax,
-		actualOutput.incomeTax());
-	assertEquals(expectedAccountant,
-		actualOutput.accountant());
-	assertEquals(expectedDentalShop,
-		actualOutput.dentalShop());
-	assertEquals(expectedTransport,
-		actualOutput.transport());
+	assertEquals(expectedTaxOverWork, actualOutput.taxOverWork());
+	assertEquals(expectedIncomeTax, actualOutput.incomeTax());
+	assertEquals(expectedAccountant, actualOutput.accountant());
+	assertEquals(expectedDentalShop, actualOutput.dentalShop());
+	assertEquals(expectedTransport, actualOutput.transport());
 	assertEquals(expectedFood, actualOutput.food());
-	assertEquals(expectedEducation,
-		actualOutput.education());
+	assertEquals(expectedEducation, actualOutput.education());
 	assertEquals(expectedOtherFixedCosts,
 		actualOutput.otherFixedCosts());
-	assertEquals(expectedUser,
-		actualOutput.userId());
+	assertEquals(expectedUser, actualOutput.userId());
 
-	Mockito.verify(fixedTaxGateway, times(1)).create(
-		argThat(aTax -> Objects.nonNull(aTax.getId())
-			&& Objects.equals(
-				expectedRegionalCouncil,
+	Mockito.verify(fixedTaxGateway, times(1))
+		.create(argThat(aTax -> Objects.nonNull(aTax.getId())
+			&& Objects.equals(expectedRegionalCouncil,
 				aTax.getRegionalCouncil())
 			&& Objects.equals(expectedTaxOverWork,
 				aTax.getTaxOverWork())
@@ -195,8 +175,7 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 				aTax.getFood())
 			&& Objects.equals(expectedEducation,
 				aTax.getEducation())
-			&& Objects.equals(
-				expectedOtherFixedCosts,
+			&& Objects.equals(expectedOtherFixedCosts,
 				aTax.getOtherFixedCosts())
 			&& Objects.equals(expectedUser,
 				aTax.getUser())));
@@ -213,20 +192,20 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedTransport = BigDecimal.valueOf(6);
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal
-		.valueOf(9);
+	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'regionalCouncil' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'regionalCouncil' should not be null";
+	final var expectedErrorMessage2 = "'regionalCouncil' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -237,8 +216,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -255,20 +236,20 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedTransport = BigDecimal.valueOf(6);
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal
-		.valueOf(9);
+	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'taxOverWork' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'taxOverWork' should not be null";
+	final var expectedErrorMessage2 = "'taxOverWork' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -279,8 +260,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -290,28 +273,27 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
 	final BigDecimal expectedIncomeTax = null;
 	final var expectedAccountant = BigDecimal.valueOf(4);
 	final var expectedDentalShop = BigDecimal.valueOf(5);
 	final var expectedTransport = BigDecimal.valueOf(6);
 	final var expectedFood = BigDecimal.valueOf(7);
 	final var expectedEducation = BigDecimal.valueOf(8);
-	final var expectedOtherFixedCosts = BigDecimal
-		.valueOf(9);
+	final var expectedOtherFixedCosts = BigDecimal.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'incomeTax' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'incomeTax' should not be null";
+	final var expectedErrorMessage2 = "'incomeTax' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -322,8 +304,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -333,32 +317,28 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
 	final BigDecimal expectedAccountant = null;
-	final BigDecimal expectedDentalShop = BigDecimal
-		.valueOf(5);
-	final BigDecimal expectedTransport = BigDecimal
-		.valueOf(6);
+	final BigDecimal expectedDentalShop = BigDecimal.valueOf(5);
+	final BigDecimal expectedTransport = BigDecimal.valueOf(6);
 	final BigDecimal expectedFood = BigDecimal.valueOf(7);
-	final BigDecimal expectedEducation = BigDecimal
-		.valueOf(8);
+	final BigDecimal expectedEducation = BigDecimal.valueOf(8);
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'accountant' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'accountant' should not be null";
+	final var expectedErrorMessage2 = "'accountant' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -369,8 +349,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -380,32 +362,28 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
-	final BigDecimal expectedAccountant = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
+	final BigDecimal expectedAccountant = BigDecimal.valueOf(4);
 	final BigDecimal expectedDentalShop = null;
-	final BigDecimal expectedTransport = BigDecimal
-		.valueOf(6);
+	final BigDecimal expectedTransport = BigDecimal.valueOf(6);
 	final BigDecimal expectedFood = BigDecimal.valueOf(7);
-	final BigDecimal expectedEducation = BigDecimal
-		.valueOf(8);
+	final BigDecimal expectedEducation = BigDecimal.valueOf(8);
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'dentalShop' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'dentalShop' should not be null";
+	final var expectedErrorMessage2 = "'dentalShop' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -416,8 +394,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -427,32 +407,28 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
-	final BigDecimal expectedAccountant = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedDentalShop = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
+	final BigDecimal expectedAccountant = BigDecimal.valueOf(4);
+	final BigDecimal expectedDentalShop = BigDecimal.valueOf(4);
 	final BigDecimal expectedTransport = null;
 	final BigDecimal expectedFood = BigDecimal.valueOf(7);
-	final BigDecimal expectedEducation = BigDecimal
-		.valueOf(8);
+	final BigDecimal expectedEducation = BigDecimal.valueOf(8);
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'transport' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'transport' should not be null";
+	final var expectedErrorMessage2 = "'transport' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -463,8 +439,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -474,33 +452,28 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
-	final BigDecimal expectedAccountant = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedDentalShop = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedTransport = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
+	final BigDecimal expectedAccountant = BigDecimal.valueOf(4);
+	final BigDecimal expectedDentalShop = BigDecimal.valueOf(4);
+	final BigDecimal expectedTransport = BigDecimal.valueOf(4);
 	final BigDecimal expectedFood = null;
-	final BigDecimal expectedEducation = BigDecimal
-		.valueOf(8);
+	final BigDecimal expectedEducation = BigDecimal.valueOf(8);
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(9);
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'food' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'food' should not be null";
+	final var expectedErrorMessage2 = "'food' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -511,8 +484,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -522,16 +497,11 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
-	final BigDecimal expectedAccountant = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedDentalShop = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedTransport = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
+	final BigDecimal expectedAccountant = BigDecimal.valueOf(4);
+	final BigDecimal expectedDentalShop = BigDecimal.valueOf(4);
+	final BigDecimal expectedTransport = BigDecimal.valueOf(4);
 	final BigDecimal expectedFood = BigDecimal.valueOf(4);
 	final BigDecimal expectedEducation = null;
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
@@ -539,15 +509,16 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'education' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'education' should not be null";
+	final var expectedErrorMessage2 = "'education' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -558,9 +529,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
-
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
 
@@ -569,32 +541,27 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
-	final BigDecimal expectedAccountant = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedDentalShop = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedTransport = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
+	final BigDecimal expectedAccountant = BigDecimal.valueOf(4);
+	final BigDecimal expectedDentalShop = BigDecimal.valueOf(4);
+	final BigDecimal expectedTransport = BigDecimal.valueOf(4);
 	final BigDecimal expectedFood = BigDecimal.valueOf(4);
-	final BigDecimal expectedEducation = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedEducation = BigDecimal.valueOf(4);
 	final BigDecimal expectedOtherFixedCosts = null;
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'otherFixedCosts' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'otherFixedCosts' should not be null";
+	final var expectedErrorMessage2 = "'otherFixedCosts' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -605,8 +572,10 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).create(any());
     }
@@ -616,19 +585,13 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	// given
 	final BigDecimal expectedRegionalCouncil = BigDecimal
 		.valueOf(1);
-	final BigDecimal expectedTaxOverWork = BigDecimal
-		.valueOf(2);
-	final BigDecimal expectedIncomeTax = BigDecimal
-		.valueOf(3);
-	final BigDecimal expectedAccountant = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedDentalShop = BigDecimal
-		.valueOf(4);
-	final BigDecimal expectedTransport = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedTaxOverWork = BigDecimal.valueOf(2);
+	final BigDecimal expectedIncomeTax = BigDecimal.valueOf(3);
+	final BigDecimal expectedAccountant = BigDecimal.valueOf(4);
+	final BigDecimal expectedDentalShop = BigDecimal.valueOf(4);
+	final BigDecimal expectedTransport = BigDecimal.valueOf(4);
 	final BigDecimal expectedFood = BigDecimal.valueOf(4);
-	final BigDecimal expectedEducation = BigDecimal
-		.valueOf(4);
+	final BigDecimal expectedEducation = BigDecimal.valueOf(4);
 	final BigDecimal expectedOtherFixedCosts = BigDecimal
 		.valueOf(4);
 	final var invalidUser = User.newUser(
@@ -642,9 +605,9 @@ class CreateFixedTaxUseCaseTest extends UseCaseTest {
 	final var aCommand = CreateFixedTaxCommand.with(
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
-		expectedDentalShop, expectedTransport,
-		expectedFood, expectedEducation,
-		expectedOtherFixedCosts, expectedUserId);
+		expectedDentalShop, expectedTransport, expectedFood,
+		expectedEducation, expectedOtherFixedCosts,
+		expectedUserId);
 
 	when(userGateway.findById(any()))
 		.thenReturn(Optional.empty());

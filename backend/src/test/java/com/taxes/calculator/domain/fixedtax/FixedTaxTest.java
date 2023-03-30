@@ -109,8 +109,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'regionalCouncil' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'regionalCouncil' should not be null";
+	final var expectedErrorMessage2 = "'regionalCouncil' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -124,8 +125,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -142,8 +143,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'taxOverWork' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'taxOverWork' should not be null";
+	final var expectedErrorMessage2 = "'taxOverWork' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -157,8 +159,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -175,8 +177,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'incomeTax' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'incomeTax' should not be null";
+	final var expectedErrorMessage2 = "'incomeTax' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -190,8 +193,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -208,8 +211,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'accountant' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'accountant' should not be null";
+	final var expectedErrorMessage2 = "'accountant' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -223,8 +227,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
     
     @Test
@@ -241,8 +245,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'dentalShop' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'dentalShop' should not be null";
+	final var expectedErrorMessage2 = "'dentalShop' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -256,8 +261,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
     
     @Test
@@ -274,8 +279,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'transport' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'transport' should not be null";
+	final var expectedErrorMessage2 = "'transport' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -289,8 +295,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
     
     @Test
@@ -307,8 +313,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'food' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'food' should not be null";
+	final var expectedErrorMessage2 = "'food' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -322,8 +329,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
     
     @Test
@@ -340,8 +347,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(4);
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'education' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'education' should not be null";
+	final var expectedErrorMessage2 = "'education' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -355,8 +363,8 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
     }
     
     @Test
@@ -373,8 +381,9 @@ class FixedTaxTest {
 	final BigDecimal expectedOtherFixedCosts = null;
 	final UserID expectedUser = null;
 
-	final var expectedErrorSize = 1;
-	final var expectedErrorMessage = "'otherFixedCosts' should not be null";
+	final var expectedErrorSize = 2;
+	final var expectedErrorMessage1 = "'otherFixedCosts' should not be null";
+	final var expectedErrorMessage2 = "'otherFixedCosts' should be a number";
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -388,8 +397,41 @@ class FixedTaxTest {
 	// then
 	Assertions.assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	Assertions.assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
+    }
+    
+    @Test
+    void givenAInvalid7DigitOtherFixedCosts_whenCreateNewFixedTax_shouldReturnNotification() {
+	// given
+	final BigDecimal expectedRegionalCouncil = Fixture.bigDecimal(4);
+	final BigDecimal expectedTaxOverWork = Fixture.bigDecimal(4);
+	final BigDecimal expectedIncomeTax = Fixture.bigDecimal(4);
+	final BigDecimal expectedAccountant = Fixture.bigDecimal(4);
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedTransport = Fixture.bigDecimal(4);
+	final BigDecimal expectedFood = Fixture.bigDecimal(4);
+	final BigDecimal expectedEducation = Fixture.bigDecimal(4);
+	final BigDecimal expectedOtherFixedCosts = Fixture.bigDecimal(7);
+	
+	final UserID expectedUser = null;
+	
+	final var expectedErrorSize = 1;
+	final var expectedErrorMessage1 = "'otherFixedCosts' should not be above 999.999";
+	
+	// when
+	final var actualException = Assertions.assertThrows(
+		NotificationException.class,
+		() -> FixedTax.with(expectedRegionalCouncil,
+			expectedTaxOverWork, expectedIncomeTax,
+			expectedAccountant, expectedDentalShop,
+			expectedTransport, expectedFood, expectedEducation,
+			expectedOtherFixedCosts, expectedUser));
+	
+	// then
+	Assertions.assertEquals(expectedErrorSize,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage1,actualException.firstError().message());
     }
 
 

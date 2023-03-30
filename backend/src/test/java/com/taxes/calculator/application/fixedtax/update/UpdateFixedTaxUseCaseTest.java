@@ -119,8 +119,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 			&& Objects.equals(expectedOtherFixedCosts,
 				aTax.getOtherFixedCosts())
 			&& Objects.equals(expectedUserId,
-				aTax.getUser())
-			));
+				aTax.getUser())));
     }
 
     @Test
@@ -186,8 +185,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'regionalCouncil' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'regionalCouncil' should not be null";
+	final var expectedErrorMessage2 = "'regionalCouncil' should be a number";
+	final var expectedErrorCount = 2;
 
 	when(fixedTaxGateway.findById(any()))
 		.thenReturn(Optional.of(aFixedTax));
@@ -211,8 +211,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
@@ -238,8 +240,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'taxOverWork' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'taxOverWork' should not be null";
+	final var expectedErrorMessage2 = "'taxOverWork' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(expectedId,
 		expectedRegionalCouncil, expectedTaxOverWork,
@@ -263,8 +266,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
     }
@@ -288,8 +293,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'incomeTax' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'incomeTax' should not be null";
+	final var expectedErrorMessage2 = "'incomeTax' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -313,8 +319,8 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUserId));
@@ -343,8 +349,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'accountant' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'accountant' should not be null";
+	final var expectedErrorMessage2 = "'accountant' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -368,8 +375,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUser.getId()));
@@ -398,8 +407,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'dentalShop' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'dentalShop' should not be null";
+	final var expectedErrorMessage2 = "'dentalShop' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -423,8 +433,8 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
-		actualException.firstError().message());
+	assertEquals(expectedErrorMessage1,actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUser.getId()));
@@ -453,8 +463,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'transport' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'transport' should not be null";
+	final var expectedErrorMessage2 = "'transport' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -478,8 +489,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUser.getId()));
@@ -508,8 +521,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'food' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'food' should not be null";
+	final var expectedErrorMessage2 = "'food' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -533,8 +547,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUser.getId()));
@@ -563,8 +579,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'education' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'education' should not be null";
+	final var expectedErrorMessage2 = "'education' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -588,8 +605,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUser.getId()));
@@ -617,8 +636,9 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 	final var expectedUserId = expectedUser.getId();
 
-	final var expectedErrorMessage = "'otherFixedCosts' should not be null";
-	final var expectedErrorCount = 1;
+	final var expectedErrorMessage1 = "'otherFixedCosts' should not be null";
+	final var expectedErrorMessage2 = "'otherFixedCosts' should be a number";
+	final var expectedErrorCount = 2;
 
 	final var aCommand = UpdateFixedTaxCommand.with(
 		expectedId.getValue(), expectedRegionalCouncil,
@@ -642,8 +662,10 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 
 	assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
+	assertEquals(expectedErrorMessage2,
+		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
 		.findById(eq(expectedUser.getId()));

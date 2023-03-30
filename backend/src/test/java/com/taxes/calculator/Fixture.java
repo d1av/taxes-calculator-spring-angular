@@ -42,8 +42,8 @@ public class Fixture {
 
 	public static User nonVariableUser() {
 	    final var now = InstantUtils.now();
-	    return User.with(UserID.from("123"), "Mia", "miamiamia", true,
-		    Set.of(), now, now, null);
+	    return User.with(UserID.from("123"), "Mia", "miamiamia",
+		    true, Set.of(), now, now, null);
 	}
     }
 
@@ -70,12 +70,14 @@ public class Fixture {
 
 	public static VariableTax variableNullUser() {
 	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
-		    bigDecimal(4), bigDecimal(4), bigDecimal(4), null);
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    null);
 	}
     }
 
     public static BigDecimal bigDecimal(int houses) {
-	return BigDecimal.valueOf(FAKER.random().nextInt(0, houses * 10));
+	return BigDecimal.valueOf(FAKER.random().nextDouble(
+		Math.pow(10, houses), Math.pow(10, houses)) - 100);
     }
 
     public static Integer daysOfWork() {
@@ -92,11 +94,12 @@ public class Fixture {
 	    passwordLength = 300;
 
 	StringBuilder stringBuilder = new StringBuilder();
-	
+
 	for (int i = 0; i < passwordLength; i++) {
-	    stringBuilder.append(FAKER.aws().subnetId().substring(0,1));
+	    stringBuilder
+		    .append(FAKER.aws().subnetId().substring(0, 1));
 	}
-	
+
 	return stringBuilder.toString();
     }
 
@@ -140,7 +143,8 @@ public class Fixture {
 	}
 
 	public static String roleName() {
-	    return "ROLE_" +FAKER.onePiece().akumasNoMi().replace(" ", "");
+	    return "ROLE_"
+		    + FAKER.onePiece().akumasNoMi().replace(" ", "");
 	}
     }
 
@@ -150,7 +154,8 @@ public class Fixture {
 	}
 
 	public static User abella() {
-	    return User.newUser("Abella Danger", "abelladanger", true);
+	    return User.newUser("Abella Danger", "abelladanger",
+		    true);
 	}
 
 	public static User active() {
