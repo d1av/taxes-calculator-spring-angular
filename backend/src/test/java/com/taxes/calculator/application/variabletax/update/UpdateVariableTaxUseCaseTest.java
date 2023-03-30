@@ -177,14 +177,14 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 	final var aVariableTax = Fixture.Tax.variable();
 	final var expectedId = aVariableTax.getId().getValue();
 
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = null;
 	final var expectedTravel = BigDecimal.valueOf(3);
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
 	final var expectedUser = Fixture.Users.abella();
 
-	final var expectedErrorMessage = "'prosthetist' should not be null";
+	final var expectedErrorMessage1 = "'prosthetist' should not be null";
 	final var expectedErrorCount = 1;
 
 	final var aCommand = UpdateVariableTaxCommand.with(expectedId,
@@ -207,7 +207,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 
 	Assertions.assertEquals(expectedErrorCount,
 		actualException.getErrors().size());
-	Assertions.assertEquals(expectedErrorMessage,
+	Assertions.assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
     }
 
@@ -217,7 +217,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 	final var aVariableTax = Fixture.Tax.variable();
 	final var expectedId = aVariableTax.getId().getValue();
 
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(2);
 	final var expectedProsthetist = Fixture.bigDecimal(2);
 	final BigDecimal expectedTravel = null;
 	final var expectedCreditCard = BigDecimal.valueOf(5);
@@ -256,8 +256,8 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 	final var aVariableTax = Fixture.Tax.variable();
 	final var expectedId = aVariableTax.getId().getValue();
 
-	final var expectedDentalShop = Fixture.bigDecimal(1);
-	final var expectedProsthetist = Fixture.bigDecimal(2);
+	final var expectedDentalShop = Fixture.bigDecimal(4);
+	final var expectedProsthetist = Fixture.bigDecimal(4);
 	final var expectedTravel = Fixture.bigDecimal(3);
 	final BigDecimal expectedCreditCard = null;
 	final var expectedWeekend = BigDecimal.valueOf(4);
@@ -295,7 +295,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 	final var aVariableTax = Fixture.Tax.variable();
 	final var expectedId = aVariableTax.getId().getValue();
 
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(3);
 	final var expectedProsthetist = Fixture.bigDecimal(2);
 	final var expectedTravel = Fixture.bigDecimal(3);
 	final var expectedCreditCard = Fixture.bigDecimal(2);

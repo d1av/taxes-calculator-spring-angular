@@ -162,7 +162,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAInvalidNullProsthetistCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(2);
 	final BigDecimal expectedProsthetist = null;
 	final var expectedTravel = BigDecimal.valueOf(3);
 	final var expectedCreditCard = BigDecimal.valueOf(5);
@@ -193,7 +193,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAInvalidNullTravelCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(2);
 	final var expectedProsthetist = Fixture.bigDecimal(2);
 	final BigDecimal expectedTravel = null;
 	final var expectedCreditCard = BigDecimal.valueOf(5);
@@ -224,7 +224,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAInvalidCreditCardTravelCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(2);
 	final var expectedProsthetist = Fixture.bigDecimal(2);
 	final var expectedTravel = Fixture.bigDecimal(3);
 	final BigDecimal expectedCreditCard = null;
@@ -255,7 +255,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
     @Test
     void givenAInvalidWeekendCommand_whenCallsCreateVariableTax_shouldReturnVariableTaxId() {
 	// given
-	final var expectedDentalShop = Fixture.bigDecimal(1);
+	final var expectedDentalShop = Fixture.bigDecimal(2);
 	final var expectedProsthetist = Fixture.bigDecimal(2);
 	final var expectedTravel = Fixture.bigDecimal(3);
 	final var expectedCreditCard = Fixture.bigDecimal(2);

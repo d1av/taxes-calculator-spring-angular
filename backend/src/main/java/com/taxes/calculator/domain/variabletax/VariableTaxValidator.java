@@ -25,12 +25,23 @@ public class VariableTaxValidator extends Validator {
 	checkValueConstraints(tax.getWeekend(), "'weekend'");
     }
 
-    private <T> void checkValueConstraints(final T getField,
+    private <T extends Number> void checkValueConstraints(final T getField,
 	    final String field) {
 	final var fieldToValidate = getField;
 	if (Objects.isNull(fieldToValidate)) {
 	    this.validationHandler().append(
 		    new Error("%s should not be null".formatted(field)));
+	}
+	if (Objects.nonNull(fieldToValidate)) {
+	    if (fieldToValidate.intValue() < 0) {
+		this.validationHandler()
+			.append(new Error("%s should not be negative"
+				.formatted(field)));
+	    } else if (fieldToValidate.intValue() > 999999) {
+		this.validationHandler().append(
+			new Error("%s should not be above 999.999"
+				.formatted(field)));
+	    }
 	}
     }
 

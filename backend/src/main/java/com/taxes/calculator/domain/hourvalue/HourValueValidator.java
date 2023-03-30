@@ -41,7 +41,7 @@ public class HourValueValidator extends Validator {
 	    this.validationHandler().append(
 		    new Error("'daysOfWork' should not be null"));
 	}
-	
+
 	if (fieldToValidateNotNull < minDays
 		|| fieldToValidateNotNull > maxDays) {
 	    this.validationHandler().append(new Error(
@@ -55,18 +55,42 @@ public class HourValueValidator extends Validator {
     private void checkExpectedSalaryConstraints() {
 	final var fieldToValidate = this.hourValue
 		.getExpectedSalary();
+	final String messageField = "'expectedSalary'";
 	if (Objects.isNull(fieldToValidate)) {
-	    this.validationHandler().append(
-		    new Error("'expectedSalary' should not be null"));
+	    this.validationHandler().append(new Error(
+		    "%s should not be null".formatted(messageField)));
+	}
+	if (Objects.nonNull(fieldToValidate)) {
+	    if (fieldToValidate.intValue() < 0) {
+		this.validationHandler()
+			.append(new Error("%s should not be negative"
+				.formatted(messageField)));
+	    } else if (fieldToValidate.intValue() > 999999) {
+		this.validationHandler().append(
+			new Error("%s should not be above 999.999"
+				.formatted(messageField)));
+	    }
 	}
     }
 
     private void checkHourValueConstraints() {
 	final var fieldToValidate = this.hourValue
 		.getPersonalHourValue();
+	final String messageField = "'hourValue'";
 	if (Objects.isNull(fieldToValidate)) {
-	    this.validationHandler().append(
-		    new Error("'hourValue' should not be null"));
+	    this.validationHandler().append(new Error(
+		    "%s should not be null".formatted(messageField)));
+	}
+	if (Objects.nonNull(fieldToValidate)) {
+	    if (fieldToValidate.intValue() < 0) {
+		this.validationHandler()
+			.append(new Error("%s should not be negative"
+				.formatted(messageField)));
+	    } else if (fieldToValidate.intValue() > 999999) {
+		this.validationHandler().append(
+			new Error("%s should not be above 999.999"
+				.formatted(messageField)));
+	    }
 	}
     }
 }

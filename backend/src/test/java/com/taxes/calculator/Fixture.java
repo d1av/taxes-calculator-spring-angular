@@ -80,6 +80,11 @@ public class Fixture {
 		Math.pow(10, houses), Math.pow(10, houses)) - 100);
     }
 
+    public static BigDecimal negativeBigDecimal(int houses) {
+	return BigDecimal.valueOf(-FAKER.random().nextDouble(Math.pow(10, houses),
+			Math.pow(10, houses)) - 100);
+    }
+
     public static Integer daysOfWork() {
 	return FAKER.random().nextInt(1, 31);
     }
