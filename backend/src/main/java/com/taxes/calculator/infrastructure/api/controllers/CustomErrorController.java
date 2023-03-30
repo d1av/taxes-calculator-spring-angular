@@ -38,7 +38,7 @@ public class CustomErrorController implements ErrorController {
 //	    throw (Throwable) request
 //		    .getAttribute("javax.servlet.error.exception");
 	}
-	return new ResponseEntity<>(CustomErrorResponse.create("Somenthing is wrong with you authentication, please login", "Authentication Error"),
+	return new ResponseEntity<>(CustomErrorResponse.create("Somenthing is wrong with your authentication, please login again", "Authentication Error"),
 		HttpStatus.FORBIDDEN);
     }
 

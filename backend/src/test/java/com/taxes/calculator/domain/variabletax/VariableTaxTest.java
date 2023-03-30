@@ -419,5 +419,325 @@ class VariableTaxTest {
 	Assertions.assertEquals(expectedErrorMessage,
 		actualException.firstError().message());
     }
-
+    
+    @Test
+    public void givenInvalidNegativeWeekend_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.negativeBigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'weekend' should not be negative";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalidNegativeDentalShop_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.negativeBigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'dentalShop' should not be negative";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalidNegativeProsthetist_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.negativeBigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'prosthetist' should not be negative";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalidNegativeTravel_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.negativeBigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'travel' should not be negative";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalidNegativeCreditCard_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.negativeBigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'creditCard' should not be negative";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalid7DigitDentalShop_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(7);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'dentalShop' should not be above 999.999";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalid7DigitProsthetist_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(7);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'prosthetist' should not be above 999.999";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    public void givenInvalid7DigitTravel_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(7);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'travel' should not be above 999.999";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+    @Test
+    void givenInvalid7DigitCreditCard_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(7);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'creditCard' should not be above 999.999";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    @Test
+    void givenInvalid7DigitWeekend_whenUpdateVariableTax_shouldReturnNotification() {
+	// given
+	final var aTax = Fixture.Tax.variableNullUser();
+	
+	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
+	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
+	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
+	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
+	final BigDecimal expectedWeekend = Fixture.bigDecimal(7);
+	final User expectedUser = Fixture.Users.asa();
+	final UserID expectedUserId = expectedUser.getId();
+	
+	// when
+	final var expectedErrorCount = 1;
+	final var expectedErrorMessage = "'weekend' should not be above 999.999";
+	
+	// when
+	final var actualException = Assertions
+		.assertThrows(NotificationException.class,
+			() -> aTax.update(expectedDentalShop,
+				expectedProsthetist, expectedTravel,
+				expectedCreditCard, expectedWeekend)
+			.addUser(expectedUserId));
+	// then
+	Assertions.assertNotNull(actualException);
+	Assertions.assertEquals(expectedErrorCount,
+		actualException.getErrors().size());
+	Assertions.assertEquals(expectedErrorMessage,
+		actualException.firstError().message());
+    }
+    
+   
 }
