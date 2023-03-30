@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 
 import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotFoundException;
+import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.pagination.Pagination;
 import com.taxes.calculator.domain.pagination.SearchQuery;
 import com.taxes.calculator.domain.user.UserID;
+import com.taxes.calculator.domain.validation.handler.Notification;
 import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
@@ -28,8 +30,7 @@ import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxJp
 import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxRepository;
 
 @Service
-public class VariableTaxMYSQLGateway
-	implements VariableTaxGateway {
+public class VariableTaxMYSQLGateway implements VariableTaxGateway {
 
     private static final Logger LOGGER = LoggerFactory
 	    .getLogger(VariableTaxMYSQLGateway.class);
@@ -37,11 +38,11 @@ public class VariableTaxMYSQLGateway
     private final VariableTaxRepository repository;
     private final TotalTaxPersistence totalTaxPersistence;
 
-    public VariableTaxMYSQLGateway(
-	    VariableTaxRepository repository,
+    public VariableTaxMYSQLGateway(VariableTaxRepository repository,
 	    TotalTaxPersistence totalTaxPersistence) {
 	this.repository = Objects.requireNonNull(repository);
-	this.totalTaxPersistence = Objects.requireNonNull(totalTaxPersistence);
+	this.totalTaxPersistence = Objects
+		.requireNonNull(totalTaxPersistence);
     }
 
     @Override
@@ -62,9 +63,8 @@ public class VariableTaxMYSQLGateway
     @Override
     public Pagination<VariableTax> findAll(SearchQuery aQuery) {
 	final var page = PageRequest.of(aQuery.page(),
-		aQuery.perPage(), Sort.by(
-			Sort.Direction
-				.fromString(aQuery.direction()),
+		aQuery.perPage(),
+		Sort.by(Sort.Direction.fromString(aQuery.direction()),
 			aQuery.sort()));
 
 	// Dynamic Search
@@ -74,14 +74,12 @@ public class VariableTaxMYSQLGateway
 		.map(SpecificationUtils::assembleSpecification)
 		.orElse(null);
 
-	final var pageResult = this.repository.findAll(
-		Specification.where(
-			(Specification<VariableTaxJpaEntity>) specifications),
+	final var pageResult = this.repository.findAll(Specification
+		.where((Specification<VariableTaxJpaEntity>) specifications),
 		page);
 
 	return new Pagination<>(pageResult.getNumber(),
-		pageResult.getSize(),
-		pageResult.getTotalElements(),
+		pageResult.getSize(), pageResult.getTotalElements(),
 		pageResult.map(VariableTaxJpaEntity::toAggregate)
 			.toList());
     }
@@ -95,39 +93,46 @@ public class VariableTaxMYSQLGateway
     public void deleteById(VariableTaxID anId) {
 	if (this.repository.existsById(anId.getValue())) {
 	    this.repository.deleteById(anId.getValue());
-	    totalTaxPersistence
-		    .deleteValueWhenVariableTaxIsDeleted(
-			    anId.getValue());
+	    totalTaxPersistence.deleteValueWhenVariableTaxIsDeleted(
+		    anId.getValue());
 	}
     }
 
     @Transactional
-    private VariableTax saveIfDoesntExists(
-	    VariableTax aVariableTax) {
-	String userId = aVariableTax.getUserId().getValue();
+    private VariableTax saveIfDoesntExists(VariableTax aVariableTax) {
+	String userId = aVariableTax.getUserId() != null
+		? aVariableTax.getUserId().getValue()
+		: "";
 	if (this.repository.findByUserId(userId).isEmpty()) {
-	    this.repository.save(
-		    VariableTaxJpaEntity.from(aVariableTax));
-	    totalTaxPersistence.checkIfExistsToCreateOrUpdate(
-		    null, aVariableTax.getId().getValue(), null,
-		    userId);
+	    VariableTax savedEntity = this.repository
+		    .save(VariableTaxJpaEntity.from(aVariableTax))
+		    .toAggregate();
+	    totalTaxPersistence.checkIfExistsToCreateOrUpdate(null,
+		    savedEntity.getId().getValue(), null, userId);
 	    return aVariableTax;
 	} else {
-	    LOGGER.info("Log from variable: {}", this.repository
-		    .findByUserId(userId).isEmpty());
-	    return updateEntity(aVariableTax);
+	    List<VariableTaxJpaEntity> entity = repository
+		    .findByUserId(userId);
+	    Notification notification = Notification.create();
+	    notification.append(
+		    new com.taxes.calculator.domain.validation.Error(
+			    "User already have an Variable Tax, id: "
+				    + entity.get(0).getId()));
+	    throw new NotificationException(
+		    "Error creating the variable tax", notification);
 	}
     }
 
     @Transactional
     private VariableTax updateEntity(VariableTax aVariableTax) {
+	String userId = aVariableTax != null
+		? aVariableTax.getUserId().getValue()
+		: null;
 	List<VariableTaxJpaEntity> foundedList = this.repository
-		.findByUserId(
-			aVariableTax.getUserId().getValue());
+		.findByUserId(userId);
 
 	if (!foundedList.isEmpty()) {
-	    VariableTaxJpaEntity existingEntity = foundedList
-		    .get(0);
+	    VariableTaxJpaEntity existingEntity = foundedList.get(0);
 
 	    VariableTax updatedTax = existingEntity.toAggregate()
 		    .update(aVariableTax.getDentalShop(),

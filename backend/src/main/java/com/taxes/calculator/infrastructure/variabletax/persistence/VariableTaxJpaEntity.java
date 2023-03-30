@@ -55,8 +55,7 @@ public class VariableTaxJpaEntity {
     }
 
     private VariableTaxJpaEntity(final String id,
-	    final BigDecimal dentalShop,
-	    final BigDecimal prosthetist,
+	    final BigDecimal dentalShop, final BigDecimal prosthetist,
 	    final BigDecimal travel, final BigDecimal creditCard,
 	    final BigDecimal weekend, final String userId,
 	    final Instant createdAt, final Instant updatedAt) {
@@ -74,14 +73,15 @@ public class VariableTaxJpaEntity {
 
     public static VariableTaxJpaEntity from(
 	    final VariableTax variableTax) {
+	String userId = variableTax.getUserId() != null
+		? variableTax.getUserId().getValue()
+		: null;
 	final var anEntity = new VariableTaxJpaEntity(
 		variableTax.getId().getValue(),
 		variableTax.getDentalShop(),
-		variableTax.getProsthetist(),
-		variableTax.getTravel(),
-		variableTax.getCreditCard(),
-		variableTax.getWeekend(),
-		variableTax.getUserId().getValue(),
+		variableTax.getProsthetist(), variableTax.getTravel(),
+		variableTax.getCreditCard(), variableTax.getWeekend(),
+		userId,
 		variableTax.getCreatedAt(),
 		variableTax.getUpdatedAt());
 
@@ -99,8 +99,8 @@ public class VariableTaxJpaEntity {
 
     public void addUser(UserID userId) {
 	if (userId != null && this.user.isEmpty()) {
-	    this.user.add(
-		    UserVariableTaxJpaEntity.from(userId, this));
+	    this.user
+		    .add(UserVariableTaxJpaEntity.from(userId, this));
 	}
     }
 
