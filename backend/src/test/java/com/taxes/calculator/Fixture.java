@@ -67,6 +67,12 @@ public class Fixture {
 		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
 		    user.getId());
 	}
+	public static VariableTax variable2() {
+	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
+		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
+		    Fixture.Users.abella().getId());
+	}
+	
 	
 	public static User getUser() {
 	    return user;
