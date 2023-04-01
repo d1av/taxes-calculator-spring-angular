@@ -52,7 +52,7 @@ class UpdateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedTravel = BigDecimal.valueOf(3);
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
-	final var expectedUser = Fixture.Users.abella();
+	final var expectedUser = Fixture.Tax.getUser();
 
 	final var aCommand = UpdateVariableTaxCommand.with(expectedId,
 		expectedDentalShop, expectedProsthetist,

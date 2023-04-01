@@ -7,6 +7,7 @@ import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.user.UserID;
+import com.taxes.calculator.domain.validation.Error;
 import com.taxes.calculator.domain.validation.handler.Notification;
 import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
@@ -34,14 +35,16 @@ public class DefaultCreateVariableTaxUseCase
 	final var travel = anIn.travel();
 	final var creditCard = anIn.creditCard();
 	final var weekend = anIn.weekend();
-	final UserID userID = anIn != null
-		? UserID.from(anIn.userId())
+	final String userIdString = anIn.userId();
+	final UserID userId = anIn.userId() != null
+		? UserID.from(userIdString)
 		: null;
 
 	final var notification = Notification.create();
 
 	final var aVariableTax = VariableTax.newVariableTax(
-		dentalShop, prosthetist, travel, creditCard, weekend);
+		dentalShop, prosthetist, travel, creditCard, weekend,
+		userId);
 
 	notification.validate(() -> aVariableTax);
 
@@ -51,7 +54,7 @@ public class DefaultCreateVariableTaxUseCase
 		    notification);
 	}
 
-	final Optional<User> aUser = userGateway.findById(userID);
+	final Optional<User> aUser = userGateway.findById(userIdString);
 
 	if (!aUser.isEmpty()) {
 	    aVariableTax.addUser(aUser.get().getId());

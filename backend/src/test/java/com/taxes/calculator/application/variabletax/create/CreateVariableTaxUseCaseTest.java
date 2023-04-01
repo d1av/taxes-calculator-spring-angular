@@ -143,8 +143,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 
 	final var expectedErrorMessage1 = "'dentalShop' should not be null";
-	final var expectedErrorMessage2 = "'userId' should not be null";
-	final var expectedErrorCount = 2;
+	final var expectedErrorCount = 1;
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -162,8 +161,6 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
-	assertEquals(expectedErrorMessage2,
-		actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -208,8 +205,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 
 	final var expectedErrorMessage1 = "'prosthetist' should not be null";
-	final var expectedErrorMessage2 = "'userId' should not be null";
-	final var expectedErrorCount = 2;
+	final var expectedErrorCount = 1;
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -227,8 +223,6 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
-	assertEquals(expectedErrorMessage2,
-		actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -242,8 +236,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 
 	final var expectedErrorMessage1 = "'travel' should not be null";
-	final var expectedErrorMessage2 = "'userId' should not be null";
-	final var expectedErrorCount = 2;
+	final var expectedErrorCount = 1;
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -261,8 +254,6 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
-	assertEquals(expectedErrorMessage2,
-		actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -276,8 +267,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 
 	final var expectedErrorMessage1 = "'creditCard' should not be null";
-	final var expectedErrorMessage2 = "'userId' should not be null";
-	final var expectedErrorCount = 2;
+	final var expectedErrorCount = 1;
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -295,8 +285,6 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
-	assertEquals(expectedErrorMessage2,
-		actualException.getErrors().get(1).message());
     }
 
     @Test
@@ -310,8 +298,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedUser = Fixture.Users.abella();
 
 	final var expectedErrorMessage1 = "'weekend' should not be null";
-	final var expectedErrorMessage2 = "'userId' should not be null";
-	final var expectedErrorCount = 2;
+	final var expectedErrorCount = 1;
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
@@ -329,7 +316,5 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage1,
 		actualException.firstError().message());
-	assertEquals(expectedErrorMessage2,
-		actualException.getErrors().get(1).message());
     }
 }

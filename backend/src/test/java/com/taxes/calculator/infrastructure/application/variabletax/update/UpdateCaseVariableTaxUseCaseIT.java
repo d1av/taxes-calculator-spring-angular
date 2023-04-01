@@ -1,4 +1,4 @@
-package com.taxes.calculator.infrastructure.application.variabletax.create;
+package com.taxes.calculator.infrastructure.application.variabletax.update;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,31 +7,31 @@ import static org.mockito.Mockito.times;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.AssertTrue;
-
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import com.taxes.calculator.Fixture;
 import com.taxes.calculator.application.variabletax.create.CreateVariableTaxCommand;
-import com.taxes.calculator.application.variabletax.create.CreateVariableTaxUseCase;
+import com.taxes.calculator.application.variabletax.update.UpdateVariableTaxCommand;
+import com.taxes.calculator.application.variabletax.update.UpdateVariableTaxUseCase;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.infrastructure.IntegrationTest;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
+import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxJpaEntity;
 import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxRepository;
 
 @IntegrationTest
-public class CreateCaseVariableTaxUseCaseIT {
+public class UpdateCaseVariableTaxUseCaseIT {
 
     @Autowired
-    private CreateVariableTaxUseCase useCase;
+    private UpdateVariableTaxUseCase useCase;
 
     @Autowired
     private VariableTaxRepository repository;
@@ -45,21 +45,23 @@ public class CreateCaseVariableTaxUseCaseIT {
     @Test
     void givenAValidCommand_whenVariableTax_shouldReturnIt() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
+	final User expectedUser = Fixture.Tax.getUser();
 	final String expectedUserId = expectedUser.getId().getValue();
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 
 	// when
 	final var actualOutput = useCase.execute(aCommand);
@@ -83,30 +85,32 @@ public class CreateCaseVariableTaxUseCaseIT {
 	assertNotNull(savedEntity.getCreatedAt());
 	assertNotNull(savedEntity.getUpdatedAt());
 
-	Mockito.verify(gateway).create(any());
+	Mockito.verify(gateway).update(any());
     }
 
     @Test
-    void givenAInvalidNullDentalShopCommand_whenVariableTaxCreate_shouldThrowNotificationException() {
+    void givenAInvalidValidCommandWithNullDentalShop_whenVariableTax_shouldReturnNotification() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 
 	final BigDecimal expectedDentalShop = null;
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
+	final User expectedUser = Fixture.Tax.getUser();
 	final String expectedUserId = expectedUser.getId().getValue();
 
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'dentalShop' should not be null";
+	final int expectedErrorSize = 1;
+	final String expectedException = "'dentalShop' should not be null";
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -114,35 +118,38 @@ public class CreateCaseVariableTaxUseCaseIT {
 		() -> useCase.execute(aCommand));
 
 	// then
-	assertEquals(expectedErrorCount,
+
+	assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
+	assertEquals(expectedException,
 		actualException.getErrors().get(0).message());
 
-	Mockito.verify(gateway,times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
     
     @Test
-    void givenAInvalidNullProsthetistCommand_whenVariableTaxCreate_shouldThrowNotificationException() {
+    void givenAInvalidValidCommandWithNullProsthetist_whenVariableTax_shouldReturnNotification() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 	
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = null;
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
+	final User expectedUser = Fixture.Tax.getUser();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage1 = "'prosthetist' should not be null";
+	final int expectedErrorSize = 1;
+	final String expectedException = "'prosthetist' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 	
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -150,35 +157,38 @@ public class CreateCaseVariableTaxUseCaseIT {
 		() -> useCase.execute(aCommand));
 	
 	// then
-	assertEquals(expectedErrorCount,
-		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage1,
-		actualException.getErrors().get(0).message());
-
 	
-	Mockito.verify(gateway,times(0)).create(any());
+	assertEquals(expectedErrorSize,
+		actualException.getErrors().size());
+	assertEquals(expectedException,
+		actualException.getErrors().get(0).message());
+	
+	Mockito.verify(gateway, times(0)).update(any());
     }
+    
     @Test
-    void givenAInvalidNullTravelCommand_whenVariableTaxCreate_shouldThrowNotificationException() {
+    void givenAInvalidValidCommandWithNullTravel_whenVariableTax_shouldReturnNotification() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 	
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = null;
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
+	final User expectedUser = Fixture.Tax.getUser();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage1 = "'travel' should not be null";
+	final int expectedErrorSize = 1;
+	final String expectedException = "'travel' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 	
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -186,35 +196,38 @@ public class CreateCaseVariableTaxUseCaseIT {
 		() -> useCase.execute(aCommand));
 	
 	// then
-	assertEquals(expectedErrorCount,
+	
+	assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage1,
+	assertEquals(expectedException,
 		actualException.getErrors().get(0).message());
 	
-	Mockito.verify(gateway,times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
+    
     @Test
-    void givenAInvalidNullCreaditCardCommand_whenVariableTaxCreate_shouldThrowNotificationException() {
+    void givenAInvalidValidCommandWithNullCreditCard_whenVariableTax_shouldReturnNotification() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 	
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = null;
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
+	final User expectedUser = Fixture.Tax.getUser();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage1 = "'creditCard' should not be null";
-
+	final int expectedErrorSize = 1;
+	final String expectedException = "'creditCard' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 	
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -222,36 +235,38 @@ public class CreateCaseVariableTaxUseCaseIT {
 		() -> useCase.execute(aCommand));
 	
 	// then
-	assertEquals(expectedErrorCount,
-		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage1,
-		actualException.getErrors().get(0).message());
-
 	
-	Mockito.verify(gateway,times(0)).create(any());
+	assertEquals(expectedErrorSize,
+		actualException.getErrors().size());
+	assertEquals(expectedException,
+		actualException.getErrors().get(0).message());
+	
+	Mockito.verify(gateway, times(0)).update(any());
     }
     
     @Test
-    void givenAInvalidNullWeekendCommand_whenVariableTaxCreate_shouldThrowNotificationException() {
+    void givenAInvalidValidCommandWithNullWeekend_whenVariableTax_shouldReturnNotification() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 	
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = null;
-	final User expectedUser = Fixture.Users.asa();
+	final User expectedUser = Fixture.Tax.getUser();
 	final String expectedUserId = expectedUser.getId().getValue();
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage1 = "'weekend' should not be null";
+	final int expectedErrorSize = 1;
+	final String expectedException = "'weekend' should not be null";
 	
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 	
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 	
 	// when
 	final var actualException = Assertions.assertThrows(
@@ -259,48 +274,48 @@ public class CreateCaseVariableTaxUseCaseIT {
 		() -> useCase.execute(aCommand));
 	
 	// then
-	assertEquals(expectedErrorCount,
+	
+	assertEquals(expectedErrorSize,
 		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage1,
+	assertEquals(expectedException,
 		actualException.getErrors().get(0).message());
 	
-	Mockito.verify(gateway,times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
     
     @Test
-    void givenAInvalidNullUserCommand_whenVariableTaxCreate_shouldThrowNotificationException() {
+    void givenAInvalidValidCommandWithNullUser_whenVariableTax_shouldReturnNotification() {
 	// given
+	final var aTax = Fixture.Tax.variable();
+	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
 	
 	final BigDecimal expectedDentalShop = Fixture.bigDecimal(4);
 	final BigDecimal expectedProsthetist = Fixture.bigDecimal(4);
 	final BigDecimal expectedTravel = Fixture.bigDecimal(4);
 	final BigDecimal expectedCreditCard = Fixture.bigDecimal(4);
 	final BigDecimal expectedWeekend = Fixture.bigDecimal(4);
-	final User expectedUser = Fixture.Users.asa();
 	final String expectedUserId = null;
 	
-	final var expectedErrorCount = 1;
-	final var expectedErrorMessage = "'userId' should not be null";
+	final String expectedException = "The given id must not be null!; nested exception is java.lang.IllegalArgumentException: The given id must not be null!";
 	
-	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
-	
-	final var aCommand = CreateVariableTaxCommand.with(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUserId);
+
+	final var aCommand = UpdateVariableTaxCommand.with(
+		aTax.getId().getValue(), expectedDentalShop,
+		expectedProsthetist, expectedTravel,
+		expectedCreditCard, expectedWeekend, expectedUserId);
 	
 	// when
 	final var actualException = Assertions.assertThrows(
-		NotificationException.class,
+		InvalidDataAccessApiUsageException.class,
 		() -> useCase.execute(aCommand));
 	
 	// then
-	assertEquals(expectedErrorCount,
-		actualException.getErrors().size());
-	assertEquals(expectedErrorMessage,
-		actualException.getErrors().get(0).message());
 	
-	Mockito.verify(gateway,times(0)).create(any());
+	assertEquals(expectedException,
+		actualException.getMessage());
+	
+	Mockito.verify(gateway, times(0)).update(any());
     }
+
 
 }

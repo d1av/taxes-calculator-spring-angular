@@ -71,7 +71,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	Assertions.assertEquals(expectedId.getValue(),
 		actualOutput.id());
 
-	verify(userGateway, times(1)).findById(expectedId);
+	verify(userGateway, times(1)).findById(expectedId.getValue());
 
 	verify(userGateway, times(1))
 		.update(argThat(aUpdatedUser -> Objects
@@ -120,7 +120,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	Assertions.assertEquals(expectedId.getValue(),
 		actualOutput.id());
 
-	verify(userGateway, times(1)).findById(expectedId);
+	verify(userGateway, times(1)).findById(expectedId.getValue());
 
 	verify(userGateway, times(1))
 		.update(argThat(aUpdatedUser -> Objects
@@ -172,7 +172,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
 	Mockito.verify(roleGateway, times(0)).existsByIds(any());
 	Mockito.verify(userGateway, times(0)).update(any());
     }
@@ -216,7 +216,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(2).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
 	Mockito.verify(roleGateway, times(0)).existsByIds(any());
 	Mockito.verify(userGateway, times(0)).update(any());
     }
@@ -257,7 +257,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
 	Mockito.verify(roleGateway, times(0)).existsByIds(any());
 	Mockito.verify(userGateway, times(0)).update(any());
     }
@@ -298,7 +298,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
 	Mockito.verify(roleGateway, times(0)).existsByIds(any());
 	Mockito.verify(userGateway, times(0)).update(any());
     }
@@ -330,7 +330,7 @@ class UpdateUserUseCaseTest extends UseCaseTest {
 	Assertions.assertEquals(expectedId.getValue(),
 		actualOutput.id());
 
-	verify(userGateway, times(1)).findById(expectedId);
+	verify(userGateway, times(1)).findById(expectedId.getValue());
 
 	verify(userGateway, times(1))
 		.update(argThat(aUpdatedUser -> Objects

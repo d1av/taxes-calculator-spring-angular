@@ -49,7 +49,8 @@ public class DefaultUpdateHourValueUseCase
 
 	if (userId != null) {
 	    final var anId = UserID.from(userId);
-	    final var aUser = userGateway.findById(anId);
+	    final var anStringId = anId.getValue();
+	    final var aUser = userGateway.findById(anStringId);
 	    notification.append(validateUser(aUser, anId));
 	    aHourValue.addUser(getValidUser(aUser));
 	} else {

@@ -43,8 +43,8 @@ public class UserMySQLGateway implements UserGateway {
     }
 
     @Override
-    public Optional<User> findById(UserID anId) {
-	return this.userRepository.findById(anId.getValue())
+    public Optional<User> findById(String anId) {
+	return this.userRepository.findById(anId)
 		.map(UserJpaEntity::toAggregate);
     }
 

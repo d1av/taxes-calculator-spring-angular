@@ -34,14 +34,15 @@ public class DefaultUpdateUserUseCase extends UpdateUserUseCase {
 
     @Override
     public UpdateUserOutput execute(UpdateUserCommand anIn) {
-	final var anId = UserID.from(anIn.id());
+	final var anId =anIn.id();
 	final var aName = anIn.name();
 	final var aPassword = anIn.password();
 	final var aActive = anIn.isActive();
 	final var rolesId = anIn.roles();
+	final var anUserID = UserID.from(anId);
 
 	final var actualUser = userGateway.findById(anId)
-		.orElseThrow(notFoundException(anId));
+		.orElseThrow(notFoundException(anUserID));
 
 	final var notification = Notification.create();
 	notification.append(validateRoles(rolesId));

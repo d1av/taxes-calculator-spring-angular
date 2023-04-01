@@ -59,7 +59,7 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
 	return new VariableTax(anId, anDentalShop, aProsthetist,
 		aTravel, aCreditCard, aWeekend, userId, now, now);
     }
-
+    
     public static VariableTax create(final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,
 	    final BigDecimal aCreditCard, final BigDecimal aWeekend,

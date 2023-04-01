@@ -66,7 +66,7 @@ class GetUserByIdUseCaseTest extends UseCaseTest {
 	Assertions.assertEquals(expectedRoles, actualUser.roles());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
     }
 
     @Test
@@ -91,7 +91,7 @@ class GetUserByIdUseCaseTest extends UseCaseTest {
 		actualException.firstError().message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
     }
 
     @Test
@@ -109,7 +109,7 @@ class GetUserByIdUseCaseTest extends UseCaseTest {
 	final var expectedId = aUser.getId();
 
 	doThrow(new IllegalStateException("Gateway error"))
-		.when(userGateway).findById(eq(expectedId));
+		.when(userGateway).findById(eq(expectedId.getValue()));
 	// when
 	final var actualException = Assertions.assertThrows(
 		IllegalStateException.class,
@@ -120,7 +120,7 @@ class GetUserByIdUseCaseTest extends UseCaseTest {
 		actualException.getMessage());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedId));
+		.findById(eq(expectedId.getValue()));
     }
 
 }

@@ -61,11 +61,15 @@ public class Fixture {
 		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
 		    bigDecimal(4), null);
 	}
-
+	static User user= Fixture.Users.asa();
 	public static VariableTax variable() {
 	    return VariableTax.with(bigDecimal(4), bigDecimal(4),
 		    bigDecimal(4), bigDecimal(4), bigDecimal(4),
-		    Fixture.Users.asa().getId());
+		    user.getId());
+	}
+	
+	public static User getUser() {
+	    return user;
 	}
 
 	public static VariableTax variableNullUser() {

@@ -18,7 +18,7 @@ public class DefaultGetUserByIdUseCase extends GetUserByIdUseCase {
     @Override
     public GetUserOutput execute(String anId) {
 	final var aUserId = UserID.from(anId);
-	return this.userGateway.findById(UserID.from(anId))
+	return this.userGateway.findById(anId)
 		.map(GetUserOutput::from)
 		.orElseThrow(() -> NotFoundException.with(User.class,
 			aUserId));

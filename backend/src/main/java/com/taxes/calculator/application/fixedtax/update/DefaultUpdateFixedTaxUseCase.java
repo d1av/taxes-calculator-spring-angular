@@ -75,9 +75,11 @@ public class DefaultUpdateFixedTaxUseCase
     }
 
     private ValidationHandler validateUser(UserID userId) {
+	final String userIdString = userId != null ? userId.getValue()
+		: null;
 	final var notification = Notification.create();
 
-	final var aUser = userGateway.findById(userId);
+	final var aUser = userGateway.findById(userIdString);
 
 	if (aUser.isEmpty()) {
 	    notification.append(

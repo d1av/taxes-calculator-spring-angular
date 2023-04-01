@@ -86,7 +86,28 @@ public class VariableTaxMYSQLGateway implements VariableTaxGateway {
 
     @Override
     public VariableTax update(VariableTax aVariableTax) {
-	return saveIfDoesntExists(aVariableTax);
+	String id = aVariableTax.getId() != null
+		? aVariableTax.getId().getValue()
+		: null;
+	Optional<VariableTaxJpaEntity> variableTax = repository
+		.findById(id);
+	if (variableTax.isPresent()) {
+	    VariableTax entity = variableTax.get().toAggregate();
+	    entity.update(aVariableTax.getDentalShop(),
+		    aVariableTax.getProsthetist(),
+		    aVariableTax.getTravel(),
+		    aVariableTax.getCreditCard(),
+		    aVariableTax.getWeekend());
+	    repository.save(VariableTaxJpaEntity.from(entity));
+	    return entity;
+	} else {
+	    throw DomainException.with(
+		    new com.taxes.calculator.domain.validation.Error(
+			    "Variable tax with id %s not found."
+				    .formatted(aVariableTax.getId()
+					    .getValue())));
+	}
+
     }
 
     @Override

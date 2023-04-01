@@ -323,7 +323,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUserId));
+		.findById(eq(expectedUserId.getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -381,7 +381,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUser.getId().getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -437,7 +437,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 	assertEquals(expectedErrorMessage2,actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUser.getId().getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -495,7 +495,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUser.getId().getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -553,7 +553,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUser.getId().getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -611,7 +611,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUser.getId().getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -668,7 +668,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.getErrors().get(1).message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(expectedUser.getId()));
+		.findById(eq(expectedUser.getId().getValue()));
 	Mockito.verify(fixedTaxGateway, times(1))
 		.findById(eq(expectedId));
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
@@ -726,7 +726,7 @@ class UpdateFixedTaxUseCaseTest extends UseCaseTest {
 		actualException.firstError().message());
 
 	Mockito.verify(userGateway, times(1))
-		.findById(eq(invalidUser));
+		.findById(eq(invalidUser.getValue()));
 	Mockito.verify(fixedTaxGateway, times(1)).findById(any());
 	Mockito.verify(fixedTaxGateway, times(0)).update(any());
     }

@@ -45,8 +45,7 @@ class GetVariableTaxByIdUseCaseTest extends UseCaseTest {
 
 	final var aVariableTax = VariableTax.newVariableTax(
 		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend);
-	aVariableTax.addUser(expectedUser.getId());
+		expectedTravel, expectedCreditCard, expectedWeekend,expectedUser.getId());
 	final var expectedId = aVariableTax.getId().getValue();
 
 	when(variableTaxGateway.findById(any()))
@@ -67,39 +66,7 @@ class GetVariableTaxByIdUseCaseTest extends UseCaseTest {
 		actualOutput.userId());
     }
 
-    @Test
-    void givenAValidCommand_whenCallsCreateVariableTaxWithNullUser_shouldReturnVariableTax() {
-	// given
-	final var expectedDentalShop = BigDecimal.valueOf(1);
-	final var expectedProsthetist = BigDecimal.valueOf(2);
-	final var expectedTravel = BigDecimal.valueOf(3);
-	final var expectedCreditCard = BigDecimal.valueOf(5);
-	final var expectedWeekend = BigDecimal.valueOf(4);
-	final User expectedUser = null;
-
-	final var aVariableTax = VariableTax.newVariableTax(
-		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend);
-
-	final var expectedId = aVariableTax.getId().getValue();
-
-	when(variableTaxGateway.findById(any()))
-		.thenReturn(Optional.of(aVariableTax));
-
-	// when
-	final var actualOutput = useCase.execute(expectedId);
-
-	// then
-
-	assertEquals(expectedId, actualOutput.id());
-	assertEquals(expectedDentalShop, actualOutput.dentalShop());
-	assertEquals(expectedProsthetist, actualOutput.prosthetist());
-	assertEquals(expectedTravel, actualOutput.travel());
-	assertEquals(expectedCreditCard, actualOutput.creditCard());
-	assertEquals(expectedWeekend, actualOutput.weekend());
-	assertEquals(expectedUser, actualOutput.userId());
-    }
-
+   
     @Test
     void givenAValidCommand_whenCallsCreateVariableTaxDoesNotExist_shouldReturnNotFound() {
 	// given
@@ -112,8 +79,7 @@ class GetVariableTaxByIdUseCaseTest extends UseCaseTest {
 
 	final var aVariableTax = VariableTax.newVariableTax(
 		expectedDentalShop, expectedProsthetist,
-		expectedTravel, expectedCreditCard, expectedWeekend);
-	aVariableTax.addUser(expectedUser.getId());
+		expectedTravel, expectedCreditCard, expectedWeekend,expectedUser.getId());
 	final var expectedId = aVariableTax.getId().getValue();
 
 	final var expectedErrorMessage = "VariableTax with ID %s was not found"

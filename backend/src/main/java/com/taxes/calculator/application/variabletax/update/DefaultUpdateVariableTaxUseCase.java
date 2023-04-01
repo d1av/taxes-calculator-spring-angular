@@ -48,14 +48,11 @@ public class DefaultUpdateVariableTaxUseCase
 	notification.validate(() -> aTax.update(dentalShop,
 		prosthetist, travel, creditCard, weekend));
 
-	final var aUser = this.userGateway
-		.findById(UserID.from(userId));
+	final var aUser = this.userGateway.findById(userId);
 
-	if (aUser.isEmpty()) {
+	if (aUser.isEmpty() || userId == null) {
 	    notification.append(new Error(
 		    "User could not be found: %s".formatted(userId)));
-	} else {
-	    aTax.addUser(aUser.get().getId());
 	}
 
 	if (notification.hasError()) {

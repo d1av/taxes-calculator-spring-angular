@@ -12,7 +12,8 @@ public interface UserGateway {
     User create(User aUser);
 
     // read
-    Optional<User> findById(UserID anId);
+    Optional<User> findById(String anId);
+
     
     Optional<User> findByName(String name);
 
@@ -26,4 +27,5 @@ public interface UserGateway {
 
     // utils
     List<UserID> existsByIds(Iterable<UserID> ids);
+
 }
