@@ -52,12 +52,12 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 	final var expectedCreditCard = BigDecimal.valueOf(5);
 	final var expectedWeekend = BigDecimal.valueOf(4);
 	final var expectedUser = Fixture.Users.abella();
-	final var expectedUserId = expectedUser.getId();
+	final var expectedUserId = expectedUser.getId().getValue();
 
 	final var aCommand = CreateVariableTaxCommand.with(
 		expectedDentalShop, expectedProsthetist,
 		expectedTravel, expectedCreditCard, expectedWeekend,
-		expectedUser.getId().getValue());
+		expectedUserId);
 
 	when(variableTaxGateway.create(any()))
 		.thenAnswer(returnsFirstArg());
@@ -84,7 +84,7 @@ class CreateVariableTaxUseCaseTest extends UseCaseTest {
 			&& Objects.equals(expectedWeekend,
 				aTax.getWeekend())
 			&& Objects.equals(expectedUserId,
-				aTax.getUserId())));
+				aTax.getUserId().getValue())));
     }
 
     @Test

@@ -53,11 +53,11 @@ public class VariableTax extends AggregateRoot<VariableTaxID> {
     public static VariableTax newVariableTax(
 	    final BigDecimal anDentalShop,
 	    final BigDecimal aProsthetist, final BigDecimal aTravel,
-	    final BigDecimal aCreditCard, final BigDecimal aWeekend) {
+	    final BigDecimal aCreditCard, final BigDecimal aWeekend, UserID userId) {
 	final var anId = VariableTaxID.unique();
 	final var now = InstantUtils.now();
 	return new VariableTax(anId, anDentalShop, aProsthetist,
-		aTravel, aCreditCard, aWeekend, null, now, now);
+		aTravel, aCreditCard, aWeekend, userId, now, now);
     }
 
     public static VariableTax create(final BigDecimal anDentalShop,
