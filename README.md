@@ -47,7 +47,7 @@ http://localhost:4200
 Para realizar login você pode usar este abaixo:
 ```
 usuário:    usuario
-senha     usuario
+senha:     usuario
 ```
 Ou pode criar um usuário em cadastro
 
