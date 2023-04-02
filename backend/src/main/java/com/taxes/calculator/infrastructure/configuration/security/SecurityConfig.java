@@ -58,6 +58,7 @@ public class SecurityConfig {
 			.antMatchers("/api/hourvalues/**").hasRole("MEMBER")
 			.antMatchers("/api/totaltaxes/**").hasRole("MEMBER")
 			.antMatchers("/api/auth/**").permitAll()
+			.antMatchers("/actuator/**").permitAll()
 			.antMatchers(HttpMethod.OPTIONS, "/api/**")
 			.permitAll())
 		.exceptionHandling(exception -> exception

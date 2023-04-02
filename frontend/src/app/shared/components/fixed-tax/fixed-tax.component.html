@@ -328,7 +328,7 @@
     </div>
     <button
       class="button-5"
-      *ngIf="fixedTaxId == null && fixedTaxForm.valid"
+      *ngIf="fixedTaxId == null"
       [disabled]="!fixedTaxForm.valid"
       (click)="createFixedTax()"
     >
