@@ -39,7 +39,17 @@ Este comando irá construir as imagens dos containers e iniciar os serviços do 
 
 ### Acessando a aplicação
 
-Com o ambiente iniciado, acesse a aplicação no seu navegador em `http://localhost:4200`.
+Com o ambiente iniciado, acesse a aplicação no seu navegador em:
+``` 
+http://localhost:4200
+```
+
+Para realizar login você usar esse abaixo:
+```
+usuário:    usuario
+senha     usuario
+```
+Ou pode criar um usuário em cadastro
 
 ## Tecnologias utilizadas
 - Java 17
