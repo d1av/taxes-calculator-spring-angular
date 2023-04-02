@@ -12,10 +12,11 @@ services:
     volumes:
       - ./db:/var/lib/mysql
   backend:
-    build: ./backend
+    image: davi38/taxes-backend
+    #build: ./backend
     restart: always
     environment:
-      MYSQL_URL: db
+      MYSQL_URL: jdbc:mysql://db:3306/taxes_calculator
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -24,7 +25,8 @@ services:
     depends_on:
       - db
   frontend:
-    build: ./frontend
+    image: davi38/taxes-frontend
+    #build: ./frontend
     restart: always
     ports:
       - "4200:80"
