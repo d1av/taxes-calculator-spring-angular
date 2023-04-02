@@ -44,7 +44,7 @@ Com o ambiente iniciado, acesse a aplicação no seu navegador em:
 http://localhost:4200
 ```
 
-Para realizar login você usar esse abaixo:
+Para realizar login você pode usar este abaixo:
 ```
 usuário:    usuario
 senha     usuario
