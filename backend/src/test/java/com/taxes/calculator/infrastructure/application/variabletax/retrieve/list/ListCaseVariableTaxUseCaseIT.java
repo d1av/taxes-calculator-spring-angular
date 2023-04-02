@@ -56,7 +56,7 @@ public class ListCaseVariableTaxUseCaseIT {
     }
 
     @Test
-    void givenAInvalidCommand_whenDeleteVariableTax_shouldOk() {
+    void givenAInvalidCommand_whenListVariableTax_shouldOk() {
 	// given
 	final var aTax = Fixture.Tax.variable();
 	final var expectedUser = Fixture.Tax.getUser();

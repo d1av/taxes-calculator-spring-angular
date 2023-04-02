@@ -11,7 +11,7 @@ server:
       
 spring:
   datasource:
-    url: jdbc:mysql://${mysql.url:localhost:3306}/${mysql.schema:taxes_calculator}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: ${mysql.url:jdbc:mysql://localhost:3306/taxes_calculator?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: "${mysql.username:root}"
     password: "${mysql.password:root}"
     driver-class-name: com.mysql.cj.jdbc.Driver  #com.mysql.cj.jdbc.Driver
@@ -39,6 +39,12 @@ spring:
   redis:
     host: ${redis.url:localhost}
     port: ${redis.port:6379}
+  flyway:
+    url: ${mysql.url:jdbc:mysql://localhost:3306/taxes_calculator?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    user: "${mysql.username:root}"
+    password: "${mysql.password:root}"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    enabled: true
     
 jwt:
   secret: ${jwt.key:2a10PpT8k8VQjaseDzyUg4HIYe8sR4gBKiQ1SdP1UDDGcwG6zZc4XWGBK}
