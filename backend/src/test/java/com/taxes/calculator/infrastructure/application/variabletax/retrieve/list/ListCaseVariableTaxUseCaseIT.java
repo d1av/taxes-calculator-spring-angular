@@ -1,19 +1,22 @@
 package com.taxes.calculator.infrastructure.application.variabletax.retrieve.list;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 
-import java.util.List;
+import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import com.taxes.calculator.Fixture;
-import com.taxes.calculator.application.variabletax.delete.DeleteVariableTaxUseCase;
 import com.taxes.calculator.application.variabletax.retrieve.list.ListVariableTaxUseCase;
+import com.taxes.calculator.domain.pagination.SearchQuery;
+import com.taxes.calculator.domain.user.User;
+import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.infrastructure.IntegrationTest;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
@@ -22,7 +25,7 @@ import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxJp
 import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxRepository;
 
 @IntegrationTest
-public class ListCaseVariableTaxUseCaseIT {
+class ListCaseVariableTaxUseCaseIT {
 
     @Autowired
     private ListVariableTaxUseCase useCase;
@@ -36,23 +39,69 @@ public class ListCaseVariableTaxUseCaseIT {
     @SpyBean
     private VariableTaxGateway gateway;
 
+    @BeforeEach
+    void mockUp() {
+	User user1 = User.newUser("MiaKhalifa", "MiaKhalifa", true);
+	User user2 = User.newUser("AsaAkira", "AsaAkira", true);
+	User user3 = User.newUser("AbellaDanger", "AbellaDanger",
+		true);
+	User user4 = User.newUser("vinDiesel", "vindiesel", true);
+	Fixture.bigDecimal(1);
+
+	final var variableTaxes = Stream
+		.of(VariableTax.newVariableTax(
+			Fixture.bigDecimal(2), Fixture.bigDecimal(2),
+			Fixture.bigDecimal(2), Fixture.bigDecimal(2),
+			Fixture.bigDecimal(2), user1.getId()),
+			VariableTax.newVariableTax(
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2), user2.getId()),
+			VariableTax.newVariableTax(
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2), user3.getId()),
+			VariableTax.newVariableTax(
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2),
+				Fixture.bigDecimal(2), user4.getId()))
+		.map(VariableTaxJpaEntity::from).toList();
+
+	repository.saveAllAndFlush(variableTaxes);
+    }
+
     @Test
     void givenAValidCommand_whenDeleteVariableTax_shouldReturnIt() {
 	// given
-	final var aTax = List.of(Fixture.Tax.variable(),
-		Fixture.Tax.variable2());
-	final var expectedUser = Fixture.Tax.getUser();
-	repository.saveAll(aTax.stream()
-		.map(VariableTaxJpaEntity::from).toList());
+	final var expectedPage = 8;
+	final var expectedPerPage = 10;
+	final var expectedTerms = "jasiajj 1jijsiajdija";
+	final var expectedSort = "createdAt";
+	final var expectedDirection = "asc";
+	final var expectedItemsCount = 0;
+	final var expectedTotal = 0;
 
+	final var aQuery = new SearchQuery(expectedPage,
+		expectedPerPage, expectedTerms, expectedSort,
+		expectedDirection);
 
+	// when
+	final var actualResult = useCase.execute(aQuery);
 
-//	// when
-//	useCase.execute(idToDeleteString);
-//
-//	// then
-//
-//	Mockito.verify(gateway).deleteById(eq(idToDelete));
+	// then
+	Assertions.assertEquals(expectedItemsCount,
+		actualResult.items().size());
+	Assertions.assertEquals(expectedPage,
+		actualResult.currentPage());
+	Assertions.assertEquals(expectedPerPage,
+		actualResult.perPage());
+	Assertions.assertEquals(expectedTotal, actualResult.total());
     }
 
     @Test
@@ -67,7 +116,7 @@ public class ListCaseVariableTaxUseCaseIT {
 	final String idToDeleteString = "Invalid ID";
 
 	// when
-	//useCase.execute(idToDeleteString);
+	// useCase.execute(idToDeleteString);
 
 	// then
 
