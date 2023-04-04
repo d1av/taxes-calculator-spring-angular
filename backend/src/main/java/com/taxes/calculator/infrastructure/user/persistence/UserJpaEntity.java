@@ -13,7 +13,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.taxes.calculator.domain.validation.Error;
 
+import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.role.RoleID;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.domain.user.UserID;
@@ -65,24 +67,29 @@ public class UserJpaEntity {
     }
 
     public static UserJpaEntity from(final User aUser) {
-	final var anEntity = new UserJpaEntity(
-		aUser.getId().getValue(), aUser.getName(),
-		aUser.getPassword(), aUser.getActive(),
-		aUser.getCreatedAt(), aUser.getUpdatedAt(),
-		aUser.getDeletedAt());
-	aUser.getRoles().forEach(anEntity::addRole);
+	if (aUser != null) {
+	    final var anEntity = new UserJpaEntity(
+		    aUser.getId().getValue(), aUser.getName(),
+		    aUser.getPassword(), aUser.getActive(),
+		    aUser.getCreatedAt(), aUser.getUpdatedAt(),
+		    aUser.getDeletedAt());
+	    aUser.getRoles().forEach(anEntity::addRole);
 
-	return anEntity;
+	    return anEntity;
+	} else {
+	    throw DomainException.with(new Error("User is null."));
+	}
     }
-    
-    public static UserJpaEntity from(final User aUser, String hashedPassword) {
+
+    public static UserJpaEntity from(final User aUser,
+	    String hashedPassword) {
 	final var anEntity = new UserJpaEntity(
 		aUser.getId().getValue(), aUser.getName(),
 		hashedPassword, aUser.getActive(),
 		aUser.getCreatedAt(), aUser.getUpdatedAt(),
 		aUser.getDeletedAt());
 	aUser.getRoles().forEach(anEntity::addRole);
-	
+
 	return anEntity;
     }
 
@@ -107,7 +114,6 @@ public class UserJpaEntity {
 	this.updatedAt = InstantUtils.now();
     }
 
-    
     public List<RoleID> getCategoriesIDs() {
 	return getRoles().stream()
 		.map(x -> RoleID.from(x.getId().getRoleId()))

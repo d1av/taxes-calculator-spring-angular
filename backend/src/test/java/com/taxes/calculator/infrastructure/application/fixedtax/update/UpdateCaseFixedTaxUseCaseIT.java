@@ -1,4 +1,4 @@
-package com.taxes.calculator.infrastructure.application.fixedtax.create;
+package com.taxes.calculator.infrastructure.application.fixedtax.update;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,28 +8,29 @@ import static org.mockito.Mockito.times;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import com.taxes.calculator.Fixture;
-import com.taxes.calculator.application.fixedtax.create.CreateFixedTaxCommand;
-import com.taxes.calculator.application.fixedtax.create.CreateFixedTaxUseCase;
-import com.taxes.calculator.application.variabletax.create.CreateVariableTaxCommand;
+import com.taxes.calculator.application.fixedtax.update.UpdateFixedTaxCommand;
+import com.taxes.calculator.application.fixedtax.update.UpdateFixedTaxUseCase;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
 import com.taxes.calculator.domain.user.User;
 import com.taxes.calculator.infrastructure.IntegrationTest;
+import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxJpaEntity;
 import com.taxes.calculator.infrastructure.fixedtax.persistence.FixedTaxRepository;
 import com.taxes.calculator.infrastructure.user.persistence.UserJpaEntity;
 import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 
 @IntegrationTest
-class CreateCaseFixedTaxUseCaseIT {
+class UpdateCaseFixedTaxUseCaseIT {
 
     @Autowired
-    private CreateFixedTaxUseCase useCase;
+    private UpdateFixedTaxUseCase useCase;
 
     @Autowired
     private FixedTaxRepository repository;
@@ -39,6 +40,15 @@ class CreateCaseFixedTaxUseCaseIT {
 
     @SpyBean
     private FixedTaxGateway gateway;
+
+    private static String ID_SAVED;
+
+    @BeforeEach
+    void mockUp() {
+	final var fixedTax = repository.saveAndFlush(
+		FixedTaxJpaEntity.from(Fixture.Tax.fixed()));
+	ID_SAVED = fixedTax.getId();
+    }
 
     @Test
     void givenAValidCommand_whenFixedTax_shouldReturnIt() {
@@ -60,7 +70,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -96,7 +106,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		.compareTo(savedEntity.getOtherFixedCosts()));
 	assertNotNull(savedEntity.getUpdatedAt());
 
-	Mockito.verify(gateway).create(any());
+	Mockito.verify(gateway).update(any());
     }
 
     @Test
@@ -122,7 +132,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -142,7 +152,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -169,7 +179,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -189,7 +199,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -216,7 +226,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -236,7 +246,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -263,7 +273,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -283,7 +293,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -310,7 +320,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -330,7 +340,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -357,7 +367,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -377,7 +387,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -404,7 +414,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -424,7 +434,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -451,7 +461,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -471,7 +481,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -497,7 +507,7 @@ class CreateCaseFixedTaxUseCaseIT {
 
 	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -517,7 +527,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().get(0).message());
 	assertEquals(expectedErrorMessage2,
 		actualException.getErrors().get(1).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
     @Test
@@ -542,7 +552,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		.formatted(expectedUserId);
 	final var expectedErrorSize = 1;
 
-	final var aCommand = CreateFixedTaxCommand.with(
+	final var aCommand = UpdateFixedTaxCommand.with(ID_SAVED,
 		expectedRegionalCouncil, expectedTaxOverWork,
 		expectedIncomeTax, expectedAccountant,
 		expectedDentalShop, expectedTransport, expectedFood,
@@ -560,7 +570,7 @@ class CreateCaseFixedTaxUseCaseIT {
 		actualException.getErrors().size());
 	assertEquals(expectedErrorMessage1,
 		actualException.getErrors().get(0).message());
-	Mockito.verify(gateway, times(0)).create(any());
+	Mockito.verify(gateway, times(0)).update(any());
     }
 
 }
