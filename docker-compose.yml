@@ -14,7 +14,7 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
-      retries: 5
+      retries: 15
   backend:
     image: davi38/taxes-backend
     #build: ./backend
@@ -33,7 +33,7 @@ services:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 20s
       timeout: 5s
-      retries: 5
+      retries: 15
   frontend:
     image: davi38/taxes-frontend
     #build: ./frontend

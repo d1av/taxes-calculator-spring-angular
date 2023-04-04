@@ -28,7 +28,7 @@ import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 import com.taxes.calculator.infrastructure.variabletax.persistence.VariableTaxRepository;
 
 @IntegrationTest
-public class CreateCaseVariableTaxUseCaseIT {
+class CreateCaseVariableTaxUseCaseIT {
 
     @Autowired
     private CreateVariableTaxUseCase useCase;

@@ -1,8 +1,9 @@
 package com.taxes.calculator.infrastructure.application.variabletax.retrieve.list;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.eq;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -48,6 +49,9 @@ class ListCaseVariableTaxUseCaseIT {
 	User user4 = User.newUser("vinDiesel", "vindiesel", true);
 	Fixture.bigDecimal(1);
 
+	final var users = Stream.of(user1, user2, user3, user4)
+		.map(UserJpaEntity::from).toList();
+
 	final var variableTaxes = Stream
 		.of(VariableTax.newVariableTax(
 			Fixture.bigDecimal(2), Fixture.bigDecimal(2),
@@ -74,14 +78,43 @@ class ListCaseVariableTaxUseCaseIT {
 		.map(VariableTaxJpaEntity::from).toList();
 
 	repository.saveAllAndFlush(variableTaxes);
+	userRepository.saveAllAndFlush(users);
     }
 
     @Test
     void givenAValidCommand_whenDeleteVariableTax_shouldReturnIt() {
 	// given
-	final var expectedPage = 8;
-	final var expectedPerPage = 10;
-	final var expectedTerms = "jasiajj 1jijsiajdija";
+	final var expectedPage = 0;
+	final var expectedPerPage = 4;
+	final var expectedTerms = "";
+	final var expectedSort = "createdAt";
+	final var expectedDirection = "asc";
+	final var expectedItemsCount = 4;
+	final var expectedTotal = 4;
+
+	final var aQuery = new SearchQuery(expectedPage,
+		expectedPerPage, expectedTerms, expectedSort,
+		expectedDirection);
+
+	// when
+	final var actualResult = useCase.execute(aQuery);
+
+	// then
+	Assertions.assertEquals(expectedItemsCount,
+		actualResult.items().size());
+	Assertions.assertEquals(expectedPage,
+		actualResult.currentPage());
+	Assertions.assertEquals(expectedPerPage,
+		actualResult.perPage());
+	Assertions.assertEquals(expectedTotal, actualResult.total());
+    }
+
+    @Test
+    void givenAValidCommandWithNoResultTerms_whenDeleteVariableTax_shouldReturnEmpty() {
+	// given
+	final var expectedPage = 0;
+	final var expectedPerPage = 4;
+	final var expectedTerms = "dasdasd  vbasdada";
 	final var expectedSort = "createdAt";
 	final var expectedDirection = "asc";
 	final var expectedItemsCount = 0;
@@ -105,22 +138,32 @@ class ListCaseVariableTaxUseCaseIT {
     }
 
     @Test
-    void givenAInvalidCommand_whenListVariableTax_shouldOk() {
+    void givenAValidCommand_whenDeleteVariableTax_shouldReturnException() {
 	// given
-	final var aTax = Fixture.Tax.variable();
-	final var expectedUser = Fixture.Tax.getUser();
-	repository.saveAndFlush(VariableTaxJpaEntity.from(aTax));
+	final var expectedPage = 0;
+	final var expectedPerPage = 4;
+	final var expectedTerms = "";
+	final var expectedSort = "createdAt";
+	final var expectedDirection = "asc";
 
-	userRepository.saveAndFlush(UserJpaEntity.from(expectedUser));
+	final var actualMessage = "Gateway error";
 
-	final String idToDeleteString = "Invalid ID";
+	final var aQuery = new SearchQuery(expectedPage,
+		expectedPerPage, expectedTerms, expectedSort,
+		expectedDirection);
 
+	Mockito.doThrow(new IllegalStateException("Gateway error"))
+		.when(gateway).findAll(any());
 	// when
-	// useCase.execute(idToDeleteString);
+	final var actualException = Assertions.assertThrows(
+		IllegalStateException.class,
+		() -> useCase.execute(aQuery));
 
 	// then
+	Assertions.assertEquals(actualMessage,
+		actualException.getMessage());
 
-	Mockito.verify(gateway, times(1)).deleteById(any());
+	Mockito.verify(gateway).findAll(eq(aQuery));
     }
 
 }
