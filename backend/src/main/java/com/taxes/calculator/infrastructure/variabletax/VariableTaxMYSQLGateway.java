@@ -55,9 +55,11 @@ public class VariableTaxMYSQLGateway implements VariableTaxGateway {
 	String idValue = anId != null ? anId.getValue() : " ";
 	return Optional.of(this.repository.findById(idValue)
 		.map(VariableTaxJpaEntity::toAggregate)
-		.orElseThrow(() -> NotFoundException.with(
-			new com.taxes.calculator.domain.validation.Error(
-				"Not Found"))));
+		.orElseThrow(() -> new DomainException(
+			"Failed to update Variable Tax",
+			List.of(new com.taxes.calculator.domain.validation.Error(
+				"VariableTax with ID %s was not found"
+					.formatted(idValue))))));
     }
 
     @Override

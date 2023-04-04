@@ -53,20 +53,21 @@ public class AuthMySQLGateway {
     }
 
     public AuthOutput login(AuthRequest authRequest) {
+	String errorMessage = "Error logging the user.";
 	if (userRepository.findByName(authRequest.name())
 		.isPresent()) {
 	    Optional<UserJpaEntity> user = userRepository
 		    .findByName(authRequest.name());
 	    if (user.isPresent() && !authRequest.name()
 		    .equals(user.get().getName())) {
-		throw new DomainException("Error logging the user.",
+		throw new DomainException(errorMessage,
 			List.of(new com.taxes.calculator.domain.validation.Error(
 				"Please check the username or password.")));
 	    }
 	    if (user.isPresent()
 		    && !passwordEncoder.matches(authRequest.password(),
 			    user.get().getPassword())) {
-		throw new DomainException("Error logging the user.",
+		throw new DomainException(errorMessage,
 			List.of(new com.taxes.calculator.domain.validation.Error(
 				"Please check the username or password.")));
 	    }
@@ -94,7 +95,7 @@ public class AuthMySQLGateway {
 
 	    return AuthOutput.with(token, roles, null);
 	} else {
-	    throw new DomainException("Error logging the user.", List
+	    throw new DomainException(errorMessage, List
 		    .of(new com.taxes.calculator.domain.validation.Error(
 			    "Wrong user or password")));
 	}

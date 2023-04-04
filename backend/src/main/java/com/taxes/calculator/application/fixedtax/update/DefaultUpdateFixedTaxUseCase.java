@@ -1,8 +1,10 @@
 package com.taxes.calculator.application.fixedtax.update;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.taxes.calculator.application.utils.EntityStatus;
+import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
 import com.taxes.calculator.domain.fixedtax.FixedTaxID;
@@ -43,8 +45,12 @@ public class DefaultUpdateFixedTaxUseCase
 	final var user = aTax.user();
 
 	final var aFixedTax = this.fixedTaxGateway
-		.findById(fixedTaxId).orElseThrow(EntityStatus
-			.notFound(fixedTaxId, VariableTax.class));
+		.findById(fixedTaxId)
+		.orElseThrow(() -> new DomainException(
+			"Failed to update Fixed Tax",
+			List.of(new com.taxes.calculator.domain.validation.Error(
+				"Fixed with ID %s was not found"
+					.formatted(aTax.id())))));
 
 	final var notification = Notification.create();
 

@@ -24,6 +24,7 @@ import com.taxes.calculator.domain.hourvalue.HourValueGateway;
 import com.taxes.calculator.domain.user.UserGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.infrastructure.totaltax.persistence.TotalTaxRepository;
+import com.taxes.calculator.infrastructure.user.persistence.UserRepository;
 
 @Configuration
 public class HourValueUseCaseConfig {
@@ -33,8 +34,9 @@ public class HourValueUseCaseConfig {
     private final HourValueGateway hourValueGateway;
     private final UserGateway userGateway;
     private final TotalTaxRepository totalTaxRepository;
+    private final UserRepository userRepository;
 
-    public HourValueUseCaseConfig(
+    public HourValueUseCaseConfig(final UserRepository userRepository,
 	    final FixedTaxGateway fixedTaxGateway,
 	    final HourValueGateway hourValueGateway,
 	    final UserGateway userGateway,
@@ -49,37 +51,35 @@ public class HourValueUseCaseConfig {
 	this.userGateway = Objects.requireNonNull(userGateway);
 	this.totalTaxRepository = Objects
 		.requireNonNull(totalTaxRepository);
+	this.userRepository = Objects.requireNonNull(userRepository);
     }
 
     @Bean
     CalculateHourValueUseCase calculateHourValueUseCase() {
-	return new DefaultCalculateHourValueUseCase(
-		hourValueGateway, fixedTaxGateway,
-		variableTaxGateway);
+	return new DefaultCalculateHourValueUseCase(hourValueGateway,
+		fixedTaxGateway, variableTaxGateway);
     }
 
     @Bean
     CreateHourValueUseCase createHourValueUseCase() {
-	return new DefaultCreateHourValueUseCase(
-		hourValueGateway, userGateway);
+	return new DefaultCreateHourValueUseCase(hourValueGateway,
+		userGateway);
     }
 
     @Bean
     UpdateHourValueUseCase updateHourValueUseCase() {
-	return new DefaultUpdateHourValueUseCase(
-		hourValueGateway, userGateway);
+	return new DefaultUpdateHourValueUseCase(hourValueGateway,
+		userGateway);
     }
 
     @Bean
     GetHourValueByIdUseCase getHourValueByIdUseCase() {
-	return new DefaultGetHourValueByIdUseCase(
-		hourValueGateway);
+	return new DefaultGetHourValueByIdUseCase(hourValueGateway);
     }
 
     @Bean
     DeleteHourValueUseCase deleteHourValueUseCase() {
-	return new DefaultDeleteHourValueUseCase(
-		hourValueGateway);
+	return new DefaultDeleteHourValueUseCase(hourValueGateway);
     }
 
     @Bean
@@ -89,7 +89,8 @@ public class HourValueUseCaseConfig {
 
     @Bean
     TotalTaxUseCase totalTaxUseCase() {
-	return new DefaultTotalTaxUseCase(totalTaxRepository);
+	return new DefaultTotalTaxUseCase(totalTaxRepository,
+		userRepository);
     }
 
 }

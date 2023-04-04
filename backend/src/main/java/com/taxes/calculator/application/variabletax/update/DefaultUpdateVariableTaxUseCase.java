@@ -1,15 +1,14 @@
 package com.taxes.calculator.application.variabletax.update;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
-import com.taxes.calculator.application.utils.EntityStatus;
+import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.user.UserGateway;
-import com.taxes.calculator.domain.user.UserID;
 import com.taxes.calculator.domain.validation.Error;
 import com.taxes.calculator.domain.validation.handler.Notification;
-import com.taxes.calculator.domain.variabletax.VariableTax;
 import com.taxes.calculator.domain.variabletax.VariableTaxGateway;
 import com.taxes.calculator.domain.variabletax.VariableTaxID;
 
@@ -41,9 +40,12 @@ public class DefaultUpdateVariableTaxUseCase
 
 	final var notification = Notification.create();
 
-	final var aTax = this.variableTaxGateway.findById(id)
-		.orElseThrow(
-			EntityStatus.notFound(id, VariableTax.class));
+	final var aTax = this.variableTaxGateway.findById(id).orElseThrow(()->new DomainException(
+		"Failed to update Variable Tax",
+		List.of(new com.taxes.calculator.domain.validation.Error(
+			"VariableTax with ID %s was not found"
+				.formatted(anIn.id())))));
+		
 
 	notification.validate(() -> aTax.update(dentalShop,
 		prosthetist, travel, creditCard, weekend));
