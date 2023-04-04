@@ -35,9 +35,11 @@ public class AuthController implements AuthAPI {
     public ResponseEntity<RegisterResponse> register(
 	    RegisterRequest request) {
 
-	authService.checkIfUserExists(request.name());
+	RegisterRequest initialRequest= RegisterRequest.with(request.name(), request.password());
 
-	final RegisterOutput output = authService.register(request);
+	authService.checkIfUserExists(initialRequest.name());
+
+	final RegisterOutput output = authService.register(initialRequest);
 
 	final URI uri = URI.create("/api/users/" + output.id());
 
