@@ -1,5 +1,6 @@
 package com.taxes.calculator.infrastructure.fixedtax;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.taxes.calculator.domain.exceptions.DomainException;
 import com.taxes.calculator.domain.exceptions.NotificationException;
 import com.taxes.calculator.domain.fixedtax.FixedTax;
 import com.taxes.calculator.domain.fixedtax.FixedTaxGateway;
@@ -56,9 +58,8 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
     @Override
     public Pagination<FixedTax> findAll(SearchQuery aQuery) {
 	final var page = PageRequest.of(aQuery.page(),
-		aQuery.perPage(), Sort.by(
-			Sort.Direction
-				.fromString(aQuery.direction()),
+		aQuery.perPage(),
+		Sort.by(Sort.Direction.fromString(aQuery.direction()),
 			aQuery.sort()));
 
 	// Dynamic Search
@@ -74,15 +75,14 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 		page);
 
 	return new Pagination<>(pageResult.getNumber(),
-		pageResult.getSize(),
-		pageResult.getTotalElements(),
+		pageResult.getSize(), pageResult.getTotalElements(),
 		pageResult.map(FixedTaxJpaEntity::toAggregate)
 			.toList());
     }
 
     @Override
     public FixedTax update(FixedTax aFixedTax) {
-	return saveIfDoesntExists(aFixedTax);
+	return updateEntity(aFixedTax);
     }
 
     @Override
@@ -97,35 +97,53 @@ public class FixedTaxMySQLGateway implements FixedTaxGateway {
 
     @Transactional
     private FixedTax saveIfDoesntExists(FixedTax aFixedTax) {
-	String userId = aFixedTax.getUser().getValue();
-	if (this.fixedTaxRepository.findByUserId(userId)
-		.isEmpty()) {
+	String userId = aFixedTax != null
+		? aFixedTax.getUser().getValue()
+		: null;
+	if (this.fixedTaxRepository.findByUserId(userId).isEmpty()) {
 	    this.fixedTaxRepository
 		    .save(FixedTaxJpaEntity.from(aFixedTax));
 	    totalTaxPersistence.checkIfExistsToCreateOrUpdate(
-		    aFixedTax.getId().getValue(), null, null,
-		    userId);
+		    aFixedTax.getId().getValue(), null, null, userId);
 	    return aFixedTax;
 	} else {
-	    return updateEntity(aFixedTax);
+	    FixedTaxJpaEntity fixedTax = this.fixedTaxRepository
+		    .findByUserId(userId).get(0);
+	    throw new DomainException("Error Creating Fixed Tax",
+		    List.of(new Error(
+			    "the user already has an fixed tax with id: %s "
+				    .formatted(fixedTax.getId()))));
 	}
     }
 
     @Transactional
     private FixedTax updateEntity(FixedTax aFixedTax) {
-	FixedTax existingEntity = this.fixedTaxRepository
-		.findByUserId(aFixedTax.getUser().getValue()).get(0).toAggregate();
-	existingEntity.update(aFixedTax.getRegionalCouncil(),
-		aFixedTax.getTaxOverWork(),
-		aFixedTax.getIncomeTax(),
-		aFixedTax.getAccountant(),
-		aFixedTax.getDentalShop(),
-		aFixedTax.getTransport(), aFixedTax.getFood(),
-		aFixedTax.getEducation(),
-		aFixedTax.getOtherFixedCosts());
-	this.fixedTaxRepository
-		.save(FixedTaxJpaEntity.from(existingEntity));
-	return existingEntity;
+	if (aFixedTax != null && !fixedTaxRepository
+		.findByUserId(aFixedTax.getUser().getValue())
+		.isEmpty()) {
+	    FixedTax existingEntity = this.fixedTaxRepository
+		    .findByUserId(aFixedTax.getUser().getValue())
+		    .get(0).toAggregate();
+	    existingEntity.update(aFixedTax.getRegionalCouncil(),
+		    aFixedTax.getTaxOverWork(),
+		    aFixedTax.getIncomeTax(),
+		    aFixedTax.getAccountant(),
+		    aFixedTax.getDentalShop(),
+		    aFixedTax.getTransport(), aFixedTax.getFood(),
+		    aFixedTax.getEducation(),
+		    aFixedTax.getOtherFixedCosts());
+	    this.fixedTaxRepository
+		    .save(FixedTaxJpaEntity.from(existingEntity));
+	    return existingEntity;
+	} else {
+	    throw new DomainException("Error Creating Fixed Tax",
+		    List.of(new Error(
+			    "Couldn't find fixed tax with id: %s "
+				    .formatted(aFixedTax != null
+					    ? aFixedTax.getId()
+						    .getValue()
+					    : "invalid-id"))));
+	}
     }
 
 }
