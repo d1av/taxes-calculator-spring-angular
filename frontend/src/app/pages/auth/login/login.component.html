@@ -70,6 +70,7 @@
                   Não tem um login? Cadastrar
                 </button>
                 <button
+                  [disabled]="!loginForm.valid || !loginForm.touched"
                   style="margin-left: 100px"
                   type="submit"
                   class="btn btn-danger btn-block mb-4"

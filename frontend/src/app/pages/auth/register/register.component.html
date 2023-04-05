@@ -85,6 +85,7 @@
                   Já possui um login? Logar
                 </button>
                 <button
+                  [disabled]="!registerForm.valid || !registerForm.touched"
                   style="margin-left: 95px"
                   type="submit"
                   class="btn btn-danger btn-block mb-4"
