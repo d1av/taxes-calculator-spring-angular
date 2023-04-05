@@ -1,37 +1,98 @@
-<app-navbar [isLogged]="false"></app-navbar>
-<main class="container-main">
-  <section class="container-fixed-tax">
-    <h1>Cadastrar</h1>
-    <br />
-    <form [formGroup]="registerForm" (ngSubmit)="submit()">
-      <div class="mb-3">
-        <label for="name" class="form-label">Nome</label>
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="regionalCouncil"
-            formControlName="name"
-            placeholder="Digite o Nome"
-          />
-        </div>
+<!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1
+          class="my-5 display-5 fw-bold ls-tight"
+          style="color: hsl(218, 81%, 95%)"
+        >
+          Calcule <br />
+          <span style="color: hsl(218, 81%, 75%)">seu Valor/Hora</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+          Muitas vezes não sabemos quando cobrar e acabamos perdendo dinheiro.
+          Essa calculadora vai te ajudar muito a resolver esse problema e vai
+          manter os dados salvos.
+        </p>
       </div>
-      <div class="mb-3">
 
-        <label for="password" class="form-label">Senha</label>
-        <div class="input-group mb-3">
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            formControlName="password"
-            placeholder="Digite a senha"
-          />
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div
+          id="radius-shape-1"
+          class="position-absolute rounded-circle shadow-5-strong"
+        ></div>
+        <div
+          id="radius-shape-2"
+          class="position-absolute shadow-5-strong"
+        ></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <h1>Cadastrar</h1>
+            <form [formGroup]="registerForm" (ngSubmit)="submit()">
+              <!-- Email input -->
+              <div
+                *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                class="alert alert-danger"
+              >
+                <div *ngIf="name?.hasError('required')">Preencha o nome.</div>
+              </div>
+              <div class="form-outline mb-4">
+                <input
+                  formControlName="name"
+                  type="text"
+                  id="name"
+                  [mask]="getMaskAllLetters(200)"
+                  class="form-control"
+                />
+                <label class="form-label" for="name">Nome</label>
+              </div>
+
+              <!-- Password input -->
+
+              <div
+                *ngIf="
+                  password?.invalid && (password?.dirty || password?.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="password?.hasError('required')">
+                  Preencha a senha.
+                </div>
+              </div>
+              <div class="form-outline mb-4">
+                <input
+                  type="password"
+                  id="form3Example4"
+                  class="form-control"
+                  [mask]="getMaskAllLetters(30)"
+                  formControlName="password"
+                />
+                <label class="form-label" for="form3Example4">Senha</label>
+              </div>
+
+              <!-- Checkbox -->
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">
+                Enviar
+              </button>
+
+              <button
+                style="margin-left: 30px"
+                [routerLink]="['/auth/login']"
+                type="submit"
+                class="btn btn-danger btn-block mb-4"
+              >
+                Login
+              </button>
+
+              <!-- Register buttons -->
+            </form>
+          </div>
         </div>
       </div>
-      <button class="button-24" type="submit">Cadastrar</button>
-      <p class="button-3" [routerLink]="['/auth/login']" >Ja é cadastrado? Logue aqui</p>
-    </form>
-  </section>
-</main>
-<app-footer [isLogged]="false"></app-footer>
+    </div>
+  </div>
+</section>
+<!-- Section: Design Block -->

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthApiService } from 'src/app/shared/authentication/auth-api.service';
 import RegisterRequest from 'src/app/shared/authentication/models/register-request.interface';
@@ -7,24 +7,40 @@ import RegisterRequest from 'src/app/shared/authentication/models/register-reque
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: [ './register.component.scss' ]
+  styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
-  public registerForm: FormGroup;
+export class RegisterComponent implements OnInit {
+  public registerForm: FormGroup = new FormGroup({});
 
   constructor (
     private fb: FormBuilder,
     private _authApiService: AuthApiService,
     private toastr: ToastrService
   ) {
-    this.registerForm = this.fb.group({
-      name: [ '', Validators.required ],
-      password: [ '', [ Validators.required, Validators.minLength(4) ] ]
+    this.initializeForm();
+  }
+
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
+    this.registerForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
-  public getReferences(nameField: string): AbstractControl {
-    return this.registerForm.controls[ nameField ];
+  // public getReferences(nameField: string): AbstractControl {
+  //   return this.registerForm.controls[ nameField ];
+  // }
+
+  public getMaskAllLetters(times: number): string {
+    let stringOfA = '';
+    for (let i = 0; i < times; i++) {
+      stringOfA = stringOfA + 'A';
+    }
+    return stringOfA;
   }
 
   public async submit(): Promise<void> {
@@ -43,9 +59,22 @@ export class RegisterComponent {
     try {
       await this._authApiService.register(bodyData);
     } catch (error: any) {
-      const errorMessage = error?.error?.error || 'Error ao realizar Cadastro';
+      console.log();
+      let errorMessage = error.error?.errors[0]?.message || 'Erro ao realizar Cadastro';
+      if ("Please select another username." === error.error?.errors[0]?.message) {
+        errorMessage = "Selecione outro nome de usuário.";
+      }
+      if ("'name' must be between 6 and 200 characters" === error.error?.errors[0]?.message) {
+        errorMessage = "O nome deve ter entre 6 e 200 caracteres.";
+      }
+      if ("'password' must be between 6 and 255 characters"=== error.error?.errors[0]?.message) {
+        errorMessage = "A senha deve ter entre 6 e 255 caracteres.";
+      }
       this.toastr.error(errorMessage);
     }
 
   }
+
+  get name() { return this.registerForm.get('name'); }
+  get password() { return this.registerForm.get('password'); }
 }

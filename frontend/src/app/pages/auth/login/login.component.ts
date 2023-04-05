@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthApiService } from 'src/app/shared/authentication/auth-api.service';
 import AuthRequest from 'src/app/shared/authentication/models/auth-request.types';
@@ -9,20 +9,28 @@ import AuthRequest from 'src/app/shared/authentication/models/auth-request.types
   templateUrl: './login.component.html',
   styleUrls: [ './login.component.scss' ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  public loginForm: FormGroup;
+  public loginForm: FormGroup = new FormGroup({});
 
   constructor (
     private toastrService: ToastrService,
-    private fb: FormBuilder,
     private _authApiService: AuthApiService,
   ) {
-    this.loginForm = this.fb.group({
-      name: [ '', Validators.required ],
-      password: [ '', [ Validators.required, Validators.minLength(4) ] ]
+    this.initializeForm();
+  }
+
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  public initializeForm(): void {
+    this.loginForm = new FormGroup({
+      name: new FormControl('', [ Validators.required ]),
+      password: new FormControl('', [ Validators.required ])
     });
   }
+
 
   public getReferences(nameField: string): AbstractControl {
     return this.loginForm.controls[ nameField ];
@@ -47,4 +55,7 @@ export class LoginComponent {
     }
 
   }
+
+  get name() { return this.loginForm.get('name'); }
+  get password() { return this.loginForm.get('password'); }
 }
