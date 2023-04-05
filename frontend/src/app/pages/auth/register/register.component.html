@@ -39,14 +39,15 @@
                 <div *ngIf="name?.hasError('required')">Preencha o nome.</div>
               </div>
               <div class="form-outline mb-4">
+                <label class="form-label" for="name">Nome</label>
                 <input
                   formControlName="name"
                   type="text"
                   id="name"
+                  placeholder="Digite a sua senha aqui"
                   [mask]="getMaskAllLetters(200)"
                   class="form-control"
                 />
-                <label class="form-label" for="name">Nome</label>
               </div>
 
               <!-- Password input -->
@@ -62,29 +63,29 @@
                 </div>
               </div>
               <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example4">Senha</label>
                 <input
                   type="password"
                   id="form3Example4"
                   class="form-control"
+                  placeholder="Digite a sua senha aqui"
                   [mask]="getMaskAllLetters(30)"
                   formControlName="password"
                 />
-                <label class="form-label" for="form3Example4">Senha</label>
               </div>
 
               <!-- Checkbox -->
               <!-- Submit button -->
               <button type="submit" class="btn btn-primary btn-block mb-4">
-                Enviar
+                Cadastrar
               </button>
-
               <button
-                style="margin-left: 30px"
+                style="margin-left: 10px"
                 [routerLink]="['/auth/login']"
                 type="submit"
                 class="btn btn-danger btn-block mb-4"
               >
-                Login
+                Logar
               </button>
 
               <!-- Register buttons -->
