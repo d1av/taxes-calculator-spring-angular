@@ -76,22 +76,22 @@
 
               <!-- Checkbox -->
               <!-- Submit button -->
-
-              <button
-                [routerLink]="['/auth/login']"
-                type="submit"
-                class="btn btn-danger btn-block mb-4"
-              >
-                Logar
-              </button>
-              <button
-                style="margin-left: 10px"
-                type="submit"
-                class="btn btn-primary btn-block mb-4"
-              >
-                Cadastrar
-              </button>
-
+              <div class="container-button">
+                <button
+                  [routerLink]="['/auth/login']"
+                  type="submit"
+                  class="btn btn-primary btn-block mb-4"
+                >
+                  Já possui um login? Logar
+                </button>
+                <button
+                  style="margin-left: 95px"
+                  type="submit"
+                  class="btn btn-danger btn-block mb-4"
+                >
+                  Cadastrar
+                </button>
+              </div>
               <!-- Register buttons -->
             </form>
           </div>

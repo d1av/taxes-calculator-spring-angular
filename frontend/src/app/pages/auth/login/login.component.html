@@ -1,80 +1,102 @@
-<main class="container-mains">
-  <section class="vh-100" style="background-color: #508bfc">
-    <div class="container py-1 h-90">
-      <div class="row d-flex justify-content-center align-items-center h-90">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card shadow-2-strong" style="border-radius: 1rem">
-            <div class="card-body p-4 text-center">
-              <h3 class="mb-5">Autenticação</h3>
-              <form [formGroup]="loginForm" (ngSubmit)="submit()">
-                <div
-                  *ngIf="name?.invalid && (name?.dirty || name?.touched)"
-                  class="alert alert-danger"
-                >
-                  <div *ngIf="name?.hasError('required')">Preencha o nome.</div>
+<!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div
+          id="radius-shape-1"
+          class="position-absolute rounded-circle shadow-5-strong"
+        ></div>
+        <div
+          id="radius-shape-2"
+          class="position-absolute shadow-5-strong"
+        ></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <h1>Login</h1>
+            <form [formGroup]="loginForm" (ngSubmit)="submit()">
+              <!-- Email input -->
+              <div
+                *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                class="alert alert-danger"
+              >
+                <div *ngIf="name?.hasError('required')">Preencha o nome.</div>
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="name">Nome</label>
+                <input
+                  formControlName="name"
+                  type="text"
+                  id="name"
+                  placeholder="Digite a sua senha aqui"
+                  [mask]="getMaskAllLetters(200)"
+                  class="form-control"
+                />
+              </div>
+
+              <!-- Password input -->
+
+              <div
+                *ngIf="
+                  password?.invalid && (password?.dirty || password?.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="password?.hasError('required')">
+                  Preencha a senha.
                 </div>
-                <div class="form-outline">
-                  <label class="form-label" for="typeEmailX-2">Nome</label>
-                  <input
-                    type="email"
-                    id="name"
-                    class="form-control form-control-lg"
-                    formControlName="name"
-                  />
-                </div>
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form3Example4">Senha</label>
+                <input
+                  type="password"
+                  id="form3Example4"
+                  class="form-control"
+                  placeholder="Digite a sua senha aqui"
+                  [mask]="getMaskAllLetters(30)"
+                  formControlName="password"
+                />
+              </div>
 
-                <div
-                  *ngIf="
-                    password?.invalid && (password?.dirty || password?.touched)
-                  "
-                  class="alert alert-danger"
-                >
-                  <div *ngIf="password?.hasError('required')">
-                    Preencha a senha.
-                  </div>
-                </div>
-
-                <div class="form-outline">
-                  <label class="form-label" for="typePasswordX-2">Senha</label>
-                  <input
-                    type="password"
-                    class="form-control form-control-lg"
-                    formControlName="password"
-                    id="password"
-                  />
-                </div>
-
-                <!-- Checkbox -->
-                <div class="form-check d-flex justify-content-start mt-1">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="form1Example3"
-                  />
-                  <label class="form-check-label" for="form1Example3">
-                    Lembrar Senha
-                  </label>
-                </div>
-
-
-
+              <!-- Checkbox -->
+              <!-- Submit button -->
+              <div class="container-button">
                 <button
-                  class="btn btn-lg btn-block btn-primary"
-                  style="background-color: #dd4b39"
-                  type="submit"
                   [routerLink]="['/auth/register']"
+                  type="submit"
+                  class="btn btn-primary btn-block mb-4"
                 >
-                  <i class="fab fa-google me-2"></i> Cadastrar
+                  Não tem um login? Cadastrar
                 </button>
-                <button class="btn btn-primary btn-lg btn-block m-lg-1" type="submit">
-                  Login
+                <button
+                  style="margin-left: 100px"
+                  type="submit"
+                  class="btn btn-danger btn-block mb-4"
+                >
+                  Logar
                 </button>
-              </form>
-            </div>
+              </div>
+              <!-- Register buttons -->
+            </form>
           </div>
         </div>
       </div>
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1
+          class="my-5 display-5 fw-bold ls-tight"
+          style="color: hsl(218, 81%, 95%)"
+        >
+          Calcule <br />
+          <span style="color: hsl(218, 81%, 75%)">seu Valor/Hora</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+          Muitas vezes não sabemos quando cobrar e acabamos perdendo dinheiro.
+          Essa calculadora vai te ajudar muito a resolver esse problema e vai
+          manter os dados salvos.
+        </p>
+      </div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
+<!-- Section: Design Block -->

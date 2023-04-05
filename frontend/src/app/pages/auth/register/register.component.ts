@@ -59,7 +59,6 @@ export class RegisterComponent implements OnInit {
     try {
       await this._authApiService.register(bodyData);
     } catch (error: any) {
-      console.log();
       let errorMessage = error.error?.errors[0]?.message || 'Erro ao realizar Cadastro';
       if ("Please select another username." === error.error?.errors[0]?.message) {
         errorMessage = "Selecione outro nome de usuário.";

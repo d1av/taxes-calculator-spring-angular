@@ -50,10 +50,25 @@ export class LoginComponent implements OnInit {
     try {
       await this._authApiService.login(bodyData);
     } catch (error: any) {
-      const errorMessage = error?.error?.error || 'Error ao realizar Login';
+      let errorMessage = error.error?.errors[0]?.message || 'Error ao realizar Login';
+
+      if ("Wrong user or password" === error.error?.errors[0]?.message) {
+        errorMessage = "Usuário ou senha errado.";
+      }
+      if ("Please check the username or password." === error.error?.errors[0]?.message) {
+        errorMessage = "Usuário ou senha errado.";
+      }
       this.toastrService.error(errorMessage);
     }
 
+  }
+
+  public getMaskAllLetters(times: number): string {
+    let stringOfA = '';
+    for (let i = 0; i < times; i++) {
+      stringOfA = stringOfA + 'A';
+    }
+    return stringOfA;
   }
 
   get name() { return this.loginForm.get('name'); }
